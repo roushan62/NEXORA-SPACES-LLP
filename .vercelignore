@@ -1,0 +1,35 @@
+# Only the PHP function needs to reach Vercel — the website itself is served
+# from GitHub Pages. Keeping the deployment tiny makes cold starts faster.
+
+node_modules/
+src/
+scripts/
+assets/
+.github/
+
+# Built pages (GitHub Pages serves these)
+*.html
+blog/
+about/
+careers/
+contact/
+faq/
+gallery/
+interior-designers-in-delhi/
+interior-designers-in-gurgaon/
+interior-designers-in-noida/
+portfolio/
+privacy/
+process/
+refund/
+residential/
+reviews/
+services/
+terms/
+thank-you/
+warranty/
+
+# Never upload local secrets
+.env
+.env.local
+vendor/

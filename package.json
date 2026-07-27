@@ -2,7 +2,7 @@
   "name": "nexora-spaces-website",
   "version": "2.0.0",
   "private": true,
-  "description": "Nexora Spaces LLP — turnkey interior design & fit-out, Delhi NCR. Static site.",
+  "description": "Nexora Spaces LLP \u2014 turnkey interior design & fit-out, Delhi NCR. Static site.",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
@@ -12,13 +12,19 @@
     "serve": "node scripts/serve.mjs",
     "check": "node scripts/check.mjs",
     "audit": "node scripts/audit.mjs",
-    "verify": "node scripts/verify.mjs"
+    "verify": "node scripts/verify.mjs",
+    "e2e": "node scripts/e2e.mjs",
+    "test:api": "node scripts/test-api.mjs",
+    "test": "node scripts/build.mjs && node scripts/check.mjs && node scripts/verify.mjs && node scripts/e2e.mjs && node scripts/test-api.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/fraunces": "^5.2.5",
     "@fontsource-variable/inter": "^5.2.5",
+    "@php-wasm/node": "^3.1.47",
+    "@php-wasm/universal": "^3.1.47",
     "clean-css": "^5.3.3",
     "html-minifier-terser": "^7.2.0",
+    "jsdom": "^30.0.0",
     "puppeteer-core": "^25.4.0",
     "sharp": "^0.35.3",
     "terser": "^5.44.0"

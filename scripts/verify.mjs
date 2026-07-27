@@ -126,8 +126,62 @@ for (const file of files) {
   /* every page must have exactly one h1 and a canonical (belt & braces) */
   const h1s = [...html.matchAll(/<h1[^>]*>/g)].length;
   if (h1s !== 1) fail(`${page} → ${h1s} <h1> tags`);
+
+  /* ------------------------------------------------------------------ */
+  /* Structured data is invisible to visibleText() but Google reads it, so
+     the same two rules have to be enforced inside every JSON-LD block and
+     in the meta description. A price or an "offers" node here is exactly
+     the sort of thing that triggers a structured-data manual action. */
+  for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    const rawJson = m[1];
+    let graph;
+    try {
+      graph = JSON.parse(rawJson);
+    } catch {
+      fail(`${page} → JSON-LD block is not valid JSON`);
+      continue;
+    }
+
+    const flat = JSON.stringify(graph);
+    for (const [re, label] of MONEY) {
+      if (re.test(flat)) fail(`${page} → PRICING leak in JSON-LD: ${label}`);
+    }
+    for (const [re, label] of COMMERCIAL) {
+      const hit = flat.match(re);
+      // FAQ answers that refuse commercial work are legitimately in the graph.
+      if (hit && !/do not|don't|only residential|residential[- ]only/i.test(
+        flat.slice(Math.max(0, hit.index - 160), hit.index + 240)
+      )) {
+        fail(`${page} → COMMERCIAL language in JSON-LD: ${label} — "${hit[0]}"`);
+      }
+    }
+    for (const key of ['"price"', '"lowPrice"', '"highPrice"', '"priceRange"', '"priceSpecification"']) {
+      if (flat.includes(key)) fail(`${page} → JSON-LD publishes ${key}, but the site has no pricing`);
+    }
+
+    /* Every @id inside one graph must be unique, or Google merges the nodes
+       and the page loses the entity it was trying to describe. */
+    const nodes = Array.isArray(graph) ? graph : (graph['@graph'] || [graph]);
+    const seen = new Map();
+    for (const node of nodes) {
+      if (!node || typeof node !== 'object' || !node['@id']) continue;
+      const id = node['@id'];
+      if (seen.has(id)) fail(`${page} → duplicate JSON-LD @id "${id}" (nodes silently merge)`);
+      seen.set(id, true);
+    }
+  }
+
+  /* The meta description is user-facing SERP copy — same rules apply. */
+  const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+  for (const [re, label] of COMMERCIAL) {
+    if (re.test(desc)) fail(`${page} → COMMERCIAL language in meta description: ${label}`);
+  }
+  for (const [re, label] of MONEY) {
+    if (re.test(desc)) fail(`${page} → PRICING in meta description: ${label}`);
+  }
 }
 pass(`${files.length} pages: no pricing, no calculator, no commercial language`);
+pass(`${files.length} pages: JSON-LD and meta descriptions are clean, @ids unique`);
 pass(`${files.length} pages: consultation modal present with the correct field set`);
 pass(`${files.length} pages: no dead links, no unlabelled buttons`);
 

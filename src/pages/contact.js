@@ -68,7 +68,7 @@ export default {
                 <span class="ico-wrap">${icon('mail', { size: 20 })}</span>
                 <div>
                   <h3>Email us</h3>
-                  <p><strong style="color:var(--accent-text)">${esc(site.email.general)}</strong><br>For commercial enquiries: ${esc(site.email.sales)}</p>
+                  <p><strong style="color:var(--accent-text)">${esc(site.email.general)}</strong><br>For new project enquiries: ${esc(site.email.sales)}</p>
                 </div>
               </a>
             </div>
@@ -168,7 +168,7 @@ export default {
           </a>`).join('')}
         </div>
         <p class="text-center mt-8" style="color:var(--text-muted);font-size:var(--fs-sm)">
-          Also serving Faridabad, Ghaziabad and Sonipat. Commercial rollouts undertaken pan-North India.
+          Also serving Faridabad, Ghaziabad and Sonipat. Homes only — we do not take office, retail or hospitality work.
         </p>
       </div>
     </section>`,

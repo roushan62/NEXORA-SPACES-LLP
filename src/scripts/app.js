@@ -296,22 +296,42 @@
      ======================================================================= */
   function initRails() {
     $$('[data-rail]').forEach(function (wrap) {
-      var rail = $('.rail', wrap) || $(wrap.dataset.rail);
+      /* The rail is normally a .rail inside this wrapper. A non-empty
+         data-rail value may point at one elsewhere — but an EMPTY value must
+         never reach querySelector(), which throws on '' and would kill the
+         rest of the boot sequence. */
+      var sel = (wrap.getAttribute('data-rail') || '').trim();
+      var rail = $('.rail', wrap);
+      if (!rail && sel) { try { rail = $(sel); } catch (e) { rail = null; } }
+
       var prev = $('[data-rail-prev]', wrap);
       var next = $('[data-rail-next]', wrap);
-      if (!rail) return;
+      if (!prev && !next) return;
+
+      /* Arrows with no rail to drive are dead controls — hide them rather
+         than leave a button that visibly does nothing. */
+      if (!rail) {
+        [prev, next].forEach(function (b) { if (b) b.hidden = true; });
+        return;
+      }
 
       function step() {
         var first = rail.firstElementChild;
-        return first ? first.getBoundingClientRect().width + 20 : 320;
+        var gap = parseFloat(getComputedStyle(rail).columnGap || getComputedStyle(rail).gap) || 20;
+        return first ? first.getBoundingClientRect().width + gap : Math.round(rail.clientWidth * 0.8);
       }
       function sync() {
+        var max = rail.scrollWidth - rail.clientWidth;
+        /* Nothing to scroll → no reason to show the controls at all. */
+        var scrollable = max > 8;
+        [prev, next].forEach(function (b) { if (b) b.hidden = !scrollable; });
         if (prev) prev.disabled = rail.scrollLeft < 8;
-        if (next) next.disabled = rail.scrollLeft > rail.scrollWidth - rail.clientWidth - 8;
+        if (next) next.disabled = rail.scrollLeft > max - 8;
       }
       on(prev, 'click', function () { rail.scrollBy({ left: -step(), behavior: 'smooth' }); });
       on(next, 'click', function () { rail.scrollBy({ left: step(), behavior: 'smooth' }); });
       on(rail, 'scroll', rafThrottle(sync), { passive: true });
+      on(window, 'resize', rafThrottle(sync));
       sync();
     });
   }
@@ -323,34 +343,59 @@
     $$('form[data-lead-form]').forEach(function (form) {
       var submitBtn = form.querySelector('[type="submit"]');
 
-      function fieldError(input, msg) {
-        var field = input.closest('.field') || input.parentElement;
-        field.classList.add('has-error');
+      /* The consent control is a <label class="consent">, not a .field, so it
+         has no .field-error slot. Create one on demand, otherwise refusing to
+         submit an unticked consent box shows the user nothing at all. */
+      function errorSlot(field) {
         var err = field.querySelector('.field-error');
-        if (err) err.textContent = msg;
+        if (!err) {
+          err = document.createElement('span');
+          err.className = 'field-error';
+          field.appendChild(err);
+        }
+        return err;
+      }
+      function holderOf(input) {
+        return input.closest('.field') || input.closest('.consent') || input.parentElement;
+      }
+      function fieldError(input, msg) {
+        var field = holderOf(input);
+        field.classList.add('has-error');
+        errorSlot(field).textContent = msg;
+        input.setAttribute('aria-invalid', 'true');
       }
       function clearError(input) {
-        var field = input.closest('.field') || input.parentElement;
+        var field = holderOf(input);
         field.classList.remove('has-error');
+        input.removeAttribute('aria-invalid');
       }
 
       $$('input, select, textarea', form).forEach(function (input) {
         on(input, 'input', function () { clearError(input); });
+        on(input, 'change', function () { if (input.type === 'checkbox' || input.tagName === 'SELECT') validate(input); });
         on(input, 'blur', function () { if (input.value.trim()) validate(input); });
       });
 
       function validate(input) {
+        /* Checkboxes carry state in .checked — .value is always "on". */
+        if (input.type === 'checkbox') {
+          if (input.hasAttribute('required') && !input.checked) {
+            fieldError(input, 'Please accept this to continue'); return false;
+          }
+          clearError(input);
+          return true;
+        }
         var v = (input.value || '').trim();
-        if (input.hasAttribute('required') && !v) { fieldError(input, 'This field is required'); return false; }
+        if (input.hasAttribute('required') && !v) {
+          fieldError(input, input.tagName === 'SELECT' ? 'Please choose an option' : 'This field is required');
+          return false;
+        }
         if (input.type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v)) {
           fieldError(input, 'Enter a valid email address'); return false;
         }
         if (input.type === 'tel' && v) {
           var digits = v.replace(/\D/g, '');
           if (digits.length < 10 || digits.length > 13) { fieldError(input, 'Enter a valid 10-digit mobile number'); return false; }
-        }
-        if (input.type === 'checkbox' && input.hasAttribute('required') && !input.checked) {
-          fieldError(input, 'Please accept to continue'); return false;
         }
         clearError(input);
         return true;
@@ -361,8 +406,15 @@
         var ok = true;
         $$('[required]', form).forEach(function (input) { if (!validate(input)) ok = false; });
         if (!ok) {
-          var firstErr = form.querySelector('.has-error input, .has-error select, .has-error textarea');
-          if (firstErr) firstErr.focus();
+          /* .consent is a <label>, so include it — otherwise an unticked
+             consent box blocks submit with no focus moved and no explanation. */
+          var firstErr = form.querySelector(
+            '.field.has-error input, .field.has-error select, .field.has-error textarea, .consent.has-error input'
+          );
+          if (firstErr) {
+            firstErr.focus();
+            if (firstErr.scrollIntoView) firstErr.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+          }
           return;
         }
 
@@ -372,6 +424,8 @@
 
         var endpoint = form.getAttribute('action');
         var data = new FormData(form);
+        /* Tell the backend which page the lead came from. */
+        if (!data.has('page_url')) data.append('page_url', window.location.href);
 
         if (submitBtn) {
           submitBtn.classList.add('is-loading');
@@ -380,7 +434,19 @@
           if (label) { submitBtn.dataset.label = label.textContent; label.textContent = 'Sending…'; }
         }
 
-        function done(success) {
+        /* Paint server-side validation errors onto the matching fields. */
+        function applyServerErrors(errors) {
+          var focused = false;
+          Object.keys(errors || {}).forEach(function (key) {
+            var input = form.querySelector('[name="' + key + '"]');
+            if (!input) return;
+            fieldError(input, errors[key]);
+            if (!focused) { input.focus(); focused = true; }
+          });
+          return focused;
+        }
+
+        function done(success, payload) {
           if (submitBtn) {
             submitBtn.classList.remove('is-loading');
             submitBtn.disabled = false;
@@ -389,9 +455,15 @@
           }
           if (success) {
             form.reset();
+            /* Clear any lingering error state from a previous attempt. */
+            $$('.has-error', form).forEach(function (el) { el.classList.remove('has-error'); });
             var to = form.dataset.success;
             if (to) { window.location.href = to; return; }
-            toast('Thank you! Our design team will call you within 2 working hours.');
+            toast((payload && payload.message) || 'Thank you! Our design team will call you within 2 working hours.');
+          } else if (payload && payload.errors && applyServerErrors(payload.errors)) {
+            /* The server rejected specific fields — show them rather than
+               bouncing the user to WhatsApp for a fixable mistake. */
+            toast(payload.error || 'Please check the highlighted fields.');
           } else {
             /* Never lose a lead: fall back to WhatsApp with the enquiry pre-filled */
             var lines = [];
@@ -412,9 +484,28 @@
 
         if (!endpoint || endpoint === '#') { done(false); return; }
 
-        fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
-          .then(function (r) { done(r.ok); })
-          .catch(function () { done(false); });
+        /* Abort a stalled request rather than leaving the button spinning
+           forever — after 15s we hand the user to WhatsApp instead. */
+        var controller = window.AbortController ? new AbortController() : null;
+        var timer = setTimeout(function () { if (controller) controller.abort(); }, 15000);
+
+        fetch(endpoint, {
+          method: 'POST',
+          body: data,
+          headers: { Accept: 'application/json' },
+          signal: controller ? controller.signal : undefined,
+        })
+          .then(function (r) {
+            clearTimeout(timer);
+            /* Read the JSON body so field-level errors can be shown; a
+               non-JSON response (proxy error page) is simply ignored. */
+            return r.json().catch(function () { return null; })
+              .then(function (payload) {
+                var succeeded = r.ok && (!payload || payload.ok !== false);
+                done(succeeded, payload);
+              });
+          })
+          .catch(function () { clearTimeout(timer); done(false); });
       });
     });
   }

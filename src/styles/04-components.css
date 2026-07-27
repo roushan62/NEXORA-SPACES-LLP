@@ -366,6 +366,15 @@
 }
 .consent a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; }
 
+/* The consent box is a <label>, not a .field — it still needs a visible
+   error state, otherwise refusing to submit gives the user no explanation. */
+.consent { flex-wrap: wrap; }
+.consent.has-error { color: var(--red-500); }
+.consent.has-error input { accent-color: var(--red-500); outline: 2px solid var(--red-500); outline-offset: 2px; }
+.consent.has-error .field-error { display: flex; flex-basis: 100%; margin-top: var(--s-1); }
+.cta-panel .consent.has-error,
+.cta-panel .consent.has-error .field-error { color: var(--red-300); }
+
 /* Range slider */
 .range {
   width: 100%;

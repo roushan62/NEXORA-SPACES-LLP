@@ -169,7 +169,7 @@ export default services.map((s) => ({
     name: s.name,
     description: s.intro,
     serviceType: s.name,
-  })],
+  }, `/services/${s.slug}/`)],
   body: [
     pageHead({
       crumbs: [

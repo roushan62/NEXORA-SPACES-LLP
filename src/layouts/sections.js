@@ -238,11 +238,19 @@ export const leadForm = ({
     </div>
   </div>
 
-  <div class="field">
-    <label class="field-label" for="${id}-area">Approx. area <span class="field-optional">(optional)</span></label>
-    <input class="field-input" id="${id}-area" name="approx_area" type="text" inputmode="numeric"
-           placeholder="e.g. 1,200 sq.ft — skip if you are not sure">
-    <span class="field-error"></span>
+  <div class="field-row">
+    <div class="field">
+      <label class="field-label" for="${id}-area">Approx. area <span class="field-optional">(optional)</span></label>
+      <input class="field-input" id="${id}-area" name="approx_area" type="text" inputmode="numeric"
+             placeholder="e.g. 1,200 sq.ft">
+      <span class="field-error"></span>
+    </div>
+    <div class="field">
+      <label class="field-label" for="${id}-email">Email <span class="field-optional">(optional)</span></label>
+      <input class="field-input" id="${id}-email" name="email" type="email" autocomplete="email"
+             placeholder="So we can send your 3D concept">
+      <span class="field-error"></span>
+    </div>
   </div>
 
   ${compact ? '' : `
@@ -340,20 +348,20 @@ export const quoteCard = (t) => `
   </div>
 </article>`;
 
+/* The arrows and the .rail they scroll MUST live inside one [data-rail] scope
+   — initRails() looks for `.rail` within the same element that holds the
+   buttons. Splitting them leaves the arrows wired to nothing. */
 export const testimonialSection = (items, { eyebrow = 'Client stories', title = 'What NCR homeowners say', sub = '' } = {}) => `
 <section class="section bg-subtle cv-auto">
-  <div class="container">
+  <div class="container" data-rail>
     <div class="section-head-row">
       ${sectionHead({ eyebrow, title, sub })}
-      <div class="rail-nav only-desktop" data-rail>
-        <button class="rail-btn" data-rail-prev aria-label="Previous">${icon('arrowLeft', { size: 18 })}</button>
-        <button class="rail-btn" data-rail-next aria-label="Next">${icon('arrowRight', { size: 18 })}</button>
+      <div class="rail-nav only-desktop">
+        <button class="rail-btn" type="button" data-rail-prev aria-label="Show previous client stories">${icon('arrowLeft', { size: 18 })}</button>
+        <button class="rail-btn" type="button" data-rail-next aria-label="Show next client stories">${icon('arrowRight', { size: 18 })}</button>
       </div>
     </div>
-    <div data-rail>
-      <div class="rail-nav only-mobile mb-4" style="display:none"></div>
-      <div class="rail">${items.map(quoteCard).join('')}</div>
-    </div>
+    <div class="rail" tabindex="0" role="group" aria-label="Client stories, scrollable">${items.map(quoteCard).join('')}</div>
     <div class="mt-8 text-center reveal">
       <a href="${url('/reviews/')}" class="link-arrow">${site.reviews.schema ? `Read all ${site.reviews.count} verified reviews` : 'Read client stories'} ${icon('arrowRight', { size: 16 })}</a>
     </div>

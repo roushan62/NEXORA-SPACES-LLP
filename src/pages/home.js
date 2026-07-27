@@ -395,7 +395,7 @@ export default {
       name: 'Residential Interior Fit-Out & Design-Build',
       description: 'End-to-end home interior design and execution for flats, apartments and villas across Delhi, Gurugram and Noida — design, civil, modular, electrical, painting and handover under one contract.',
       serviceType: 'Residential Interior Design',
-    }),
+    }, '/'),
   ],
   body: [
     hero(),

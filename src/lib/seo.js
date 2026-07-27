@@ -110,9 +110,12 @@ export function orgSchema() {
     ],
     areaServed,
     sameAs: Object.values(site.social),
+    /* Residential only — listing office/commercial work here would tell Google
+       the exact opposite of what every page on the site says. */
     knowsAbout: [
-      'Interior design', 'Modular kitchen', 'Wardrobe design', 'Turnkey fit-out',
-      'False ceiling', 'Home renovation', 'Office interior design', 'Space planning',
+      'Interior design', 'Modular kitchen', 'Wardrobe design', 'Turnkey home fit-out',
+      'False ceiling', 'Home renovation', 'Apartment interior design', 'Villa interior design',
+      'Space planning',
     ],
     contactPoint: [
       {

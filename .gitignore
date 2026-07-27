@@ -19,3 +19,6 @@ Thumbs.db
 # Local env
 .env
 .env.local
+
+# Local scratch probes
+scripts/_*.mjs

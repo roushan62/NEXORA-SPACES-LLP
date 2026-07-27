@@ -157,11 +157,10 @@ export default cities.map((c) => {
     extraSchema: [
       serviceSchema({
         name: `Interior Design & Fit-Out in ${c.city}`,
-        description: `Turnkey residential and commercial interior design and execution in ${c.city}, Delhi NCR.`,
+        description: `Turnkey residential interior design and execution for homes in ${c.city}, Delhi NCR.`,
         serviceType: 'Interior Design',
         audience: `Homeowners in ${c.city}`,
-        offers: { price: '1150', min: 1150, max: 3400 },
-      }),
+      }, `/${c.slug}/`),
       /* A dedicated LocalBusiness node per city studio boosts local relevance */
       {
         '@type': 'HomeAndConstructionBusiness',

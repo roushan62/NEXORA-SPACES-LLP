@@ -123,16 +123,30 @@ export const site = {
   },
 
   /* ----------------------------------------------------------- Lead forms
-   * No backend needed. Pick ONE:
-   *  1. Formspree  → endpoint: 'https://formspree.io/f/xxxxxxx'
-   *  2. Web3Forms  → endpoint: 'https://api.web3forms.com/submit' + accessKey
-   *  3. Leave endpoint empty ('') → the form falls back to opening WhatsApp
-   *     with the enquiry pre-filled, so you never lose a lead.
+   * The form posts to our own PHP function on Vercel (see api/contact.php),
+   * which emails the enquiry to site.forms.inbox.
+   *
+   * ⚠️ AFTER YOUR FIRST `vercel deploy`, paste the deployment URL below.
+   *    Vercel gives you a stable production domain such as
+   *      https://nexora-spaces.vercel.app
+   *    so the endpoint becomes
+   *      https://nexora-spaces.vercel.app/api/contact
+   *
+   * Leave `endpoint` empty and the form still works — it falls back to
+   * opening WhatsApp with the enquiry pre-filled, so no lead is ever lost.
+   *
+   * Other backends drop in unchanged if you ever prefer one:
+   *   Formspree → 'https://formspree.io/f/xxxxxxx'
+   *   Web3Forms → 'https://api.web3forms.com/submit' + accessKey
    */
   forms: {
-    endpoint: '',                 // ⚠️ REPLACE with your Formspree/Web3Forms URL
+    endpoint: '',                 // ⚠️ REPLACE after deploying, e.g. 'https://your-project.vercel.app/api/contact'
     accessKey: '',                // only for Web3Forms
     successRoute: '/thank-you/',
+    /* ⚠️ PLACEHOLDER inbox — this is the testing address. Change it here AND
+       in the Vercel MAIL_TO environment variable when you go live. The env var
+       is what actually routes the mail; this value is documentation only. */
+    inbox: 'kingboy620478@gmail.com',
   },
 
   /* --------------------------------------------------------- Analytics IDs

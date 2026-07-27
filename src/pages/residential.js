@@ -45,7 +45,7 @@ const main = {
     name: 'Residential Interior Design and Fit-Out',
     description: 'Full-home turnkey interior design and execution for apartments, builder floors and villas in Delhi, Gurugram and Noida.',
     serviceType: 'Residential Interior Design',
-  })],
+  }, '/residential/')],
   body: [
     pageHead({
       crumbs: [{ label: 'Home', href: '/' }, { label: 'Home Interiors', href: '/residential/' }],
@@ -298,7 +298,7 @@ const bhkPages = bhkData.map((b) => ({
     name: `${b.label} Interior Design & Fit-Out`,
     description: `Turnkey ${b.label} home interior design and execution in Delhi, Gurugram and Noida.`,
     serviceType: 'Residential Interior Design',
-  })],
+  }, `/residential/${b.slug}/`)],
   body: [
     pageHead({
       crumbs: [

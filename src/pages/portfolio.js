@@ -6,17 +6,34 @@ import { picture } from '../lib/picture.js';
 import { pageHead, sectionHead, ctaBand, folioCard, testimonialSection } from '../layouts/sections.js';
 import { projects, testimonials } from '../data/content.js';
 
+/* Filters are DERIVED from the projects themselves, so a pill can never
+   advertise a category with nothing behind it. Previously a hard-coded
+   "Commercial" pill survived the residential refocus and emptied the grid. */
+const FILTER_LABELS = {
+  residential: 'Residential',
+  '2bhk': '2 BHK',
+  '3bhk': '3 BHK',
+  '4bhk': '4 BHK',
+  villa: 'Villas',
+  kitchen: 'Kitchens',
+  living: 'Living rooms',
+  compact: 'Compact homes',
+  gurugram: 'Gurugram',
+  noida: 'Noida',
+  delhi: 'Delhi',
+};
+
+/* Only offer a pill when at least one project carries the tag. */
+const tagCounts = projects.reduce((acc, p) => {
+  (p.tags || []).forEach((t) => { acc[t] = (acc[t] || 0) + 1; });
+  return acc;
+}, {});
+
 const filters = [
   { id: 'all', label: 'All projects' },
-  { id: 'residential', label: 'Residential' },
-  { id: 'commercial', label: 'Commercial' },
-  { id: '2bhk', label: '2 BHK' },
-  { id: '3bhk', label: '3 BHK' },
-  { id: 'villa', label: 'Villas' },
-  { id: 'kitchen', label: 'Kitchens' },
-  { id: 'gurugram', label: 'Gurugram' },
-  { id: 'noida', label: 'Noida' },
-  { id: 'delhi', label: 'Delhi' },
+  ...Object.keys(FILTER_LABELS)
+    .filter((id) => tagCounts[id] > 0)
+    .map((id) => ({ id, label: FILTER_LABELS[id], count: tagCounts[id] })),
 ];
 
 export default {
@@ -24,7 +41,7 @@ export default {
   title: 'Interior Design Portfolio — Delhi, Gurgaon & Noida Projects | Nexora Spaces',
   metaTitle: 'Portfolio | Interior Design Projects in Delhi NCR',
   description:
-    'Completed interior projects across Delhi, Gurugram and Noida — apartments, villas, kitchens and offices, with real areas, timelines and budgets.',
+    'Completed home interior projects across Delhi, Gurugram and Noida — apartments, villas and modular kitchens, with real areas and delivery timelines.',
   keywords: 'interior design portfolio delhi, interior design projects gurgaon, home interior gallery noida, before after interior design india',
   ogImage: '/assets/img/pages/portfolio-1600.jpg',
   crumbs: [{ label: 'Home', href: '/' }, { label: 'Portfolio', href: '/portfolio/' }],
