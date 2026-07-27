@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free interior design tools by Nexora Spaces - Cost estimator, EMI calculator, kitchen configurator, and design style quiz.">
+    <meta name="keywords" content="interior design calculator, home interior cost estimator, EMI calculator, modular kitchen price, design quiz">
+    <title>Design Tools | Nexora Spaces LLP - Free Calculators & Quiz</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-card">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 60 60" class="logo-svg">
+                            <defs>
+                                <linearGradient id="goldGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#B8860B"/>
+                                    <stop offset="50%" style="stop-color:#D4AF37"/>
+                                    <stop offset="100%" style="stop-color:#F4E5A1"/>
+                                </linearGradient>
+                                <linearGradient id="silverGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#A8A8A0"/>
+                                    <stop offset="100%" style="stop-color:#D8D8D0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M10 50 L10 15 L20 15 L20 35 L30 35 L30 10 L40 10 L40 30 L50 30 L50 50 Z" fill="url(#goldGradNav)"/>
+                            <path d="M15 45 L15 20 L22 20 L22 38 L28 38 L28 15 L35 15 L35 33 L42 33 L42 45 Z" fill="url(#silverGradNav)"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-name">NEXORA SPACES</span>
+                        <span class="logo-tagline">DESIGN · BUILD · DELIVER</span>
+                    </div>
+                </div>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <i data-lucide="menu"></i>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="residential.html" class="nav-link">Residential</a>
+                <a href="commercial.html" class="nav-link commercial-link">Commercial <span class="badge-consultancy">Advisory</span></a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="tools.html" class="nav-link active">Tools</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            
+            <div class="nav-cta">
+                <a href="index.html#calculator" class="btn btn-secondary">Cost Calculator</a>
+                <a href="contact.html#get-quote" class="btn btn-primary">Get Quote</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="page-hero compact">
+        <div class="page-hero-bg">
+            <div class="page-hero-overlay"></div>
+            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1920&q=80" alt="Design tools" loading="eager">
+        </div>
+        <div class="page-hero-content">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <i data-lucide="chevron-right"></i>
+                    <span>Tools</span>
+                </div>
+                <h1>Free Design <span class="gold-gradient">Tools</span></h1>
+                <p>Plan your project with our interactive calculators and quizzes</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Grid -->
+    <section class="tools-section">
+        <div class="container">
+            <div class="tools-nav">
+                <button class="tool-nav-btn active" data-tool="cost">Cost Estimator</button>
+                <button class="tool-nav-btn" data-tool="kitchen">Kitchen Configurator</button>
+                <button class="tool-nav-btn" data-tool="emi">EMI Calculator</button>
+                <button class="tool-nav-btn" data-tool="compare">Compare Packages</button>
+                <button class="tool-nav-btn" data-tool="quiz">Design Quiz</button>
+            </div>
+
+            <!-- Cost Estimator Tool -->
+            <div class="tool-panel active" id="costTool">
+                <div class="tool-header">
+                    <div class="tool-icon"><i data-lucide="calculator"></i></div>
+                    <div>
+                        <h2>Residential Cost Estimator</h2>
+                        <p>Get an instant budget estimate for your home interior project</p>
+                    </div>
+                </div>
+                
+                <div class="tool-content">
+                    <div class="tool-inputs">
+                        <div class="input-row">
+                            <label>City</label>
+                            <select id="toolCity">
+                                <option value="bangalore">Bangalore</option>
+                                <option value="mumbai">Mumbai</option>
+                                <option value="delhi">Delhi NCR</option>
+                                <option value="hyderabad">Hyderabad</option>
+                                <option value="chennai">Chennai</option>
+                            </select>
+                        </div>
+                        <div class="input-row">
+                            <label>Property Type</label>
+                            <select id="toolProperty">
+                                <option value="1bhk">1 BHK</option>
+                                <option value="2bhk" selected>2 BHK</option>
+                                <option value="3bhk">3 BHK</option>
+                                <option value="4bhk">4 BHK</option>
+                                <option value="villa">Villa</option>
+                            </select>
+                        </div>
+                        <div class="input-row full">
+                            <label>Carpet Area: <span id="toolAreaValue">850</span> sq.ft</label>
+                            <input type="range" id="toolArea" min="300" max="3000" value="850" step="50">
+                            <div class="range-labels">
+                                <span>300</span>
+                                <span>3000 sq.ft</span>
+                            </div>
+                        </div>
+                        <div class="input-row full">
+                            <label>Package</label>
+                            <div class="package-toggle">
+                                <button class="pkg-btn" data-pkg="essential">Essential</button>
+                                <button class="pkg-btn active" data-pkg="premium">Premium</button>
+                                <button class="pkg-btn" data-pkg="luxury">Luxury</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-result">
+                        <div class="result-main">
+                            <span class="result-label">Estimated Budget</span>
+                            <div class="result-price">
+                                <span class="currency">₹</span>
+                                <span id="toolMinPrice">11,50,000</span>
+                                <span class="to">to</span>
+                                <span class="currency">₹</span>
+                                <span id="toolMaxPrice">14,20,000</span>
+                            </div>
+                        </div>
+                        <div class="result-breakdown">
+                            <div class="breakdown-item">
+                                <span>Modular Furniture</span>
+                                <strong id="toolFurniture">₹4,80,000</strong>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Civil Work</span>
+                                <strong id="toolCivil">₹2,90,000</strong>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Electrical</span>
+                                <strong id="toolElectrical">₹1,85,000</strong>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Finishes</span>
+                                <strong id="toolFinishes">₹2,15,000</strong>
+                            </div>
+                        </div>
+                        <a href="contact.html#get-quote" class="btn btn-primary btn-block">Get Exact Quote</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kitchen Configurator -->
+            <div class="tool-panel" id="kitchenTool">
+                <div class="tool-header">
+                    <div class="tool-icon"><i data-lucide="chef-hat"></i></div>
+                    <div>
+                        <h2>Modular Kitchen Configurator</h2>
+                        <p>Design your dream kitchen and get instant pricing</p>
+                    </div>
+                </div>
+                
+                <div class="tool-content">
+                    <div class="tool-inputs">
+                        <div class="input-row">
+                            <label>Kitchen Layout</label>
+                            <select id="kitchenLayout">
+                                <option value="straight">Straight Line</option>
+                                <option value="l-shape" selected>L-Shaped</option>
+                                <option value="u-shape">U-Shaped</option>
+                                <option value="parallel">Parallel</option>
+                                <option value="island">Island Kitchen</option>
+                            </select>
+                        </div>
+                        <div class="input-row">
+                            <label>Finish Type</label>
+                            <select id="kitchenFinish">
+                                <option value="laminate">Standard Laminate</option>
+                                <option value="premium-lam" selected>Premium Laminate</option>
+                                <option value="pu">PU Finish</option>
+                                <option value="acrylic">Acrylic</option>
+                                <option value="veneer">Natural Veneer</option>
+                            </select>
+                        </div>
+                        <div class="input-row full">
+                            <label>Length: <span id="kitchenLengthValue">12</span> running feet</label>
+                            <input type="range" id="kitchenLength" min="6" max="30" value="12" step="1">
+                            <div class="range-labels">
+                                <span>6 ft</span>
+                                <span>30 ft</span>
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <label>Include Appliances?</label>
+                            <select id="kitchenAppliances">
+                                <option value="none">No Appliances</option>
+                                <option value="basic">Basic (Hob + Chimney)</option>
+                                <option value="full" selected>Full Package</option>
+                            </select>
+                        </div>
+                        <div class="input-row">
+                            <label>Countertop</label>
+                            <select id="kitchenCounter">
+                                <option value="granite" selected>Granite</option>
+                                <option value="quartz">Quartz</option>
+                                <option value="marble">Marble</option>
+                                <option value="sintek">Sintek</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-result">
+                        <div class="result-main">
+                            <span class="result-label">Estimated Kitchen Cost</span>
+                            <div class="result-price">
+                                <span class="currency">₹</span>
+                                <span id="kitchenMinPrice">2,85,000</span>
+                                <span class="to">to</span>
+                                <span class="currency">₹</span>
+                                <span id="kitchenMaxPrice">3,50,000</span>
+                            </div>
+                        </div>
+                        <div class="kitchen-preview">
+                            <img id="kitchenPreviewImg" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80" alt="Kitchen preview">
+                        </div>
+                        <a href="contact.html#get-quote" class="btn btn-primary btn-block">Customize Further</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EMI Calculator -->
+            <div class="tool-panel" id="emiTool">
+                <div class="tool-header">
+                    <div class="tool-icon"><i data-lucide="credit-card"></i></div>
+                    <div>
+                        <h2>EMI Calculator</h2>
+                        <p>Plan your financing with easy monthly installments</p>
+                    </div>
+                </div>
+                
+                <div class="tool-content emi-content">
+                    <div class="tool-inputs">
+                        <div class="input-row full">
+                            <label>Total Project Cost (₹)</label>
+                            <input type="number" id="emiAmount" value="1500000" min="100000" max="50000000" step="50000">
+                        </div>
+                        <div class="input-row">
+                            <label>Down Payment (₹)</label>
+                            <input type="number" id="emiDown" value="300000" min="0" max="5000000" step="10000">
+                        </div>
+                        <div class="input-row">
+                            <label>Loan Tenure</label>
+                            <select id="emiTenure">
+                                <option value="12">12 Months</option>
+                                <option value="24" selected>24 Months</option>
+                                <option value="36">36 Months</option>
+                                <option value="48">48 Months</option>
+                                <option value="60">60 Months</option>
+                            </select>
+                        </div>
+                        <div class="input-row full">
+                            <label>Interest Rate (% per annum)</label>
+                            <input type="number" id="emiRate" value="12" min="6" max="24" step="0.5">
+                        </div>
+                    </div>
+                    
+                    <div class="tool-result">
+                        <div class="emi-result">
+                            <div class="emi-main">
+                                <span class="result-label">Monthly EMI</span>
+                                <div class="result-price">
+                                    <span class="currency">₹</span>
+                                    <span id="emiMonthly">53,436</span>
+                                    <span class="per-month">/month</span>
+                                </div>
+                            </div>
+                            <div class="emi-details">
+                                <div class="detail-row">
+                                    <span>Loan Amount</span>
+                                    <strong id="emiLoanAmount">₹12,00,000</strong>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Total Interest</span>
+                                    <strong id="emiInterest">₹82,464</strong>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Total Payment</span>
+                                    <strong id="emiTotal">₹13,82,464</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="emi-chart" id="emiChart">
+                            <div class="chart-principal" id="chartPrincipal"></div>
+                            <div class="chart-interest" id="chartInterest"></div>
+                        </div>
+                        <div class="chart-legend">
+                            <span class="legend-item"><span class="dot principal"></span> Principal</span>
+                            <span class="legend-item"><span class="dot interest"></span> Interest</span>
+                        </div>
+                        <a href="contact.html#get-quote" class="btn btn-primary btn-block">Apply for Finance</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compare Packages -->
+            <div class="tool-panel" id="compareTool">
+                <div class="tool-header">
+                    <div class="tool-icon"><i data-lucide="table"></i></div>
+                    <div>
+                        <h2>Compare Packages</h2>
+                        <p>Find the perfect package for your needs</p>
+                    </div>
+                </div>
+                
+                <div class="tool-content compare-content">
+                    <div class="compare-table-wrapper">
+                        <table class="compare-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th class="essential">Essential<br><span>₹850/sq.ft</span></th>
+                                    <th class="premium featured">Premium<br><span>₹1,250/sq.ft</span></th>
+                                    <th class="luxury">Luxury<br><span>₹1,850/sq.ft</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Kitchen Finish</td>
+                                    <td>Standard Laminate</td>
+                                    <td class="featured">Premium Laminate/PU</td>
+                                    <td>Custom (All Options)</td>
+                                </tr>
+                                <tr>
+                                    <td>Wardrobes</td>
+                                    <td>Standard Laminate</td>
+                                    <td class="featured">Premium + Walk-in</td>
+                                    <td>Luxury with Accessories</td>
+                                </tr>
+                                <tr>
+                                    <td>Living Room</td>
+                                    <td>TV Unit + Shoe Rack</td>
+                                    <td class="featured">Complete Interiors</td>
+                                    <td>Custom + Statement Pieces</td>
+                                </tr>
+                                <tr>
+                                    <td>False Ceiling</td>
+                                    <td>Basic Grid</td>
+                                    <td class="featured">Designer Patterns</td>
+                                    <td>Premium Multi-Level</td>
+                                </tr>
+                                <tr>
+                                    <td>Lighting</td>
+                                    <td>Standard Fixtures</td>
+                                    <td class="featured">Premium + Cove</td>
+                                    <td>Smart/Luxury Fixtures</td>
+                                </tr>
+                                <tr>
+                                    <td>Electrical</td>
+                                    <td>Essential Wiring</td>
+                                    <td class="featured">Premium Switches</td>
+                                    <td>Smart Switches</td>
+                                </tr>
+                                <tr>
+                                    <td>Civil Work</td>
+                                    <td>Essential Only</td>
+                                    <td class="featured">Complete</td>
+                                    <td>Complete + Specialty</td>
+                                </tr>
+                                <tr>
+                                    <td>Custom Carpentry</td>
+                                    <td>Basic</td>
+                                    <td class="featured">Up to 15%</td>
+                                    <td>Unlimited</td>
+                                </tr>
+                                <tr>
+                                    <td>Design Revisions</td>
+                                    <td>1 Round</td>
+                                    <td class="featured">2 Rounds</td>
+                                    <td>Unlimited</td>
+                                </tr>
+                                <tr>
+                                    <td>Smart Home</td>
+                                    <td>—</td>
+                                    <td class="featured">—</td>
+                                    <td>Included</td>
+                                </tr>
+                                <tr>
+                                    <td>Warranty</td>
+                                    <td>5 Years</td>
+                                    <td class="featured">5 Years</td>
+                                    <td>5 Years + Maintenance</td>
+                                </tr>
+                                <tr class="cta-row">
+                                    <td></td>
+                                    <td><a href="contact.html#get-quote?package=essential" class="btn btn-secondary btn-sm">Choose Essential</a></td>
+                                    <td class="featured"><a href="contact.html#get-quote?package=premium" class="btn btn-primary btn-sm">Choose Premium</a></td>
+                                    <td><a href="contact.html#get-quote?package=luxury" class="btn btn-secondary btn-sm">Choose Luxury</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Design Style Quiz -->
+            <div class="tool-panel" id="quizTool">
+                <div class="tool-header">
+                    <div class="tool-icon"><i data-lucide="sparkles"></i></div>
+                    <div>
+                        <h2>Design Style Quiz</h2>
+                        <p>Discover your perfect interior design style</p>
+                    </div>
+                </div>
+                
+                <div class="tool-content quiz-content" id="quizContent">
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-bar">
+                            <div class="quiz-progress-fill" id="quizProgressFill"></div>
+                        </div>
+                        <span class="quiz-progress-text">Question <span id="quizCurrent">1</span> of <span id="quizTotal">5</span></span>
+                    </div>
+                    
+                    <div class="quiz-questions">
+                        <div class="quiz-question active" data-question="1">
+                            <h3>What type of space do you want to design?</h3>
+                            <div class="quiz-options">
+                                <button class="quiz-option" data-value="apartment">My Apartment</button>
+                                <button class="quiz-option" data-value="house">My House/Villa</button>
+                                <button class="quiz-option" data-value="room">Single Room</button>
+                                <button class="quiz-option" data-value="kitchen">Kitchen Only</button>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-question" data-question="2">
+                            <h3>What colors appeal to you?</h3>
+                            <div class="quiz-options">
+                                <button class="quiz-option" data-value="neutral">Neutrals & Earth Tones</button>
+                                <button class="quiz-option" data-value="bold">Bold & Vibrant</button>
+                                <button class="quiz-option" data-value="cool">Cool Blues & Grays</button>
+                                <button class="quiz-option" data-value="warm">Warm Whites & Creams</button>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-question" data-question="3">
+                            <h3>What furniture style do you prefer?</h3>
+                            <div class="quiz-options">
+                                <button class="quiz-option" data-value="sleek">Sleek & Modern</button>
+                                <button class="quiz-option" data-value="classic">Classic & Traditional</button>
+                                <button class="quiz-option" data-value="rustic">Rustic & Natural</button>
+                                <button class="quiz-option" data-value="minimal">Minimal & Clean</button>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-question" data-question="4">
+                            <h3>What's your budget range?</h3>
+                            <div class="quiz-options">
+                                <button class="quiz-option" data-value="essential">Budget-Conscious</button>
+                                <button class="quiz-option" data-value="mid">Mid-Range</button>
+                                <button class="quiz-option" data-value="premium">Premium</button>
+                                <button class="quiz-option" data-value="luxury">Luxury</button>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-question" data-question="5">
+                            <h3>What's most important to you?</h3>
+                            <div class="quiz-options">
+                                <button class="quiz-option" data-value="storage">Maximum Storage</button>
+                                <button class="quiz-option" data-value="aesthetics">Visual Appeal</button>
+                                <button class="quiz-option" data-value="function">Functionality</button>
+                                <button class="quiz-option" data-value="comfort">Comfort</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-result" id="quizResult" style="display: none;">
+                        <div class="result-icon"><i data-lucide="check-circle"></i></div>
+                        <h3>Your Design Style: <span id="quizStyleName">Modern Minimalist</span></h3>
+                        <p id="quizStyleDesc">You prefer clean lines, neutral colors, and functional spaces. Your ideal home is clutter-free with carefully chosen statement pieces.</p>
+                        <div class="quiz-style-image">
+                            <img id="quizStyleImg" src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&q=80" alt="Your style">
+                        </div>
+                        <div class="quiz-actions">
+                            <a href="contact.html#get-quote" class="btn btn-primary">Get Personalized Quote</a>
+                            <button class="btn btn-secondary" id="retakeQuiz">Retake Quiz</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo-card footer-logo">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 60 60" class="logo-svg">
+                                <defs>
+                                    <linearGradient id="goldGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#B8860B"/>
+                                        <stop offset="50%" style="stop-color:#D4AF37"/>
+                                        <stop offset="100%" style="stop-color:#F4E5A1"/>
+                                    </linearGradient>
+                                </defs>
+                                <path d="M10 50 L10 15 L20 15 L20 35 L30 35 L30 10 L40 10 L40 30 L50 30 L50 50 Z" fill="url(#goldGrad2)"/>
+                            </svg>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-name">NEXORA SPACES</span>
+                            <span class="logo-tagline">DESIGN · BUILD · DELIVER</span>
+                        </div>
+                    </a>
+                    <p class="footer-tagline">Transforming homes across India.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="residential.html">Residential Interior</a></li>
+                        <li><a href="commercial.html">Commercial Consultancy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul class="contact-info">
+                        <li><i data-lucide="phone"></i><a href="tel:+919876543210">+91 98765 43210</a></li>
+                        <li><i data-lucide="mail"></i><a href="mailto:hello@nexoraspaces.com">hello@nexoraspaces.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Nexora Spaces LLP. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/919876543210" class="whatsapp-float" target="_blank" rel="noopener">
+        <div class="whatsapp-pulse"></div>
+        <i data-lucide="message-circle"></i>
+    </a>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i data-lucide="chevron-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tool Navigation
+            const toolNavBtns = document.querySelectorAll('.tool-nav-btn');
+            const toolPanels = document.querySelectorAll('.tool-panel');
+            
+            toolNavBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tool = btn.dataset.tool;
+                    
+                    toolNavBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    toolPanels.forEach(panel => {
+                        panel.classList.remove('active');
+                        if (panel.id === tool + 'Tool') {
+                            panel.classList.add('active');
+                        }
+                    });
+                    
+                    lucide.createIcons();
+                });
+            });
+            
+            // Cost Estimator
+            const costCity = document.getElementById('toolCity');
+            const costProperty = document.getElementById('toolProperty');
+            const costArea = document.getElementById('toolArea');
+            const costAreaValue = document.getElementById('toolAreaValue');
+            const pkgBtns = document.querySelectorAll('.pkg-btn');
+            
+            const cityRates = { bangalore: 950, mumbai: 1100, delhi: 1050, hyderabad: 850, chennai: 900 };
+            const propertyMult = { '1bhk': 0.85, '2bhk': 1.0, '3bhk': 1.1, '4bhk': 1.25, villa: 1.4 };
+            const pkgMult = { essential: 1.0, premium: 1.35, luxury: 1.85 };
+            
+            let selectedPkg = 'premium';
+            
+            function calculateCost() {
+                const city = costCity.value;
+                const property = costProperty.value;
+                const area = parseInt(costArea.value);
+                const baseRate = cityRates[city];
+                const propMult = propertyMult[property];
+                const pkgMultiplier = pkgMult[selectedPkg];
+                
+                const baseCost = baseRate * area * propMult * pkgMultiplier;
+                const min = Math.round(baseCost * 0.85);
+                const max = Math.round(baseCost * 1.05);
+                
+                document.getElementById('toolMinPrice').textContent = formatLakhs(min);
+                document.getElementById('toolMaxPrice').textContent = formatLakhs(max);
+                document.getElementById('toolFurniture').textContent = formatLakhs(Math.round(min * 0.42));
+                document.getElementById('toolCivil').textContent = formatLakhs(Math.round(min * 0.25));
+                document.getElementById('toolElectrical').textContent = formatLakhs(Math.round(min * 0.16));
+                document.getElementById('toolFinishes').textContent = formatLakhs(Math.round(min * 0.17));
+            }
+            
+            function formatLakhs(num) {
+                if (num >= 100000) {
+                    return (num / 100000).toFixed(2) + ' L';
+                }
+                return num.toLocaleString('en-IN');
+            }
+            
+            costCity.addEventListener('change', calculateCost);
+            costProperty.addEventListener('change', calculateCost);
+            costArea.addEventListener('input', () => {
+                costAreaValue.textContent = costArea.value;
+                calculateCost();
+            });
+            
+            pkgBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    pkgBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    selectedPkg = btn.dataset.pkg;
+                    calculateCost();
+                });
+            });
+            
+            // Kitchen Configurator
+            const kitchenLength = document.getElementById('kitchenLength');
+            const kitchenLengthValue = document.getElementById('kitchenLengthValue');
+            
+            function calculateKitchen() {
+                const length = parseInt(kitchenLength.value);
+                const finish = document.getElementById('kitchenFinish').value;
+                const appliances = document.getElementById('kitchenAppliances').value;
+                const layout = document.getElementById('kitchenLayout').value;
+                const counter = document.getElementById('kitchenCounter').value;
+                
+                const layoutMult = { straight: 0.9, 'l-shape': 1.0, 'u-shape': 1.2, parallel: 0.95, island: 1.5 };
+                const finishMult = { laminate: 1.0, 'premium-lam': 1.2, pu: 1.4, acrylic: 1.6, veneer: 1.8 };
+                const appMult = { none: 0, basic: 1.15, full: 1.35 };
+                const counterMult = { granite: 1.0, quartz: 1.3, marble: 1.5, sintek: 1.2 };
+                
+                const baseRate = 22000;
+                const base = baseRate * length * layoutMult[layout] * finishMult[finish] * counterMult[counter];
+                const withApps = base * appMult[appliances];
+                
+                document.getElementById('kitchenMinPrice').textContent = formatLakhs(Math.round(withApps * 0.9));
+                document.getElementById('kitchenMaxPrice').textContent = formatLakhs(Math.round(withApps * 1.1));
+            }
+            
+            kitchenLength.addEventListener('input', () => {
+                kitchenLengthValue.textContent = kitchenLength.value;
+                calculateKitchen();
+            });
+            
+            ['kitchenFinish', 'kitchenAppliances', 'kitchenLayout', 'kitchenCounter'].forEach(id => {
+                document.getElementById(id).addEventListener('change', calculateKitchen);
+            });
+            
+            // EMI Calculator
+            const emiAmount = document.getElementById('emiAmount');
+            const emiDown = document.getElementById('emiDown');
+            const emiTenure = document.getElementById('emiTenure');
+            const emiRate = document.getElementById('emiRate');
+            
+            function calculateEMI() {
+                const P = parseInt(emiAmount.value) - parseInt(emiDown.value);
+                const N = parseInt(emiTenure.value);
+                const R = parseFloat(emiRate.value) / 12 / 100;
+                
+                const emi = P * R * Math.pow(1 + R, N) / (Math.pow(1 + R, N) - 1);
+                const totalPayment = emi * N;
+                const totalInterest = totalPayment - P;
+                
+                document.getElementById('emiMonthly').textContent = Math.round(emi).toLocaleString('en-IN');
+                document.getElementById('emiLoanAmount').textContent = '₹' + P.toLocaleString('en-IN');
+                document.getElementById('emiInterest').textContent = '₹' + Math.round(totalInterest).toLocaleString('en-IN');
+                document.getElementById('emiTotal').textContent = '₹' + Math.round(totalPayment).toLocaleString('en-IN');
+                
+                // Update chart
+                const principalPct = (P / totalPayment) * 100;
+                document.getElementById('chartPrincipal').style.width = principalPct + '%';
+                document.getElementById('chartInterest').style.width = (100 - principalPct) + '%';
+            }
+            
+            [emiAmount, emiDown, emiTenure, emiRate].forEach(el => {
+                el.addEventListener('input', calculateEMI);
+                el.addEventListener('change', calculateEMI);
+            });
+            
+            calculateEMI();
+            
+            // Design Quiz
+            const quizQuestions = document.querySelectorAll('.quiz-question');
+            const quizOptions = document.querySelectorAll('.quiz-option');
+            let currentQuestion = 1;
+            const totalQuestions = 5;
+            const quizAnswers = {};
+            
+            const styleResults = {
+                modern: {
+                    name: 'Modern Minimalist',
+                    desc: 'You prefer clean lines, neutral colors, and functional spaces. Your ideal home is clutter-free with carefully chosen statement pieces.',
+                    img: 'https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&q=80'
+                },
+                contemporary: {
+                    name: 'Contemporary',
+                    desc: 'You appreciate current trends while maintaining timeless appeal. Your style evolves with the times but always stays elegant.',
+                    img: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80'
+                },
+                scandinavian: {
+                    name: 'Scandinavian',
+                    desc: 'You love warm woods, cozy textiles, and bright spaces. Your home feels inviting, comfortable, and effortlessly stylish.',
+                    img: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80'
+                },
+                luxury: {
+                    name: 'Luxury',
+                    desc: 'You appreciate premium finishes, statement pieces, and opulent comfort. Your home exudes sophistication and refinement.',
+                    img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80'
+                },
+                industrial: {
+                    name: 'Industrial',
+                    desc: 'You love raw materials, exposed elements, and urban aesthetics. Your space has an edgy, warehouse-inspired character.',
+                    img: 'https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=600&q=80'
+                }
+            };
+            
+            function showQuestion(num) {
+                quizQuestions.forEach(q => q.classList.remove('active'));
+                document.querySelector(`.quiz-question[data-question="${num}"]`).classList.add('active');
+                document.getElementById('quizCurrent').textContent = num;
+                document.getElementById('quizProgressFill').style.width = ((num - 1) / totalQuestions * 100) + '%';
+            }
+            
+            quizOptions.forEach(opt => {
+                opt.addEventListener('click', () => {
+                    const question = opt.closest('.quiz-question').dataset.question;
+                    quizAnswers[question] = opt.dataset.value;
+                    
+                    if (question < totalQuestions) {
+                        currentQuestion++;
+                        showQuestion(currentQuestion);
+                    } else {
+                        showQuizResult();
+                    }
+                });
+            });
+            
+            function showQuizResult() {
+                document.querySelector('.quiz-questions').style.display = 'none';
+                document.getElementById('quizProgressFill').style.width = '100%';
+                
+                // Simple result logic based on answers
+                let result = 'modern';
+                if (quizAnswers[2] === 'warm') result = 'scandinavian';
+                if (quizAnswers[3] === 'classic') result = 'contemporary';
+                if (quizAnswers[4] === 'luxury') result = 'luxury';
+                if (quizAnswers[2] === 'bold') result = 'industrial';
+                
+                const style = styleResults[result];
+                document.getElementById('quizStyleName').textContent = style.name;
+                document.getElementById('quizStyleDesc').textContent = style.desc;
+                document.getElementById('quizStyleImg').src = style.img;
+                
+                document.getElementById('quizResult').style.display = 'block';
+                lucide.createIcons();
+            }
+            
+            document.getElementById('retakeQuiz').addEventListener('click', () => {
+                currentQuestion = 1;
+                Object.keys(quizAnswers).forEach(k => delete quizAnswers[k]);
+                document.querySelector('.quiz-questions').style.display = 'block';
+                document.getElementById('quizResult').style.display = 'none';
+                showQuestion(1);
+            });
+        });
+    </script>
+    
+    <style>
+        .page-hero.compact {
+            min-height: 40vh;
+        }
+        
+        .tools-section {
+            padding: var(--space-3xl) 0 var(--space-4xl);
+            background: var(--color-bg-primary);
+        }
+        
+        .tools-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            justify-content: center;
+            margin-bottom: var(--space-2xl);
+            padding: var(--space-md);
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+        }
+        
+        .tool-nav-btn {
+            padding: var(--space-sm) var(--space-lg);
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            transition: var(--transition-base);
+        }
+        
+        .tool-nav-btn:hover {
+            border-color: var(--color-gold);
+        }
+        
+        .tool-nav-btn.active {
+            background: var(--color-gold-gradient);
+            border-color: transparent;
+            color: #1E1E1E;
+        }
+        
+        .tool-panel {
+            display: none;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+        
+        .tool-panel.active {
+            display: block;
+        }
+        
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+            padding: var(--space-xl);
+            background: var(--color-bg-primary);
+            border-bottom: 1px solid var(--color-border-light);
+        }
+        
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+        }
+        
+        .tool-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--color-gold);
+        }
+        
+        .tool-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-xs);
+        }
+        
+        .tool-header p {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .tool-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-2xl);
+            padding: var(--space-xl);
+        }
+        
+        .tool-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+        
+        .input-row {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+        
+        .input-row.full {
+            grid-column: span 2;
+        }
+        
+        .input-row label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+        }
+        
+        .input-row select,
+        .input-row input[type="number"] {
+            padding: var(--space-md);
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+        }
+        
+        .input-row input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: var(--color-surface);
+            border-radius: var(--radius-full);
+            -webkit-appearance: none;
+        }
+        
+        .input-row input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--color-gold-gradient);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .package-toggle {
+            display: flex;
+            gap: var(--space-sm);
+        }
+        
+        .pkg-btn {
+            flex: 1;
+            padding: var(--space-md);
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition-fast);
+        }
+        
+        .pkg-btn.active {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--color-gold);
+            color: var(--color-gold-dark);
+        }
+        
+        .tool-result {
+            background: var(--color-bg-primary);
+            border: 2px solid var(--color-gold);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+        }
+        
+        .result-main {
+            text-align: center;
+            padding-bottom: var(--space-xl);
+            border-bottom: 1px solid var(--color-border-light);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .result-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-md);
+        }
+        
+        .result-price {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+        
+        .result-price .currency {
+            font-size: 1.25rem;
+            color: var(--color-gold-dark);
+        }
+        
+        .result-price > span:not(.currency):not(.to) {
+            font-family: var(--font-display);
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--color-gold-dark);
+        }
+        
+        .result-price .to {
+            color: var(--color-text-muted);
+        }
+        
+        .result-breakdown {
+            margin-bottom: var(--space-xl);
+        }
+        
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-sm) 0;
+            font-size: 0.9rem;
+        }
+        
+        .breakdown-item span {
+            color: var(--color-text-muted);
+        }
+        
+        .breakdown-item strong {
+            color: var(--color-text-primary);
+        }
+        
+        .kitchen-preview {
+            margin-bottom: var(--space-xl);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+        
+        .kitchen-preview img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        /* EMI Styles */
+        .emi-content .tool-inputs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .emi-result {
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+        }
+        
+        .emi-main {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .emi-main .result-price {
+            flex-direction: column;
+        }
+        
+        .emi-main .per-month {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+        
+        .emi-details {
+            background: var(--color-bg-primary);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-sm) 0;
+        }
+        
+        .detail-row span {
+            color: var(--color-text-muted);
+        }
+        
+        .detail-row strong {
+            color: var(--color-text-primary);
+        }
+        
+        .emi-chart {
+            display: flex;
+            height: 24px;
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-bottom: var(--space-md);
+        }
+        
+        .chart-principal {
+            background: var(--color-gold);
+            transition: width 0.5s ease;
+        }
+        
+        .chart-interest {
+            background: var(--color-surface-alt);
+            transition: width 0.5s ease;
+        }
+        
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-xl);
+            font-size: 0.8rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: var(--color-text-muted);
+        }
+        
+        .legend-item .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .legend-item .dot.principal {
+            background: var(--color-gold);
+        }
+        
+        .legend-item .dot.interest {
+            background: var(--color-surface-alt);
+        }
+        
+        /* Compare Table */
+        .compare-content {
+            padding: var(--space-xl);
+        }
+        
+        .compare-table-wrapper {
+            overflow-x: auto;
+        }
+        
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .compare-table th,
+        .compare-table td {
+            padding: var(--space-md);
+            text-align: left;
+            border-bottom: 1px solid var(--color-border-light);
+            font-size: 0.9rem;
+        }
+        
+        .compare-table th {
+            background: var(--color-surface);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        .compare-table th span {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--color-text-muted);
+            margin-top: var(--space-xs);
+        }
+        
+        .compare-table th.featured {
+            background: rgba(212, 175, 55, 0.15);
+        }
+        
+        .compare-table td.featured {
+            background: rgba(212, 175, 55, 0.08);
+        }
+        
+        .compare-table .cta-row td {
+            padding-top: var(--space-xl);
+            border-bottom: none;
+        }
+        
+        .btn-sm {
+            padding: var(--space-sm) var(--space-md);
+            font-size: 0.8rem;
+        }
+        
+        /* Quiz Styles */
+        .quiz-content {
+            padding: var(--space-xl);
+        }
+        
+        .quiz-progress {
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .quiz-progress-bar {
+            height: 6px;
+            background: var(--color-surface);
+            border-radius: var(--radius-full);
+            margin-bottom: var(--space-md);
+            overflow: hidden;
+        }
+        
+        .quiz-progress-fill {
+            height: 100%;
+            background: var(--color-gold-gradient);
+            transition: width 0.3s ease;
+        }
+        
+        .quiz-progress-text {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+        
+        .quiz-question {
+            display: none;
+            text-align: center;
+        }
+        
+        .quiz-question.active {
+            display: block;
+        }
+        
+        .quiz-question h3 {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+        }
+        
+        .quiz-option {
+            padding: var(--space-lg);
+            background: var(--color-bg-primary);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            transition: var(--transition-base);
+            text-align: left;
+        }
+        
+        .quiz-option:hover {
+            border-color: var(--color-gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+        
+        .quiz-result {
+            text-align: center;
+            padding: var(--space-xl);
+        }
+        
+        .quiz-result .result-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(212, 175, 55, 0.15);
+            border-radius: 50%;
+            margin: 0 auto var(--space-xl);
+        }
+        
+        .quiz-result .result-icon svg {
+            width: 40px;
+            height: 40px;
+            color: var(--color-gold);
+        }
+        
+        .quiz-result h3 {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-md);
+        }
+        
+        .quiz-result h3 span {
+            color: var(--color-gold-dark);
+        }
+        
+        .quiz-result > p {
+            color: var(--color-text-muted);
+            max-width: 500px;
+            margin: 0 auto var(--space-xl);
+            line-height: 1.7;
+        }
+        
+        .quiz-style-image {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: var(--space-xl);
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .quiz-style-image img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .quiz-actions {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+        }
+        
+        @media (max-width: 1024px) {
+            .tool-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-row.full {
+                grid-column: span 1;
+            }
+            
+            .emi-content .tool-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .tools-nav {
+                flex-direction: column;
+            }
+            
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .quiz-actions {
+                flex-direction: column;
+            }
+            
+            .package-toggle {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html>
