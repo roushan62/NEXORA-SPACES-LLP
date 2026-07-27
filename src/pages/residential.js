@@ -58,7 +58,9 @@ const main = {
         { value: '850+', label: 'Homes delivered' },
         { value: '45 days', label: 'Standard handover' },
         { value: '10 yrs', label: 'Modular warranty' },
-        { value: '4.9★', label: 'Client rating' },
+        site.reviews.schema
+          ? { value: `${site.reviews.rating}★`, label: 'Client rating' }
+          : { value: '1 PM', label: 'Single point of contact' },
       ],
     }),
 

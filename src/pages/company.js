@@ -29,7 +29,7 @@ const about = {
     pageHead({
       crumbs: [{ label: 'Home', href: '/' }, { label: 'About', href: '/about/' }],
       title: 'We started because<br>the industry deserved better',
-      sub: `Nexora Spaces LLP was founded in ${site.foundedYear} by two people who had spent a decade watching good design get ruined by bad execution. ${yearsInBusiness} years and 850 homes later, that is still the whole thesis.`,
+      sub: `Nexora Spaces LLP was built in ${site.foundedYear} around a simple operating belief: good design only matters when execution protects it. ${yearsInBusiness} years and 850 homes later, that is still the whole thesis.`,
       image: '/assets/img/pages/about-1600.jpg',
       stats: [
         { value: '850+', label: 'Projects delivered' },
@@ -47,7 +47,7 @@ const about = {
             ${sectionHead({ eyebrow: 'Our story', title: 'Design was never the problem' })}
             <div class="prose">
               <p>Every interior firm in Delhi NCR can produce a good-looking 3D render. What almost nobody could do consistently — in ${site.foundedYear}, and honestly still today — was <strong>deliver that render on time, at the quoted price, with materials that match the specification.</strong></p>
-              <p>Our founders had spent years on the other side of that gap: designers watching a beautiful scheme get value-engineered into something unrecognisable, and project managers explaining to families why the handover date had moved for the third time.</p>
+              <p>Founder Sourabh Pandey had spent years on the other side of that gap: good schemes getting value-engineered into something unrecognisable, and families being told why the handover date had moved for the third time.</p>
               <p>So Nexora was built backwards from the failure points. We brought design in-house so nobody was working on commission. We set up our own production unit so modular quality was controlled before it reached site. We wrote the warranty and the delivery date into the contract, because a promise that is not documented is just marketing.</p>
               <p>It is not a romantic origin story. It is an operations one — and it is why our on-time delivery rate is 96% rather than the industry's rather more forgiving average.</p>
             </div>
@@ -109,21 +109,21 @@ const about = {
       <div class="container">
         ${sectionHead({
           eyebrow: 'Leadership',
-          title: 'The people accountable for your project',
-          sub: 'Not a stock-photo team page. These are the four people whose names are on your contract and whose phones ring when something goes wrong.',
+          title: 'The founder-led team accountable for your project',
+          sub: 'No invented leadership names and no stock-photo team page. Sourabh leads the operating system, supported by the in-house teams that design, build and service each project.',
           center: true,
         })}
         <div class="grid grid-4 gap-8 reveal-stagger">
           ${team.map((m) => `
           <div class="team-card">
-            <div class="team-photo" aria-hidden="true">${esc(m.initials)}</div>
+            ${m.photo ? `<div class="team-photo has-image"><img src="${url(m.photo)}" alt="${esc(m.name)}" width="116" height="116" loading="lazy" decoding="async"></div>` : `<div class="team-photo" aria-hidden="true">${esc(m.initials)}</div>`}
             <h3 class="team-name">${esc(m.name)}</h3>
             <span class="team-role">${esc(m.role)}</span>
             <p class="team-bio">${esc(m.bio)}</p>
           </div>`).join('')}
         </div>
         <p class="text-center mt-10" style="font-size:var(--fs-sm);color:var(--text-muted)">
-          Behind them: 12 designers, 9 project managers, 24 production staff and a 17-person site execution team.
+          Behind this operating team: designers, project managers, production staff and site execution partners working to the same documented BOQ and handover process.
           <a href="${url('/careers/')}" class="link-underline" style="color:var(--accent-text);font-weight:600">We are hiring</a>.
         </p>
       </div>

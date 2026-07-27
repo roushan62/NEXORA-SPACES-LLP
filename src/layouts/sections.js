@@ -260,7 +260,7 @@ export const quoteCard = (t) => `
     <span class="quote-who">
       <span class="quote-name">${esc(t.name)}</span>
       <span class="quote-role">${esc(t.project)} · ${esc(t.location)}</span>
-      ${t.verified !== false ? `<span class="quote-verified">${icon('badgeCheck', { size: 12 })} Verified client</span>` : ''}
+      ${t.verified === true ? `<span class="quote-verified">${icon('badgeCheck', { size: 12 })} Verified client</span>` : ''}
     </span>
   </div>
 </article>`;
@@ -280,7 +280,7 @@ export const testimonialSection = (items, { eyebrow = 'Client stories', title = 
       <div class="rail">${items.map(quoteCard).join('')}</div>
     </div>
     <div class="mt-8 text-center reveal">
-      <a href="${url('/reviews/')}" class="link-arrow">Read all ${site.reviews.count} verified reviews ${icon('arrowRight', { size: 16 })}</a>
+      <a href="${url('/reviews/')}" class="link-arrow">${site.reviews.schema ? `Read all ${site.reviews.count} verified reviews` : 'Read client stories'} ${icon('arrowRight', { size: 16 })}</a>
     </div>
   </div>
 </section>`;
