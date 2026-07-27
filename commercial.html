@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nexora Spaces Commercial Interior Consultancy Services - Design strategy, BOQ preparation, and project management advisory for offices, retail, and hospitality spaces.">
+    <meta name="keywords" content="commercial interior consultancy, office design, retail space design, restaurant interior, hospitality design, BOQ preparation">
+    <title>Commercial Interior Consultancy | Nexora Spaces LLP</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-card">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 60 60" class="logo-svg">
+                            <defs>
+                                <linearGradient id="goldGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#B8860B"/>
+                                    <stop offset="50%" style="stop-color:#D4AF37"/>
+                                    <stop offset="100%" style="stop-color:#F4E5A1"/>
+                                </linearGradient>
+                                <linearGradient id="silverGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#A8A8A0"/>
+                                    <stop offset="100%" style="stop-color:#D8D8D0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M10 50 L10 15 L20 15 L20 35 L30 35 L30 10 L40 10 L40 30 L50 30 L50 50 Z" fill="url(#goldGradNav)"/>
+                            <path d="M15 45 L15 20 L22 20 L22 38 L28 38 L28 15 L35 15 L35 33 L42 33 L42 45 Z" fill="url(#silverGradNav)"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-name">NEXORA SPACES</span>
+                        <span class="logo-tagline">DESIGN · BUILD · DELIVER</span>
+                    </div>
+                </div>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <i data-lucide="menu"></i>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="residential.html" class="nav-link">Residential</a>
+                <a href="commercial.html" class="nav-link active commercial-link">
+                    Commercial <span class="badge-consultancy">Advisory</span>
+                </a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="tools.html" class="nav-link">Tools</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            
+            <div class="nav-cta">
+                <a href="index.html#calculator" class="btn btn-secondary">Cost Calculator</a>
+                <a href="contact.html#get-quote" class="btn btn-primary">Get Quote</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <div class="page-hero-bg">
+            <div class="page-hero-overlay"></div>
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80" alt="Modern office interior" loading="eager">
+        </div>
+        <div class="page-hero-content">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <i data-lucide="chevron-right"></i>
+                    <span>Commercial Consultancy</span>
+                </div>
+                <h1>Commercial Interior<br><span class="gold-gradient">Consultancy</span></h1>
+                <p>Design strategy, BOQ preparation, and project management advisory. We guide your commercial project — you execute with your team.</p>
+                <div class="page-hero-badges">
+                    <span class="hero-badge advisory"><i data-lucide="info"></i> Consultancy Only</span>
+                    <span class="hero-badge"><i data-lucide="file-text"></i> BOQ Preparation</span>
+                    <span class="hero-badge"><i data-lucide="users"></i> Vendor Referrals</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Important Notice -->
+    <section class="important-notice">
+        <div class="container">
+            <div class="notice-card">
+                <div class="notice-icon"><i data-lucide="alert-triangle"></i></div>
+                <div class="notice-content">
+                    <h3>Important: Advisory & Consultancy Services Only</h3>
+                    <p>Nexora Spaces provides <strong>design consultancy, strategy, and advisory services</strong> for commercial projects. We do <strong>NOT execute or construct</strong> commercial projects. Our role is to guide you with expert design thinking, detailed BOQs, vendor recommendations, and project oversight — your team manages the actual execution.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services We Provide -->
+    <section class="consultancy-services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-eyebrow">What We Provide</span>
+                <h2 class="section-title">Our Consultancy<br><span class="gold-gradient">Offerings</span></h2>
+                <p class="section-subtitle">Expert guidance to make your commercial project a success</p>
+            </div>
+
+            <div class="consultancy-grid">
+                <div class="consultancy-card">
+                    <div class="consultancy-icon"><i data-lucide="layout"></i></div>
+                    <h3>Space Planning & Design</h3>
+                    <p>Comprehensive space planning, functional layouts, and design concepts tailored to your brand, workflow, and customer experience goals.</p>
+                    <ul>
+                        <li><i data-lucide="check"></i> Functional zoning</li>
+                        <li><i data-lucide="check"></i> Traffic flow analysis</li>
+                        <li><i data-lucide="check"></i> Brand-aligned aesthetics</li>
+                        <li><i data-lucide="check"></i> 2D layouts & 3D visuals</li>
+                    </ul>
+                </div>
+
+                <div class="consultancy-card">
+                    <div class="consultancy-icon"><i data-lucide="clipboard-list"></i></div>
+                    <h3>Bill of Quantities (BOQ)</h3>
+                    <p>Detailed, itemized BOQs that serve as a complete specification document for your contractors. Ensures transparent pricing and quality control.</p>
+                    <ul>
+                        <li><i data-lucide="check"></i> Material specifications</li>
+                        <li><i data-lucide="check"></i> Quantities & rates</li>
+                        <li><i data-lucide="check"></i> Work breakdown structure</li>
+                        <li><i data-lucide="check"></i> Tender document support</li>
+                    </ul>
+                </div>
+
+                <div class="consultancy-card">
+                    <div class="consultancy-icon"><i data-lucide="users"></i></div>
+                    <h3>Vendor Referrals</h3>
+                    <p>Access to our network of trusted contractors, suppliers, and craftsmen. We vet vendors so you don't have to.</p>
+                    <ul>
+                        <li><i data-lucide="check"></i> Pre-screened contractors</li>
+                        <li><i data-lucide="check"></i> Material suppliers</li>
+                        <li><i data-lucide="check"></i> Specialty craftsmen</li>
+                        <li><i data-lucide="check"></i> Equipment vendors</li>
+                    </ul>
+                </div>
+
+                <div class="consultancy-card">
+                    <div class="consultancy-icon"><i data-lucide="target"></i></div>
+                    <h3>Project Management Advisory</h3>
+                    <p>Expert guidance on project execution, timelines, quality checkpoints, and coordination. Your team executes with our advisory support.</p>
+                    <ul>
+                        <li><i data-lucide="check"></i> Timeline planning</li>
+                        <li><i data-lucide="check"></i> Quality checkpoints</li>
+                        <li><i data-lucide="check"></i> Issue resolution guidance</li>
+                        <li><i data-lucide="check"></i> Progress reviews</li>
+                    </ul>
+                </div>
+
+                <div class="consultancy-card">
+                    <div class="consultancy-icon"><i data-lucide="eye"></i></div>
+                    <h3>Design Oversight</h3>
+                    <p>Periodic site visits and design compliance checks to ensure the execution matches the approved designs and quality standards.</p>
+                    <ul>
+                        <li><i data-lucide="check"></i> Site inspections</li>
+                        <li><i data-lucide="check"></i> Design compliance</li>
+                        <li><i data-lucide="check"></i> Quality assessments</li>
+                        <li><i data-lucide="check"></i> Corrective guidance</li>
+                    </ul>
+                </div>
+
+                <div class="consultancy-card">
+                    <div class="consultancy-icon"><i data-lucide="lightbulb"></i></div>
+                    <h3>Design Consultation</h3>
+                    <p>Strategic design thinking sessions to define your project's vision, brief, and requirements. Ideal for projects needing direction.</p>
+                    <ul>
+                        <li><i data-lucide="check"></i> Brief development</li>
+                        <li><i data-lucide="check"></i> Vision articulation</li>
+                        <li><i data-lucide="check"></i> Feasibility studies</li>
+                        <li><i data-lucide="check"></i> Budget benchmarking</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industries We Serve -->
+    <section class="industries-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-eyebrow">Industries</span>
+                <h2 class="section-title">Spaces We<br><span class="gold-gradient">Advise On</span></h2>
+            </div>
+
+            <div class="industries-grid">
+                <div class="industry-card">
+                    <div class="industry-icon"><i data-lucide="briefcase"></i></div>
+                    <h3>Corporate Offices</h3>
+                    <p>Workplace design, open offices, meeting spaces, and executive suites. Focus on productivity, collaboration, and brand representation.</p>
+                </div>
+                <div class="industry-card">
+                    <div class="industry-icon"><i data-lucide="shopping-bag"></i></div>
+                    <h3>Retail Spaces</h3>
+                    <p>Store layouts, display design, checkout zones, and customer flow. Create memorable shopping experiences.</p>
+                </div>
+                <div class="industry-card">
+                    <div class="industry-icon"><i data-lucide="utensils"></i></div>
+                    <h3>Restaurants & Cafés</h3>
+                    <p>Kitchen layout, seating design, bar areas, and ambient design. Balance functionality with atmosphere.</p>
+                </div>
+                <div class="industry-card">
+                    <div class="industry-icon"><i data-lucide="bed"></i></div>
+                    <h3>Hotels & Hospitality</h3>
+                    <p>Lobby design, room layouts, F&B spaces, and common areas. Create inviting guest experiences.</p>
+                </div>
+                <div class="industry-card">
+                    <div class="industry-icon"><i data-lucide="stethoscope"></i></div>
+                    <h3>Clinics & Healthcare</h3>
+                    <p>Patient flow, treatment rooms, reception, and waiting areas. Balance clinical efficiency with patient comfort.</p>
+                </div>
+                <div class="industry-card">
+                    <div class="industry-icon"><i data-lucide="graduation-cap"></i></div>
+                    <h3>Educational Spaces</h3>
+                    <p>Classrooms, labs, libraries, and administrative areas. Design for learning, collaboration, and safety.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Engagement Model -->
+    <section class="engagement-model">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-eyebrow">How It Works</span>
+                <h2 class="section-title">Engagement<br><span class="gold-gradient">Model</span></h2>
+                <p class="section-subtitle">Clear, structured approach to our consultancy services</p>
+            </div>
+
+            <div class="engagement-steps">
+                <div class="engagement-step">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h3>Discovery</h3>
+                        <p>Requirement gathering, site walkthrough, and understanding your brand, functional needs, budget, and timeline.</p>
+                        <span class="duration">1-3 days</span>
+                    </div>
+                </div>
+                <div class="step-arrow"><i data-lucide="arrow-right"></i></div>
+                <div class="engagement-step">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h3>Concept Development</h3>
+                        <p>Design schematics, space planning, material palette, and preliminary concepts for your review and approval.</p>
+                        <span class="duration">2-4 weeks</span>
+                    </div>
+                </div>
+                <div class="step-arrow"><i data-lucide="arrow-right"></i></div>
+                <div class="engagement-step">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h3>Documentation</h3>
+                        <p>Detailed BOQ, specifications, vendor shortlists, and contractor engagement support.</p>
+                        <span class="duration">1-2 weeks</span>
+                    </div>
+                </div>
+                <div class="step-arrow"><i data-lucide="arrow-right"></i></div>
+                <div class="engagement-step">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <h3>Execution Support</h3>
+                        <p>Periodic oversight, quality checks, and advisory support as your team executes the project.</p>
+                        <span class="duration">Project duration</span>
+                    </div>
+                </div>
+                <div class="step-arrow"><i data-lucide="arrow-right"></i></div>
+                <div class="engagement-step">
+                    <div class="step-number">05</div>
+                    <div class="step-content">
+                        <h3>Closure</h3>
+                        <p>Final design compliance review, handover documentation, and post-project support.</p>
+                        <span class="duration">1-2 days</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="commercial-pricing">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-eyebrow">Investment</span>
+                <h2 class="section-title">Consultancy<br><span class="gold-gradient">Fee Structure</span></h2>
+                <p class="section-subtitle">Transparent pricing based on project scope and area</p>
+            </div>
+
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Starter</h3>
+                        <p>For projects up to 2,000 sq.ft</p>
+                    </div>
+                    <div class="pricing-amount">
+                        <span class="currency">₹</span>
+                        <span class="amount">1,50,000</span>
+                        <span class="period">onwards</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i data-lucide="check"></i> Space planning & layout</li>
+                        <li><i data-lucide="check"></i> Basic BOQ</li>
+                        <li><i data-lucide="check"></i> 2 design concepts</li>
+                        <li><i data-lucide="check"></i> 1 vendor referral list</li>
+                        <li><i data-lucide="check"></i> 2 site visits</li>
+                        <li><i data-lucide="check"></i> Email support</li>
+                    </ul>
+                    <a href="contact.html#get-quote?type=commercial" class="btn btn-secondary btn-block">Get Quote</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Professional</h3>
+                        <p>For projects 2,000 - 10,000 sq.ft</p>
+                    </div>
+                    <div class="pricing-amount">
+                        <span class="currency">₹</span>
+                        <span class="amount">3,00,000</span>
+                        <span class="period">onwards</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i data-lucide="check"></i> Complete design package</li>
+                        <li><i data-lucide="check"></i> Detailed BOQ</li>
+                        <li><i data-lucide="check"></i> 3D visualizations</li>
+                        <li><i data-lucide="check"></i> Vendor shortlist & coordination</li>
+                        <li><i data-lucide="check"></i> Monthly site visits</li>
+                        <li><i data-lucide="check"></i> Dedicated consultant</li>
+                        <li><i data-lucide="check"></i> PM advisory</li>
+                    </ul>
+                    <a href="contact.html#get-quote?type=commercial" class="btn btn-primary btn-block">Get Quote</a>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Enterprise</h3>
+                        <p>For projects 10,000+ sq.ft</p>
+                    </div>
+                    <div class="pricing-amount">
+                        <span class="currency">₹</span>
+                        <span class="amount">8,00,000</span>
+                        <span class="period">onwards</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i data-lucide="check"></i> Full design & strategy</li>
+                        <li><i data-lucide="check"></i> Comprehensive BOQ</li>
+                        <li><i data-lucide="check"></i> Detailed 3D + walkthrough</li>
+                        <li><i data-lucide="check"></i> Vendor management</li>
+                        <li><i data-lucide="check"></i> Weekly site oversight</li>
+                        <li><i data-lucide="check"></i> Full PM support</li>
+                        <li><i data-lucide="check"></i> Post-handover support</li>
+                    </ul>
+                    <a href="contact.html#get-quote?type=commercial" class="btn btn-secondary btn-block">Get Quote</a>
+                </div>
+            </div>
+
+            <p class="pricing-note">
+                <i data-lucide="info"></i>
+                Final fees depend on project complexity, scope of work, and specific requirements. Contact us for a customized proposal.
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-eyebrow">Questions</span>
+                <h2 class="section-title">Frequently Asked <span class="gold-gradient">Questions</span></h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What's the difference between your residential and commercial services?</span>
+                        <i data-lucide="chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p><strong>Residential:</strong> Nexora Spaces <em>fully executes</em> your home interior — we design, procure, build, and hand over. You get a complete, move-in-ready home.<br><br>
+                        <strong>Commercial:</strong> We provide <em>consultancy and advisory only</em>. We offer design strategy, BOQs, vendor recommendations, and project oversight — but we do NOT execute or construct the commercial project. Your team handles execution.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Will you help us find contractors?</span>
+                        <i data-lucide="chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! We maintain a network of pre-screened contractors, suppliers, and craftsmen. We can provide vendor recommendations and help with initial contractor coordination. However, the final engagement and contracts are between you and the vendors directly.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Can you provide BOQ-only without design?</span>
+                        <i data-lucide="chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, we offer standalone BOQ preparation services. If you have existing designs and just need detailed specifications and quantities, we can provide that. Pricing depends on the complexity and area of the project.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What if our contractors don't follow the design?</span>
+                        <i data-lucide="chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Our design oversight service includes periodic site visits to check compliance with approved designs. If we identify deviations, we'll provide corrective guidance. However, enforcing compliance with contractors remains your responsibility.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Do you provide ongoing maintenance support?</span>
+                        <i data-lucide="chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>For consultancy projects, we provide limited post-handover support (typically 30 days) for design-related queries. For ongoing maintenance needs, we can provide guidance and vendor referrals, but this is outside the scope of the initial consultancy engagement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-banner">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Need Commercial<br>Design Guidance?</h2>
+                <p>Contact us for a customized consultancy proposal for your project.</p>
+                <div class="cta-buttons">
+                    <a href="contact.html#get-quote?type=commercial" class="btn btn-primary btn-lg">
+                        <i data-lucide="file-text"></i>
+                        Get Custom Proposal
+                    </a>
+                    <a href="index.html" class="btn btn-outline btn-lg">
+                        <i data-lucide="home"></i>
+                        View Residential Services
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo-card footer-logo">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 60 60" class="logo-svg">
+                                <defs>
+                                    <linearGradient id="goldGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#B8860B"/>
+                                        <stop offset="50%" style="stop-color:#D4AF37"/>
+                                        <stop offset="100%" style="stop-color:#F4E5A1"/>
+                                    </linearGradient>
+                                    <linearGradient id="silverGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#A8A8A0"/>
+                                        <stop offset="100%" style="stop-color:#D8D8D0"/>
+                                    </linearGradient>
+                                </defs>
+                                <path d="M10 50 L10 15 L20 15 L20 35 L30 35 L30 10 L40 10 L40 30 L50 30 L50 50 Z" fill="url(#goldGrad2)"/>
+                                <path d="M15 45 L15 20 L22 20 L22 38 L28 38 L28 15 L35 15 L35 33 L42 33 L42 45 Z" fill="url(#silverGrad2)"/>
+                            </svg>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-name">NEXORA SPACES</span>
+                            <span class="logo-tagline">DESIGN · BUILD · DELIVER</span>
+                        </div>
+                    </a>
+                    <p class="footer-tagline">Transforming spaces across India with expert interior design consultancy.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Residential Services</h4>
+                    <ul>
+                        <li><a href="residential.html">1-5 BHK Interiors</a></li>
+                        <li><a href="residential.html#packages">Package Comparison</a></li>
+                        <li><a href="residential.html">Villa Interiors</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Commercial Services</h4>
+                    <ul>
+                        <li><a href="commercial.html">Office Design</a></li>
+                        <li><a href="commercial.html">Retail Spaces</a></li>
+                        <li><a href="commercial.html">Restaurant Design</a></li>
+                        <li><a href="commercial.html" class="advisory-note"><i data-lucide="info"></i> Advisory Only</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="tools.html">Design Tools</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul class="contact-info">
+                        <li>
+                            <i data-lucide="phone"></i>
+                            <a href="tel:+919876543210">+91 98765 43210</a>
+                        </li>
+                        <li>
+                            <i data-lucide="mail"></i>
+                            <a href="mailto:hello@nexoraspaces.com">hello@nexoraspaces.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <p>&copy; 2024 Nexora Spaces LLP. All rights reserved.</p>
+                </div>
+                <div class="footer-legal-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/919876543210" class="whatsapp-float" target="_blank" rel="noopener">
+        <div class="whatsapp-pulse"></div>
+        <i data-lucide="message-circle"></i>
+    </a>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i data-lucide="chevron-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
