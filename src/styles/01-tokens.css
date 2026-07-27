@@ -1,0 +1,188 @@
+/* ==========================================================================
+   NEXORA SPACES — DESIGN TOKENS
+   The single source of truth for colour, type, space, motion and elevation.
+   ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------- Colour
+     Neutral ramp: warm-tinted greys that read as "architectural concrete"
+     rather than flat digital grey. */
+  --ink-950: #0b0d0f;
+  --ink-900: #14171a;
+  --ink-800: #1e2226;
+  --ink-700: #2c3137;
+  --ink-600: #434a52;
+  --ink-500: #5d656e;
+  --ink-400: #838b94;
+  --ink-300: #adb4bb;
+  --ink-200: #d3d8dc;
+  --ink-100: #e8ebee;
+  --ink-50:  #f4f6f7;
+
+  /* Warm paper ramp — the brand's "canvas" */
+  --sand-50:  #fdfcfa;
+  --sand-100: #f8f6f1;
+  --sand-200: #f1ede4;
+  --sand-300: #e6e0d3;
+  --sand-400: #d5ccb9;
+
+  /* Brand bronze — restrained, metallic, never neon */
+  --brand-50:  #fbf7ed;
+  --brand-100: #f5ecd5;
+  --brand-200: #ead7a8;
+  --brand-300: #ddbe76;
+  --brand-400: #cfa54f;
+  --brand-500: #b98c34;   /* primary */
+  --brand-600: #9b7028;   /* hover / text-on-light */
+  --brand-700: #7a5720;
+  --brand-800: #5c421c;
+
+  /* Support hues */
+  --teal-500: #12796b;
+  --teal-50:  #e9f5f3;
+  --red-500:  #c0392b;
+  --red-50:   #fdecea;
+  --amber-500:#c07c15;
+  --amber-50: #fdf3e2;
+  --green-500:#1f7a41;
+  --green-50: #eaf6ee;
+
+  /* --------------------------------------------------------- Semantic roles */
+  --bg:            var(--sand-50);
+  --bg-subtle:     var(--sand-100);
+  --bg-muted:      var(--sand-200);
+  --bg-inverse:    var(--ink-950);
+  --bg-inverse-2:  var(--ink-900);
+  --surface:       #ffffff;
+  --surface-2:     var(--sand-100);
+  --surface-raised:#ffffff;
+
+  --text:          var(--ink-900);
+  --text-strong:   var(--ink-950);
+  --text-muted:    var(--ink-500);
+  --text-subtle:   var(--ink-400);
+  --text-inverse:  #ffffff;
+  --text-inverse-muted: rgba(255, 255, 255, .68);
+
+  --line:          rgba(20, 23, 26, .10);
+  --line-strong:   rgba(20, 23, 26, .18);
+  --line-inverse:  rgba(255, 255, 255, .14);
+  --line-brand:    rgba(185, 140, 52, .32);
+
+  --accent:        var(--brand-500);
+  --accent-hover:  var(--brand-600);
+  --accent-soft:   var(--brand-50);
+  --accent-text:   var(--brand-700);
+
+  /* Metallic sweep used sparingly for display accents */
+  --gradient-brand: linear-gradient(102deg, #9b7028 0%, #cfa54f 42%, #ead7a8 68%, #b98c34 100%);
+  --gradient-ink:   linear-gradient(165deg, #14171a 0%, #0b0d0f 100%);
+  --gradient-sheen: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.55) 50%, rgba(255,255,255,0) 70%);
+
+  /* -------------------------------------------------------------- Typography */
+  --font-display: 'Fraunces', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Fluid type scale — clamp(min, preferred, max) */
+  --fs-2xs:  0.6875rem;                                     /* 11px  */
+  --fs-xs:   0.75rem;                                       /* 12px  */
+  --fs-sm:   0.8125rem;                                     /* 13px  */
+  --fs-base: 0.9375rem;                                     /* 15px  */
+  --fs-md:   1rem;                                          /* 16px  */
+  --fs-lg:   clamp(1.0625rem, .99rem + .32vw, 1.1875rem);
+  --fs-xl:   clamp(1.1875rem, 1.09rem + .43vw, 1.375rem);
+  --fs-2xl:  clamp(1.375rem, 1.22rem + .68vw, 1.75rem);
+  --fs-3xl:  clamp(1.625rem, 1.36rem + 1.16vw, 2.375rem);
+  --fs-4xl:  clamp(2rem, 1.57rem + 1.9vw, 3.25rem);
+  --fs-5xl:  clamp(2.375rem, 1.72rem + 2.9vw, 4.25rem);
+  --fs-6xl:  clamp(2.75rem, 1.7rem + 4.6vw, 5.5rem);
+
+  --lh-tight: 1.08;
+  --lh-snug:  1.22;
+  --lh-base:  1.6;
+  --lh-relaxed: 1.75;
+
+  --tracking-tight: -0.022em;
+  --tracking-snug: -0.012em;
+  --tracking-wide: 0.02em;
+  --tracking-caps: 0.14em;
+
+  /* ------------------------------------------------------------------ Space
+     8pt grid with a couple of half-steps. */
+  --s-1: 0.25rem;  --s-2: 0.5rem;   --s-3: 0.75rem;  --s-4: 1rem;
+  --s-5: 1.25rem;  --s-6: 1.5rem;   --s-7: 1.75rem;  --s-8: 2rem;
+  --s-10: 2.5rem;  --s-12: 3rem;    --s-14: 3.5rem;  --s-16: 4rem;
+  --s-20: 5rem;    --s-24: 6rem;    --s-28: 7rem;    --s-32: 8rem;
+
+  /* Section rhythm — shrinks gracefully on small screens */
+  --section-y: clamp(3.5rem, 2.4rem + 4.6vw, 7rem);
+  --section-y-lg: clamp(4.5rem, 3rem + 6vw, 9rem);
+
+  /* ------------------------------------------------------------------ Layout */
+  --container: 1240px;
+  --container-wide: 1440px;
+  --container-narrow: 780px;
+  --gutter: clamp(1.125rem, .78rem + 1.5vw, 2.5rem);
+  --nav-h: 76px;
+  --nav-h-scrolled: 64px;
+
+  /* ------------------------------------------------------------------ Radius */
+  --r-xs: 4px;   --r-sm: 8px;   --r-md: 12px;  --r-lg: 16px;
+  --r-xl: 22px;  --r-2xl: 30px; --r-full: 999px;
+
+  /* --------------------------------------------------------------- Elevation
+     Layered, low-opacity shadows — the "expensive" look. */
+  --sh-xs: 0 1px 2px rgba(11, 13, 15, .05);
+  --sh-sm: 0 1px 3px rgba(11, 13, 15, .06), 0 1px 2px rgba(11, 13, 15, .04);
+  --sh-md: 0 4px 6px -1px rgba(11, 13, 15, .06), 0 2px 4px -2px rgba(11, 13, 15, .05);
+  --sh-lg: 0 12px 20px -6px rgba(11, 13, 15, .09), 0 4px 8px -4px rgba(11, 13, 15, .05);
+  --sh-xl: 0 24px 40px -12px rgba(11, 13, 15, .14), 0 8px 16px -8px rgba(11, 13, 15, .06);
+  --sh-2xl: 0 40px 72px -20px rgba(11, 13, 15, .2), 0 12px 24px -12px rgba(11, 13, 15, .08);
+  --sh-brand: 0 10px 28px -8px rgba(185, 140, 52, .42);
+  --sh-focus: 0 0 0 3px rgba(185, 140, 52, .34);
+
+  /* ------------------------------------------------------------------ Motion */
+  --e-out: cubic-bezier(.22, 1, .36, 1);
+  --e-in-out: cubic-bezier(.65, 0, .35, 1);
+  --e-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --t-fast: 140ms var(--e-out);
+  --t-base: 240ms var(--e-out);
+  --t-slow: 420ms var(--e-out);
+  --t-slower: 700ms var(--e-out);
+
+  /* ------------------------------------------------------------------ Z-index */
+  --z-base: 1;
+  --z-sticky: 100;
+  --z-nav: 500;
+  --z-drawer: 600;
+  --z-float: 700;
+  --z-modal: 800;
+  --z-toast: 900;
+}
+
+/* Dark surfaces opt in by scoping the semantic roles, so every component
+   automatically inverts without bespoke overrides. */
+.on-dark {
+  --bg: var(--ink-950);
+  --bg-subtle: var(--ink-900);
+  --bg-muted: var(--ink-800);
+  --surface: var(--ink-900);
+  --surface-2: var(--ink-800);
+  --surface-raised: var(--ink-800);
+  --text: #ffffff;
+  --text-strong: #ffffff;
+  --text-muted: rgba(255, 255, 255, .66);
+  --text-subtle: rgba(255, 255, 255, .48);
+  --line: rgba(255, 255, 255, .12);
+  --line-strong: rgba(255, 255, 255, .2);
+  --accent: var(--brand-300);
+  --accent-hover: var(--brand-200);
+  --accent-text: var(--brand-300);
+  --accent-soft: rgba(207, 165, 79, .14);
+  --sh-md: 0 4px 12px rgba(0, 0, 0, .4);
+  --sh-lg: 0 16px 32px rgba(0, 0, 0, .45);
+  --sh-xl: 0 28px 56px rgba(0, 0, 0, .5);
+  color: var(--text);
+  background-color: var(--bg);
+}
