@@ -90,6 +90,9 @@
   align-items: center;
   gap: var(--s-1);
   margin-inline: auto;
+  /* Allow the menu to yield space before the CTAs are forced to wrap */
+  min-width: 0;
+  flex-shrink: 1;
 }
 .nav-item { position: relative; }
 .nav-link {
@@ -246,10 +249,16 @@
 .nav-phone:hover { color: var(--accent-text); background: var(--brand-50); }
 .nav-phone .ico { width: 16px; height: 16px; color: var(--brand-500); }
 
-@media (max-width: 1180px) { .nav-phone span { display: none; } }
-@media (max-width: 1080px) {
-  .nav-menu, .nav-actions .btn-outline { display: none; }
+/* Progressive collapse so the bar never crowds:
+   <1400px  drop the "Cost calculator" button
+   <1280px  phone becomes an icon-only tap target
+   <1080px  full menu moves into the drawer */
+@media (max-width: 1400px) { .nav-actions .btn-outline { display: none; } }
+@media (max-width: 1280px) {
+  .nav-phone span { display: none; }
+  .nav-phone { width: 40px; height: 40px; justify-content: center; padding: 0; }
 }
+@media (max-width: 1080px) { .nav-menu { display: none; } }
 
 /* --------------------------------------------------------- Hamburger button */
 .nav-toggle {
