@@ -82,13 +82,12 @@ export function orgSchema() {
     },
     image: absoluteUrl('/assets/img/og-default.jpg'),
     description:
-      'Nexora Spaces LLP is a turnkey interior design and fit-out firm serving Delhi, Gurugram and Noida. ' +
-      'In-house design, factory-made modular woodwork, and site execution with a 10-year warranty and 45-day handover.',
+      'Nexora Spaces LLP is a residential interior fit-out and design-build studio serving Delhi, Gurugram and Noida. ' +
+      'In-house design, factory-made modular woodwork, and site execution for flats, apartments and villas.',
     slogan: site.tagline,
     foundingDate: String(site.foundedYear),
-    priceRange: '₹₹₹',
     currenciesAccepted: 'INR',
-    paymentAccepted: 'Cash, UPI, Bank Transfer, Credit Card, EMI, Home Interior Loan',
+    paymentAccepted: 'UPI, Bank Transfer, Credit Card',
     telephone: site.phone.tel,
     email: site.email.general,
     address: {
@@ -152,7 +151,7 @@ export function websiteSchema() {
     '@id': absoluteUrl('/#website'),
     url: absoluteUrl('/'),
     name: site.legalName,
-    description: 'Turnkey interior design & fit-out in Delhi, Gurugram and Noida.',
+    description: 'Residential interior fit-out for homes in Delhi, Gurugram and Noida.',
     publisher: { '@id': absoluteUrl('/#organization') },
     inLanguage: 'en-IN',
     potentialAction: {
@@ -216,25 +215,10 @@ export function serviceSchema(svc, route) {
     provider: { '@id': absoluteUrl('/#organization') },
     areaServed,
     audience: { '@type': 'Audience', audienceType: svc.audience || 'Homeowners in Delhi NCR' },
-    ...(svc.offers
-      ? {
-          offers: {
-            '@type': 'Offer',
-            priceCurrency: 'INR',
-            price: svc.offers.price,
-            priceSpecification: {
-              '@type': 'PriceSpecification',
-              minPrice: svc.offers.min,
-              maxPrice: svc.offers.max,
-              priceCurrency: 'INR',
-              valueAddedTaxIncluded: false,
-            },
-            availability: 'https://schema.org/InStock',
-            url: absoluteUrl(route),
-          },
-        }
-      : {}),
   };
+  /* NOTE: no `offers` / price markup is ever emitted. The site does not
+     publish pricing, so advertising a price in structured data would be
+     both inaccurate and a structured-data policy risk. */
 }
 
 export function articleSchema(post, route) {

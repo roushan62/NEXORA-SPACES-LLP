@@ -6,11 +6,117 @@
 import sharp from 'sharp';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { galleryPackages, roomOrder } from '../src/data/gallery.js';
 
 const SRC = 'src/assets-src';
 const OUT = 'assets/img';
 
 const ensure = (d) => fs.mkdir(d, { recursive: true });
+
+/* ==========================================================================
+   GALLERY PACKAGE SETS  —  10 homes × 8 rooms
+   --------------------------------------------------------------------------
+   ⚠️ PLACEHOLDER PIPELINE. Each room currently borrows one of the stand-in
+   renders in src/assets-src/gallery/ (or an existing project photo) and gets a
+   per-package colour grade + crop so every set reads as its own home.
+
+   TO SWAP IN REAL PHOTOGRAPHY: drop a file named `<packageId>-<room>.jpg`
+   into src/assets-src/gallery/ — e.g. `aurelia-kitchen.jpg`. The pipeline
+   prefers a real file whenever one exists and only falls back to the graded
+   placeholder when it does not. Then run `npm run images && npm run build`.
+   ========================================================================== */
+
+/** Fallback source render for each room type. */
+const ROOM_FALLBACK = {
+  overview: ['gallery/a-overview.jpg', 'p2.jpg', 'p3.jpg', 'p7.jpg'],
+  hall: ['gallery/a-living.jpg', 'gallery/b-living.jpg', 'p1.jpg', 'p3.jpg', 'p7.jpg'],
+  kitchen: ['gallery/a-kitchen.jpg', 'gallery/b-kitchen.jpg', 'p4.jpg'],
+  bedroom: ['gallery/a-bedroom.jpg', 'p6.jpg', 'p9.jpg'],
+  puja: ['gallery/a-puja.jpg'],
+  bath: ['gallery/a-bath.jpg'],
+  closet: ['gallery/a-closet.jpg'],
+  passage: ['gallery/a-passage.jpg'],
+};
+
+/** Per-package grade so the ten sets do not look like one repeated home. */
+const PKG_GRADE = {
+  aurelia:  { saturation: 1.02, brightness: 1.03, hue: 0,   tint: null,                     crop: 'centre' },
+  meridian: { saturation: 0.94, brightness: 1.07, hue: -6,  tint: { r: 255, g: 250, b: 240 }, crop: 'right' },
+  sereno:   { saturation: 0.82, brightness: 1.06, hue: 4,   tint: { r: 250, g: 249, b: 244 }, crop: 'left' },
+  aravalli: { saturation: 1.06, brightness: 0.94, hue: -10, tint: { r: 248, g: 240, b: 226 }, crop: 'centre' },
+  kalina:   { saturation: 0.98, brightness: 1.09, hue: 6,   tint: null,                     crop: 'left' },
+  vasant:   { saturation: 1.14, brightness: 0.99, hue: -14, tint: { r: 255, g: 244, b: 225 }, crop: 'right' },
+  oakwood:  { saturation: 1.0,  brightness: 1.05, hue: 2,   tint: { r: 253, g: 249, b: 241 }, crop: 'centre' },
+  lumen:    { saturation: 1.05, brightness: 0.88, hue: -4,  tint: { r: 240, g: 234, b: 224 }, crop: 'right' },
+  palash:   { saturation: 0.9,  brightness: 1.01, hue: 8,   tint: { r: 250, g: 247, b: 238 }, crop: 'left' },
+  nirvaan:  { saturation: 1.03, brightness: 1.02, hue: -2,  tint: null,                     crop: 'centre' },
+};
+
+const GALLERY_WIDTHS = { thumb: 640, full: 1400 };
+
+async function firstExisting(candidates) {
+  for (const c of candidates) {
+    const p = path.join(SRC, c);
+    try { await fs.access(p); return p; } catch { /* keep looking */ }
+  }
+  return null;
+}
+
+async function buildGallery() {
+  await ensure(path.join(OUT, 'gallery'));
+  let count = 0, bytes = 0;
+
+  for (const pkg of galleryPackages) {
+    const grade = PKG_GRADE[pkg.id] || PKG_GRADE.aurelia;
+    /* Vary which fallback render each package pulls, so neighbouring cards
+       in the grid never show the identical photo. */
+    const pick = galleryPackages.indexOf(pkg);
+
+    for (const room of roomOrder) {
+      /* Real photography wins if it has been supplied. */
+      const real = await firstExisting([`gallery/${pkg.id}-${room.id}.jpg`, `gallery/${pkg.id}-${room.id}.png`]);
+      const pool = ROOM_FALLBACK[room.id] || ROOM_FALLBACK.hall;
+      const inPath = real || (await firstExisting([pool[pick % pool.length], ...pool]));
+      if (!inPath) { console.warn(`  ! no source for ${pkg.id}-${room.id}`); continue; }
+
+      for (const [label, w] of Object.entries(GALLERY_WIDTHS)) {
+        const h = Math.round((w * 2) / 3);
+        let pipe = sharp(inPath).resize(w, h, {
+          fit: 'cover',
+          position: real ? 'centre' : (grade.crop || 'centre'),
+        });
+
+        /* Grading is only applied to placeholders — never to real photos. */
+        if (!real) {
+          pipe = pipe.modulate({
+            saturation: grade.saturation,
+            brightness: grade.brightness,
+            hue: grade.hue,
+          });
+          if (grade.tint) pipe = pipe.tint(grade.tint);
+        }
+
+        const buf = await pipe.toBuffer();
+        const stem = path.join(OUT, 'gallery', `${pkg.id}-${room.id}-${w}`);
+
+        await Promise.all([
+          sharp(buf).avif({ quality: 58, effort: 2 }).toFile(`${stem}.avif`),
+          sharp(buf).webp({ quality: 70, effort: 4 }).toFile(`${stem}.webp`),
+          sharp(buf).jpeg({ quality: 74, progressive: true, mozjpeg: true }).toFile(`${stem}.jpg`),
+        ]);
+
+        for (const ext of ['avif', 'webp', 'jpg']) {
+          bytes += (await fs.stat(`${stem}.${ext}`)).size;
+          count++;
+        }
+        void label;
+      }
+    }
+  }
+
+  console.log(`✓ gallery: ${count} files, ${(bytes / 1024 / 1024).toFixed(2)} MB`);
+  return { count, bytes };
+}
 
 /** Which derivatives each source needs. */
 const PLAN = [
@@ -103,17 +209,17 @@ async function build() {
   <rect x="64" y="56" width="60" height="60" rx="15" fill="none" stroke="url(#gold)" stroke-width="2"/>
   <path d="M82 102V64.5c0-.7.85-1.05 1.33-.55L116 98" stroke="url(#gold)" stroke-width="3.4" stroke-linecap="round" fill="none"/>
   <text x="142" y="86" font-family="Georgia, serif" font-size="30" fill="#ffffff" font-weight="600">NEXORA SPACES</text>
-  <text x="143" y="108" font-family="Helvetica, Arial, sans-serif" font-size="12.5" fill="#CFA54F" letter-spacing="4.2">DESIGN · BUILD · DELIVER</text>
-  <text x="64" y="268" font-family="Georgia, serif" font-size="66" fill="#ffffff" font-weight="600">Turnkey interiors for</text>
-  <text x="64" y="344" font-family="Georgia, serif" font-size="66" fill="url(#gold)" font-style="italic">Delhi · Gurugram · Noida</text>
-  <text x="64" y="404" font-family="Helvetica, Arial, sans-serif" font-size="23" fill="#ffffff" opacity="0.74">In-house design · Own production · Single contract</text>
+  <text x="143" y="108" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#CFA54F" letter-spacing="3.1">RESIDENTIAL INTERIOR FIT-OUT</text>
+  <text x="64" y="268" font-family="Georgia, serif" font-size="62" fill="#ffffff" font-weight="600">Crafting homes</text>
+  <text x="64" y="344" font-family="Georgia, serif" font-size="62" fill="url(#gold)" font-style="italic">that feel like you</text>
+  <text x="64" y="404" font-family="Helvetica, Arial, sans-serif" font-size="21" fill="#ffffff" opacity="0.74">Flats · Apartments · Villas — Delhi, Gurugram &amp; Noida</text>
   <g font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#ffffff">
-    <rect x="64" y="452" width="228" height="52" rx="26" fill="none" stroke="#CFA54F" stroke-width="1.5"/>
-    <text x="96" y="484" fill="#CFA54F" font-weight="bold">10-Year Warranty</text>
-    <rect x="308" y="452" width="216" height="52" rx="26" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.5"/>
-    <text x="340" y="484" opacity="0.9">45-Day Delivery</text>
-    <rect x="540" y="452" width="238" height="52" rx="26" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.5"/>
-    <text x="572" y="484" opacity="0.9">850+ Homes Done</text>
+    <rect x="64" y="452" width="250" height="52" rx="26" fill="none" stroke="#CFA54F" stroke-width="1.5"/>
+    <text x="94" y="484" fill="#CFA54F" font-weight="bold">Designer-Grade Finish</text>
+    <rect x="330" y="452" width="242" height="52" rx="26" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.5"/>
+    <text x="360" y="484" opacity="0.9">Fastest Handover</text>
+    <rect x="588" y="452" width="238" height="52" rx="26" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.5"/>
+    <text x="618" y="484" opacity="0.9">850+ Homes Done</text>
   </g>
 </svg>`);
 
@@ -154,4 +260,5 @@ async function build() {
   console.log(`✓ images: ${count} files, ${(bytes / 1024 / 1024).toFixed(2)} MB total`);
 }
 
-build().catch((e) => { console.error(e); process.exit(1); });
+await build().catch((e) => { console.error(e); process.exit(1); });
+await buildGallery().catch((e) => { console.error(e); process.exit(1); });

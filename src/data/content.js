@@ -7,8 +7,8 @@
 export const projects = [
   {
     slug: 'dlf-crest-gurugram', title: 'The Crest — Warm Minimal 3 BHK',
-    category: 'Residential · 3 BHK', location: 'DLF The Crest, Gurugram',
-    area: '1,780 sq.ft', duration: '52 days', budget: '₹28.4 L',
+    category: 'Home · 3 BHK', location: 'DLF The Crest, Gurugram',
+    area: '1,780 sq.ft', duration: '52 days',
     tags: ['residential', '3bhk', 'gurugram', 'modern'],
     image: '/assets/img/projects/p1.jpg',
     alt: 'Warm minimal living room with fluted wood panelling and linen sofa in a Gurugram apartment',
@@ -16,8 +16,8 @@ export const projects = [
   },
   {
     slug: 'sector-150-noida', title: 'Ace Divino — Contemporary 2 BHK',
-    category: 'Residential · 2 BHK', location: 'Sector 150, Noida',
-    area: '1,150 sq.ft', duration: '41 days', budget: '₹16.8 L',
+    category: 'Home · 2 BHK', location: 'Sector 150, Noida',
+    area: '1,150 sq.ft', duration: '41 days',
     tags: ['residential', '2bhk', 'noida', 'contemporary'],
     image: '/assets/img/projects/p2.jpg',
     alt: 'Contemporary open-plan living and dining area with wood accent wall in a Noida apartment',
@@ -25,8 +25,8 @@ export const projects = [
   },
   {
     slug: 'greater-kailash-delhi', title: 'GK-II Residence — Modern Classic',
-    category: 'Residential · 4 BHK', location: 'Greater Kailash II, Delhi',
-    area: '2,650 sq.ft', duration: '78 days', budget: '₹62.5 L',
+    category: 'Home · 4 BHK', location: 'Greater Kailash II, Delhi',
+    area: '2,650 sq.ft', duration: '78 days',
     tags: ['residential', '4bhk', 'delhi', 'classic'],
     image: '/assets/img/projects/p3.jpg',
     alt: 'Modern classic living room with panelled walls, chandelier and marble flooring in South Delhi',
@@ -35,25 +35,25 @@ export const projects = [
   {
     slug: 'sohna-road-kitchen', title: 'Handleless Modular Kitchen',
     category: 'Modular Kitchen', location: 'Sohna Road, Gurugram',
-    area: '128 sq.ft', duration: '18 days', budget: '₹6.2 L',
+    area: '128 sq.ft', duration: '18 days',
     tags: ['kitchen', 'gurugram', 'modern'],
     image: '/assets/img/projects/p4.jpg',
     alt: 'Handleless modular kitchen with matte graphite cabinets and quartz countertop',
     summary: 'Acrylic-finish shutters, quartz counter, and a tall unit stack that swallowed an entire pantry.',
   },
   {
-    slug: 'noida-expressway-office', title: 'Fintech HQ — 42 Seats',
-    category: 'Commercial · Office', location: 'Noida Expressway',
-    area: '4,200 sq.ft', duration: '64 days', budget: '₹94 L',
-    tags: ['commercial', 'office', 'noida'],
+    slug: 'vasant-kunj-living', title: 'Vasant Kunj — Family Living Room',
+    category: 'Home · Living room', location: 'Vasant Kunj, New Delhi',
+    area: '320 sq.ft', duration: '22 days',
+    tags: ['residential', 'delhi', 'modern', 'living'],
     image: '/assets/img/projects/p5.jpg',
-    alt: 'Modern open-plan fintech office with acoustic ceiling baffles and collaborative seating',
-    summary: 'Acoustic-led workplace design: 42 workstations, 3 huddle rooms, and a client-facing lounge.',
+    alt: 'Redesigned family living room with veneer media wall and layered lighting in Vasant Kunj',
+    summary: 'One room, fully re-detailed — a veneer media wall, concealed storage and a proper lighting scheme.',
   },
   {
     slug: 'dwarka-2bhk', title: 'Dwarka Sector 19 — Compact 2 BHK',
-    category: 'Residential · 2 BHK', location: 'Dwarka, New Delhi',
-    area: '890 sq.ft', duration: '38 days', budget: '₹12.9 L',
+    category: 'Home · 2 BHK', location: 'Dwarka, New Delhi',
+    area: '890 sq.ft', duration: '38 days',
     tags: ['residential', '2bhk', 'delhi', 'compact'],
     image: '/assets/img/projects/p6.jpg',
     alt: 'Compact 2 BHK bedroom with wall-mounted study and full-height wardrobe in Dwarka',
@@ -61,26 +61,26 @@ export const projects = [
   },
   {
     slug: 'golf-course-road-villa', title: 'Camellias Villa — Quiet Luxury',
-    category: 'Residential · Villa', location: 'Golf Course Road, Gurugram',
-    area: '5,400 sq.ft', duration: '112 days', budget: '₹1.85 Cr',
+    category: 'Home · Villa', location: 'Golf Course Road, Gurugram',
+    area: '5,400 sq.ft', duration: '112 days',
     tags: ['residential', 'villa', 'gurugram', 'luxury'],
     image: '/assets/img/projects/p7.jpg',
     alt: 'Luxury villa double-height living room with travertine walls and designer lighting in Gurugram',
     summary: 'Travertine, walnut and bronze across four levels, with a home theatre and a temperature-controlled cellar.',
   },
   {
-    slug: 'indirapuram-cafe', title: 'Roastery Café — 48 Covers',
-    category: 'Commercial · F&B', location: 'Indirapuram, Ghaziabad',
-    area: '1,650 sq.ft', duration: '46 days', budget: '₹38 L',
-    tags: ['commercial', 'hospitality', 'noida'],
+    slug: 'indirapuram-3bhk', title: 'Indirapuram — Warm Family 3 BHK',
+    category: 'Home · 3 BHK', location: 'Indirapuram, Ghaziabad',
+    area: '1,650 sq.ft', duration: '46 days',
+    tags: ['residential', '3bhk', 'noida', 'contemporary'],
     image: '/assets/img/projects/p8.jpg',
-    alt: 'Industrial-style café interior with exposed brick, warm pendant lights and timber seating',
-    summary: 'A brew-bar-forward layout that turned a narrow shell into 48 covers without feeling packed.',
+    alt: 'Warm contemporary family home interior with timber joinery and pendant lighting in Indirapuram',
+    summary: 'A three-generation home planned around a shared living core, with quieter zones at each end.',
   },
   {
     slug: 'sector-57-3bhk', title: 'Ireo Victory Valley — Japandi 3 BHK',
-    category: 'Residential · 3 BHK', location: 'Sector 67, Gurugram',
-    area: '1,620 sq.ft', duration: '49 days', budget: '₹24.1 L',
+    category: 'Home · 3 BHK', location: 'Sector 67, Gurugram',
+    area: '1,620 sq.ft', duration: '49 days',
     tags: ['residential', '3bhk', 'gurugram', 'japandi'],
     image: '/assets/img/projects/p9.jpg',
     alt: 'Japandi style bedroom with light oak wardrobe, rice-paper pendant and low platform bed',
@@ -92,124 +92,70 @@ export const projects = [
    ⚠️ REPLACE with real, verifiable reviews before publishing.               */
 export const testimonials = [
   {
-    name: 'Ankit & Shruti Malhotra', project: '3 BHK Turnkey', location: 'DLF The Crest, Gurugram',
-    text: 'We interviewed five firms. Nexora was the only one who showed us a line-by-line BOQ before asking for money. The final bill was within ₹18,000 of the quote on a ₹28 lakh project, and they handed over four days early.',
+    name: 'Ankit & Shruti Malhotra', project: '3 BHK full home', location: 'DLF The Crest, Gurugram',
+    text: 'We interviewed five firms. Nexora was the only one who put the entire scope in writing, material by material, before asking for anything. They handed over four days early and the finish is exactly what the drawings promised.',
   },
   {
-    name: 'Rohit Verma', project: '2 BHK + Kitchen', location: 'Sector 150, Noida',
-    text: 'What sold me was the weekly site photo report on WhatsApp. I was posted in Pune for the whole project and never once felt out of the loop. The kitchen hardware is genuinely premium — Hettich soft-close throughout, as promised.',
+    name: 'Rohit Verma', project: '2 BHK + kitchen', location: 'Sector 150, Noida',
+    text: 'What sold me was the weekly site photo report on WhatsApp. I was posted in Pune for the whole project and never once felt out of the loop. The kitchen hardware is genuinely premium — soft-close throughout, exactly as specified.',
   },
   {
-    name: 'Dr. Meera Suri', project: '4 BHK Renovation', location: 'Greater Kailash II, Delhi',
+    name: 'Dr. Meera Suri', project: '4 BHK renovation', location: 'Greater Kailash II, Delhi',
     text: 'A full renovation while my parents lived on one floor — I expected chaos. Their site team dust-sealed the working zone every single day and worked around my clinic hours. That discipline is rare.',
   },
   {
-    name: 'Karan Bhatia', project: 'Modular Kitchen', location: 'Sohna Road, Gurugram',
-    text: 'Got quotes from two big brands that were 40% higher for the same Hettich fittings and 8mm shutters. Nexora explained exactly where the difference was. Eighteen months in, not one hinge has sagged.',
+    name: 'Karan Bhatia', project: 'Modular kitchen', location: 'Sohna Road, Gurugram',
+    text: 'Two big brands quoted far more for the same fittings and shutter thickness. Nexora explained exactly where the difference sat and let me choose. Eighteen months in, not one hinge has sagged.',
   },
   {
-    name: 'Priya Raghavan', project: '2 BHK Compact', location: 'Dwarka, New Delhi',
-    text: 'Small flat, small budget, zero condescension. They redesigned the layout three times until the storage worked for us. The fold-down study is the single best thing in our home.',
+    name: 'Priya Raghavan', project: '2 BHK compact home', location: 'Dwarka, New Delhi',
+    text: 'Small flat, careful budget, zero condescension. They redesigned the layout three times until the storage worked for us. The fold-down study is the single best thing in our home.',
   },
   {
-    name: 'Sameer Khanna', project: 'Office Fit-Out, 42 seats', location: 'Noida Expressway',
-    text: 'We had a hard 60-day handover before an investor visit. They delivered in 64 with two scope additions from our side — and gave us the acoustic test report we needed for compliance without being chased.',
+    name: 'Sameer & Anjali Khanna', project: 'Villa interiors', location: 'Golf Course Road, Gurugram',
+    text: 'Four levels, a hard deadline before a family wedding, and they still held the date. The site engineer walked us through every snag himself rather than waiting for us to find them.',
   },
 ];
 
-/* ------------------------------------------------------------- Packages */
-export const packages = [
-  {
-    id: 'essential', name: 'Essential', popular: false,
-    for: 'First homes and rental-ready flats where budget discipline matters most.',
-    rate: '1,150 – 1,450', unit: 'per sq.ft of carpet area',
-    example: '₹6.8 L – ₹9.2 L for a typical 2 BHK (780 sq.ft)',
-    includes: [
-      'Modular kitchen — 710-grade BWR ply, laminate shutters',
-      'Wardrobes with laminate finish & soft-close hinges',
-      'Basic false ceiling in living & dining',
-      'Wall painting (Asian Paints Tractor Emulsion or equal)',
-      'Electrical points, switches & light fixtures',
-      'Loft storage, TV unit & basic dado tiling',
-      '2D layouts + 1 revision round',
-    ],
-    excludes: ['Civil demolition', 'Flooring replacement', 'Loose furniture & decor'],
-  },
-  {
-    id: 'signature', name: 'Signature', popular: true,
-    for: 'The package 7 out of 10 NCR families choose — the best value-to-finish ratio.',
-    rate: '1,650 – 2,100', unit: 'per sq.ft of carpet area',
-    example: '₹12.9 L – ₹16.4 L for a typical 2 BHK (780 sq.ft)',
-    includes: [
-      'Everything in Essential, plus:',
-      'Acrylic / PU-finish kitchen shutters, quartz countertop',
-      'Hettich or Ebco premium hardware throughout',
-      'Designer false ceiling with cove & profile lighting',
-      'Feature walls — fluted panels, veneer or textured paint',
-      'Full-home painting (Royale / Velvet Touch or equal)',
-      'Wardrobe internals: drawers, pull-outs, mirror units',
-      'Photoreal 3D design + 3 revision rounds',
-      'Dedicated project manager & weekly photo reports',
-    ],
-    excludes: ['Loose furniture beyond the BOQ', 'Imported stone', 'Home automation'],
-  },
-  {
-    id: 'luxe', name: 'Luxe', popular: false,
-    for: 'Villas, penthouses and homes where material provenance is the brief.',
-    rate: '2,400 – 3,400', unit: 'per sq.ft of carpet area',
-    example: '₹18.7 L – ₹26.5 L for a typical 2 BHK (780 sq.ft)',
-    includes: [
-      'Everything in Signature, plus:',
-      'Imported veneers, natural stone & solid-surface counters',
-      'Blum / Häfele hardware with lift-up and motion systems',
-      'Custom-fabricated metal, glass & joinery details',
-      'Designer lighting scheme with scene control',
-      'Full home automation readiness (lighting, curtains, HVAC)',
-      'Bespoke loose furniture design & procurement',
-      'Site-supervised finishing with third-party QC audit',
-      'Unlimited design revisions until sign-off',
-    ],
-    excludes: ['Art & artefact procurement', 'Landscape & terrace work'],
-  },
-];
-
-/* ----------------------------------------------------------------- FAQs */
+/* ----------------------------------------------------------------- FAQs
+   NOTE: no rates, ranges or amounts anywhere. Cost questions are answered
+   in terms of what drives cost and how we quote — never with a number. */
 export const faqsGeneral = [
   {
-    q: 'What does interior design actually cost in Delhi, Gurugram and Noida?',
-    a: '<p>As of 2026, a realistic full-home range in Delhi NCR is <strong>₹1,150–₹1,450/sq.ft</strong> for an essential fit-out, <strong>₹1,650–₹2,100/sq.ft</strong> for a mid-premium build, and <strong>₹2,400/sq.ft and above</strong> for luxury finishes. For a standard 2 BHK of 780 sq.ft carpet area that works out to roughly <strong>₹9 lakh to ₹16 lakh</strong>. Gurugram and South Delhi typically run 6–8% higher than Noida because of labour and logistics costs.</p><p>Use our <a href="/cost-calculator/">cost calculator</a> for a figure based on your actual carpet area, then ask us for a line-by-line BOQ — that is the only number that really matters.</p>',
+    q: 'How do you price a home interior project?',
+    a: '<p>After a site survey we issue a written, itemised scope with every material, brand and finish named line by line. That document is what you approve, and it is what you pay against — the figure is specific to your home, so we do not publish rate cards that would only mislead you.</p><p>We are deliberately positioned as the value-driven option: budget-smart luxury, where the money goes into what you touch and see every day rather than into markup.</p>',
   },
   {
     q: 'How long does a full home interior project take?',
-    a: '<p>Our contractual standard is <strong>45 days from design sign-off to handover</strong> for a 2–3 BHK, and 70–90 days for villas or full renovations. That clock starts after design freeze and the first payment milestone, not from the first phone call.</p><p>Because our modular woodwork is factory-made and arrives finished, site time is far shorter than carpentry-on-site. Delays are almost always caused by scope changes mid-project or society work-permission rules — both of which we flag upfront.</p>',
+    a: '<p>We commit to the fastest turnaround in the industry, and the specific handover date for your home is agreed at design sign-off and written into the contract. That clock starts after design freeze, not from the first phone call.</p><p>Because our modular woodwork is factory-made and arrives finished, site time is far shorter than carpentry-on-site. Delays are almost always caused by scope changes mid-project or society work-permission rules — both of which we flag upfront.</p>',
   },
   {
-    q: 'What exactly does the 10-year warranty cover?',
-    a: '<p>Ten years on <strong>modular woodwork carcass and hardware</strong> — that means the ply, the edge banding, the hinges, the channels and the sliding systems. One year on site-executed services such as painting, false ceiling, electrical and plumbing.</p><p>The warranty is transferable if you sell the property and is documented in your contract, not just a marketing line. Read the full <a href="/warranty/">warranty policy</a> for exclusions like water damage or third-party modifications.</p>',
+    q: 'What exactly does the warranty cover?',
+    a: '<p>A documented, multi-year warranty on <strong>modular woodwork carcass and hardware</strong> — the ply, the edge banding, the hinges, the channels and the sliding systems — plus cover on site-executed services such as painting, false ceiling, electrical and plumbing.</p><p>It is transferable if you sell the property and it lives in your contract, not just in a brochure. Read the full <a href="/warranty/">warranty policy</a> for exclusions like water damage or third-party modifications.</p>',
   },
   {
     q: 'Do you handle civil work, plumbing and electrical, or only furniture?',
-    a: '<p>We handle all of it under one contract. That includes demolition, masonry, waterproofing, concealed plumbing and electrical, false ceiling, painting, flooring, modular joinery and final styling. One vendor, one accountability line, one warranty.</p><p>If you only want modular kitchen and wardrobes, we do that too — it is a common starting point and there is no minimum-scope penalty.</p>',
+    a: '<p>We handle all of it under one contract. That includes demolition, masonry, waterproofing, concealed plumbing and electrical, false ceiling, painting, flooring, modular joinery, puja room detailing and final styling. One team, one accountability line, one warranty.</p><p>If you only want a modular kitchen and wardrobes, we do that too — it is a common starting point and there is no minimum-scope penalty.</p>',
   },
   {
     q: 'How does the payment schedule work? Do I pay everything upfront?',
-    a: '<p>No. Payments are tied to milestones, not to the calendar: <strong>10% on design sign-off, 40% on material dispatch, 40% on installation start, 10% on handover.</strong> The final 10% is only released after your snag list is closed.</p><p>Every payment is invoiced with GST. We never ask for cash, and we never ask for the full amount before work begins — if any firm does, treat it as a red flag.</p>',
+    a: '<p>No. Payments are tied to project milestones — design sign-off, material dispatch, installation start and handover — never to the calendar. The final milestone is only released after your snag list is closed.</p><p>Every payment is invoiced properly. We never ask for cash, and we never ask for the full amount before work begins — if any firm does, treat it as a red flag.</p>',
   },
   {
-    q: 'Can I get EMI or a home interior loan?',
-    a: '<p>Yes. We work with NBFC partners offering interior loans from <strong>₹1 lakh to ₹50 lakh</strong> with tenures of 12 to 60 months, and there are no-cost EMI options on select packages. Approval typically takes 48–72 hours with salary slips or ITR.</p><p>We will show you the total interest outgo in writing before you commit — see the <a href="/pricing/#emi">finance section</a>.</p>',
+    q: 'Do you take office, retail or commercial projects?',
+    a: '<p>No. Nexora Spaces is a residential-only studio — flats, apartments, villas, independent floors and individual rooms. Everything we have built, from our production process to our site protocols, is tuned for people living in or moving into a home.</p><p>It is the reason we can move quickly without cutting corners: we are not switching between wildly different project types.</p>',
   },
   {
     q: 'What if I only want the design, and my own contractor executes it?',
-    a: '<p>That works. Our design-only engagement gives you concept boards, photoreal 3D views, working drawings, an itemised BOQ and material specifications — everything your contractor needs. Fees start at <strong>₹65/sq.ft</strong> for residential.</p><p>Be aware that we cannot warranty work executed by others, and our fixed-price guarantee does not apply to design-only projects.</p>',
+    a: '<p>That works. Our design-only engagement gives you concept boards, layout options, detailed views, working drawings and material specifications — everything your contractor needs to build from.</p><p>Be aware that we cannot warranty work executed by others, and our delivery commitments only apply to projects we build ourselves.</p>',
   },
   {
     q: 'Which areas of Delhi NCR do you actually serve?',
-    a: '<p>All of <strong>Gurugram</strong> (DLF Phases 1–5, Golf Course Road and Extension, Sohna Road, Sectors 47–115, New Gurgaon), <strong>Noida and Greater Noida</strong> (Sectors 44–168, Noida Expressway, Greater Noida West), and <strong>Delhi</strong> (South, West, Central, Dwarka, Rohini). We also take projects in Ghaziabad, Indirapuram and Faridabad.</p><p>Our three studios are in Gurugram (head office), Noida and South Delhi — see <a href="/contact/">contact</a> for addresses and visiting hours.</p>',
+    a: '<p>All of <strong>Gurugram</strong> (DLF Phases 1–5, Golf Course Road and Extension, Sohna Road, Sectors 47–115, New Gurgaon), <strong>Noida and Greater Noida</strong> (Sectors 44–168, Noida Expressway, Greater Noida West), and <strong>Delhi</strong> (South, West, Central, Dwarka, Rohini). We also take homes in Ghaziabad, Indirapuram and Faridabad.</p><p>Our three studios are in Gurugram (head office), Noida and South Delhi — see <a href="/contact/">contact</a> for addresses and visiting hours.</p>',
   },
   {
-    q: 'Is the quoted price final, or will costs creep up later?',
-    a: '<p>The BOQ price is fixed for the agreed scope. Costs change only if <strong>you</strong> change scope or material selection — and any such change is re-quoted and signed off in writing before work proceeds. No verbal approvals, no surprise invoices at handover.</p><p>This is the single most common complaint about our industry, so we put it in the contract: zero unapproved variation billing.</p>',
+    q: 'Is the agreed scope final, or will it creep up later?',
+    a: '<p>The agreed scope is fixed. It changes only if <strong>you</strong> change scope or material selection — and any such change is re-quoted and signed off in writing before work proceeds. No verbal approvals, no surprise invoices at handover.</p><p>This is the single most common complaint about our industry, so we put it in the contract: zero unapproved variation billing.</p>',
   },
   {
     q: 'Do you work on rented or occupied homes?',
@@ -217,24 +163,28 @@ export const faqsGeneral = [
   },
 ];
 
-export const faqsCost = [
+/** Planning-focused questions used on service and home-size pages. */
+export const faqsPlanning = [
   {
-    q: 'Why do quotes from different interior firms vary so much?',
-    a: '<p>Three reasons: <strong>material grade</strong> (710 BWP vs 710 BWR vs MR-grade ply is a 30% swing), <strong>hardware brand</strong> (a Hettich soft-close hinge costs 4× a local one and lasts 10× longer), and <strong>what is quietly excluded</strong>. A low quote that omits electrical, painting and loft storage is not a cheaper quote — it is an incomplete one.</p><p>Always compare BOQs line by line, not bottom lines.</p>',
+    q: 'What makes one interior quote so different from another?',
+    a: '<p>Three things: <strong>material grade</strong> (BWP vs BWR vs MR-grade ply is a large swing on the carcass alone), <strong>hardware quality</strong> (a premium soft-close hinge outlasts a local one many times over), and <strong>what is quietly excluded</strong>. A cheaper-looking quote that omits electrical, painting and loft storage is not cheaper — it is incomplete.</p><p>Always compare the itemised scope line by line, never the bottom line.</p>',
   },
   {
-    q: 'What is carpet area vs built-up area, and which do you charge on?',
-    a: '<p>We quote on <strong>carpet area</strong> — the usable floor area inside your walls. Built-up area includes walls and balconies and is typically 20–30% larger, and super built-up adds common areas on top of that. Some firms quote on built-up to make their per-sq.ft rate look lower. Ask every vendor which basis they are using before you compare.</p>',
+    q: 'What is carpet area vs built-up area, and which do you work to?',
+    a: '<p>We plan and quote on <strong>carpet area</strong> — the usable floor area inside your walls. Built-up area includes walls and balconies and is typically 20–30% larger; super built-up adds common areas on top of that. Some firms work to built-up so their basis looks more favourable. Ask every vendor which basis they are using before you compare anything.</p>',
   },
   {
-    q: 'How much should I budget for a modular kitchen alone?',
-    a: '<p>In NCR, expect <strong>₹1.8–₹3 lakh</strong> for a laminate-finish kitchen, <strong>₹3–₹6 lakh</strong> for acrylic or PU with quartz counters, and <strong>₹6 lakh and above</strong> for imported finishes with premium appliances integrated. A standard 8×10 kitchen with good hardware lands around ₹3.5 lakh.</p>',
+    q: 'Where is it worth spending more, and where can we save?',
+    a: '<p>Spend on the things you touch daily and cannot change later: kitchen hardware, wardrobe internals, plumbing and electrical, and the quality of the ply behind everything. Save on things that are easy to change or purely decorative — loose furniture, decor, feature wallpaper and statement lighting can all be phased in later.</p><p>That order of priorities is exactly how we build a value-driven specification for you.</p>',
   },
   {
-    q: 'Are there hidden costs people forget to budget for?',
-    a: '<p>The four that catch people out: <strong>society charges</strong> (₹5,000–₹25,000 for work permission and lift usage), <strong>GST at 18%</strong> on the interior contract, <strong>loose furniture and appliances</strong> (usually 10–15% of the interior budget), and <strong>temporary accommodation</strong> if you cannot live on site. We list all four in your estimate so nothing lands as a surprise.</p>',
+    q: 'What should we budget for beyond the interior contract itself?',
+    a: '<p>Four things catch people out: <strong>society charges</strong> for work permission and lift usage, <strong>applicable taxes</strong> on the interior contract, <strong>loose furniture and appliances</strong>, and <strong>temporary accommodation</strong> if you cannot live on site during civil work. We flag all four at the estimate stage so nothing lands as a surprise.</p>',
   },
 ];
+
+/* Kept as an alias so existing imports continue to resolve. */
+export const faqsCost = faqsPlanning;
 
 /* ------------------------------------------------------------- Blog posts */
 export const posts = [
@@ -284,8 +234,8 @@ export const posts = [
   },
   {
     slug: 'interior-project-timeline',
-    title: 'What Really Happens in a 45-Day Interior Project (Week by Week)',
-    excerpt: 'An honest week-by-week account of a real Gurugram 3 BHK — including the two weeks where it looks like nothing is happening, and why that is normal.',
+    title: 'What Really Happens in a Home Interior Project (Week by Week)',
+    excerpt: 'An honest week-by-week account of a real Gurugram 3 BHK — including the two weeks where it looks like nothing is happening, and why that is entirely normal.',
     category: 'Process', date: '2026-03-21', readTime: '9 min',
     image: '/assets/img/blog/b6.jpg',
     alt: 'Interior fit-out site in progress with modular units being installed',
@@ -304,35 +254,10 @@ export const processSteps = [
 ];
 
 /* --------------------------------------------------------------- Team
-   Co-founder profile is intentionally not shown until the real name, bio and
-   photo are available. Avoid publishing invented leadership details. */
-export const team = [
-  {
-    name: 'Sourabh Pandey',
-    role: 'Founder',
-    bio: 'Sourabh founded Nexora Spaces after years of watching good design get undone by poor execution. He keeps the company focused on clear BOQs, documented timelines and site delivery that matches the design promise.',
-    initials: 'SP',
-    photo: '/assets/img/team/sourabh-pandey.jpg',
-  },
-  {
-    name: 'Design Studio',
-    role: 'Space planning & material specification',
-    bio: 'The in-house design team turns client briefs into practical layouts, 3D concepts, finish palettes and execution drawings before anything reaches site.',
-    initials: 'DS',
-  },
-  {
-    name: 'Project Delivery',
-    role: 'Site execution & weekly reporting',
-    bio: 'Project managers coordinate civil, electrical, ceiling, painting and modular installation with written schedules, photo reports and snag closure.',
-    initials: 'PD',
-  },
-  {
-    name: 'Production & Warranty',
-    role: 'Factory QC & after-handover support',
-    bio: 'The production and warranty desk tracks modular quality, hardware alignment, dispatch readiness and post-handover service requests.',
-    initials: 'PW',
-  },
-];
+   The About page is deliberately COMPANY-LEVEL: no individual names,
+   photos or "meet the team" imagery. Team structure is described by
+   function in src/pages/company.js. Do not reintroduce headshots here
+   without an explicit request. */
 
 /* ----------------------------------------------------------- Design styles */
 export const designStyles = [
