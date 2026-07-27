@@ -126,7 +126,7 @@ export default {
               <li>${icon('checkCircle', { size: 18 })} Full-height wardrobe replaced a freestanding almirah</li>
               <li>${icon('checkCircle', { size: 18 })} Ceiling lowered with cove lighting to hide old conduits</li>
               <li>${icon('checkCircle', { size: 18 })} Fold-down study added on the window wall</li>
-              <li>${icon('checkCircle', { size: 18 })} Delivered in 38 days at ₹12.9 lakh</li>
+              <li>${icon('checkCircle', { size: 18 })} Delivered in 38 days, with the family living in</li>
             </ul>
             <a href="${url('/services/renovation/')}" class="btn btn-primary">Explore renovation ${icon('arrowRight', { size: 16 })}</a>
           </div>

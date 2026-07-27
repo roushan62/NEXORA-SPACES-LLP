@@ -24,12 +24,12 @@ const cities = [
     projectCount: '410+',
     intro:
       'Gurugram is where our head office sits and where we have delivered the most homes. High-rise condominiums with strict material-movement windows, builder floors in the older sectors, and villas along Golf Course Road each demand a different execution plan — and we run all three every week.',
-    priceNote: 'Gurugram runs roughly 6–8% above Noida for identical scope, driven by labour rates and society access restrictions.',
+    priceNote: 'Gurugram sites are shaped by tower access rules and society work windows. Here is what we typically deliver, and what each home size involves locally.',
     prices: [
-      ['1 BHK (~480 sq.ft)', '₹5.9 – 7.4 L', '₹8.4 – 10.7 L'],
-      ['2 BHK (~780 sq.ft)', '₹9.5 – 12.0 L', '₹13.7 – 17.4 L'],
-      ['3 BHK (~1,150 sq.ft)', '₹14.0 – 17.7 L', '₹20.1 – 25.6 L'],
-      ['4 BHK / Villa (1,650 sq.ft+)', '₹20.1 – 25.3 L', '₹28.8 – 36.7 L'],
+      ['1 BHK', 'Condominium studios and compact units', 'Storage-first planning, shortest programme'],
+      ['2 BHK', 'Sohna Road and New Gurgaon high-rises', 'Our most refined and most reliable timeline'],
+      ['3 BHK', 'Golf Course Extension and Sector 65–70 towers', 'Master suite and shared spaces prioritised'],
+      ['4 BHK / Villa', 'Golf Course Road villas and DLF builder floors', 'Senior PM, site engineer, staged by level'],
     ],
     areas: [
       { name: 'DLF Phase 1–5', note: 'Builder floors and condominiums; older services often need replacement' },
@@ -44,11 +44,11 @@ const cities = [
     localFactors: [
       { icon: 'clock', t: 'Society work windows', d: 'Most Gurugram condominiums permit work only 9am–6pm on weekdays with no Sunday activity. We build this into the programme rather than discovering it in week two.' },
       { icon: 'truck', t: 'Service lift booking', d: 'Towers on Golf Course Extension often allow one service lift slot per day. Our material staging plan is built around that constraint.' },
-      { icon: 'fileText', t: 'RWA permissions & deposits', d: 'Refundable work deposits of ₹10,000–₹25,000 are standard. We handle the paperwork and the debris-disposal compliance.' },
+      { icon: 'fileText', t: 'RWA permissions & deposits', d: 'Refundable work deposits are standard in most societies. We handle the paperwork and the debris-disposal compliance.' },
       { icon: 'leaf', t: 'Dust and AQI protocols', d: 'During GRAP restrictions, certain site activities pause. We front-load dust-generating work outside those windows wherever the calendar allows.' },
     ],
     faqs: [
-      { q: 'What do interior designers charge in Gurgaon?', a: '<p>Full-home turnkey in Gurugram runs <strong>₹1,220–₹1,540/sq.ft</strong> for an Essential build and <strong>₹1,750–₹2,230/sq.ft</strong> for Signature, on carpet area. A typical 780 sq.ft 2 BHK lands between <strong>₹9.5 lakh and ₹17.4 lakh</strong> depending on finish level.</p><p>Design-only engagements start at ₹65/sq.ft. Use the <a href="/cost-calculator/">calculator</a> for your specific area.</p>' },
+      { q: 'How do you scope a home interior project in Gurgaon?', a: '<p>After a site survey we issue a written, itemised scope naming every material, brand and finish. Gurugram adds two local variables: society access rules and, in older DLF stock, the condition of existing services.</p><p>We survey both before committing to anything, so the plan reflects your actual home rather than a generic template.</p>' },
       { q: 'Do you work in DLF Phase 1–5 builder floors?', a: '<p>Regularly. Older DLF builder floors usually need more than cosmetic work — aluminium wiring, undersized distribution boards and corroded GI plumbing are common. We survey services before quoting, so the renovation budget reflects what the property actually needs instead of springing it on you after demolition.</p>' },
       { q: 'How do you handle high-rise society restrictions?', a: '<p>We obtain the work permission, pay and track the refundable deposit, book service-lift slots in advance, protect common areas, and schedule noisy trades inside permitted hours. Our Gurugram PMs deal with these RWAs every week, so we know each tower\'s rules before we start.</p>' },
       { q: 'Where is your Gurugram office?', a: `<p>Our head office and experience centre is at <strong>${esc(site.offices[0].street)}, ${esc(site.offices[0].area)}, Gurugram ${esc(site.offices[0].postalCode)}</strong>. You can see material samples, hardware cutaways and finish panels in person — walk-ins welcome ${esc(site.hours.display)}, though booking ahead means a designer is free for you.</p>` },
@@ -66,29 +66,29 @@ const cities = [
       'Noida and Greater Noida are our highest-volume new-possession markets. Sector 150, the Expressway corridor and Greater Noida West hand over hundreds of flats at a time — which means predictable layouts, and packages we have refined to the point where our 2 BHK timelines here are the most reliable in our book.',
     priceNote: 'Noida is typically the most cost-efficient NCR market for identical scope — roughly 6–8% below Gurugram.',
     prices: [
-      ['1 BHK (~480 sq.ft)', '₹5.4 – 6.8 L', '₹7.7 – 9.8 L'],
-      ['2 BHK (~780 sq.ft)', '₹8.7 – 11.0 L', '₹12.5 – 15.9 L'],
-      ['3 BHK (~1,150 sq.ft)', '₹12.8 – 16.2 L', '₹18.4 – 23.4 L'],
-      ['4 BHK / Villa (1,650 sq.ft+)', '₹18.4 – 23.2 L', '₹26.4 – 33.6 L'],
+      ['1 BHK', 'Compact units across the Expressway corridor', 'Storage-first planning, shortest programme'],
+      ['2 BHK', 'Sector 150 and Greater Noida West volumes', 'Predictable layouts, our fastest turnaround'],
+      ['3 BHK', 'Sector 137–168 and Expressway towers', 'Master suite and WFH room prioritised'],
+      ['4 BHK / Villa', 'Larger Expressway and Greater Noida homes', 'Senior PM and staged room-by-room delivery'],
     ],
     areas: [
       { name: 'Sector 150', note: 'Sports City belt — ATS, Ace, Godrej; heavy new-possession volume' },
       { name: 'Noida Expressway (Sec 128–137)', note: 'Jaypee, Prateek, Paras; premium 3 and 4 BHK stock' },
       { name: 'Sector 74–79', note: 'Supertech, Amrapali, Gulshan; dense mid-segment demand' },
       { name: 'Sector 93–100', note: 'Established high-rises, mostly renovation work' },
-      { name: 'Greater Noida West', note: 'Gaur City, Panchsheel; value-focused Essential packages' },
+      { name: 'Greater Noida West', note: 'Gaur City, Panchsheel; value-focused family homes' },
       { name: 'Sector 44–52', note: 'Older Noida sectors, independent houses and builder floors' },
       { name: 'Indirapuram', note: 'Ghaziabad border; strong 2 and 3 BHK renovation market' },
       { name: 'Sector 168 & Pari Chowk', note: 'Greater Noida premium corridor' },
     ],
     localFactors: [
-      { icon: 'package', t: 'New-possession advantage', d: 'No demolition, no living-around-the-work and predictable builder layouts. We often complete Noida 2 BHKs in 38 days versus a 45-day standard.' },
+      { icon: 'package', t: 'New-possession advantage', d: 'No demolition, no living-around-the-work and predictable builder layouts — which is why Noida 2 BHKs are consistently our quickest handovers.' },
       { icon: 'ruler', t: 'Layouts we already know', d: 'We have designed the same Sector 150 and Gaur City floor plans dozens of times. That means faster design cycles and no measurement surprises.' },
       { icon: 'rupee', t: 'Better cost efficiency', d: 'Lower labour rates and easier material access make Noida the best value in NCR for the same specification.' },
       { icon: 'truck', t: 'Bulk-possession logistics', d: 'When 400 flats hand over in one tower, lifts and access get contested. We book slots early and stage material off-site.' },
     ],
     faqs: [
-      { q: 'What is the interior cost for a 2 BHK in Noida?', a: '<p><strong>₹8.7–₹11.0 lakh</strong> for an Essential full-home fit-out and <strong>₹12.5–₹15.9 lakh</strong> for Signature, on a typical 780 sq.ft carpet area. Modular kitchen and wardrobes only would be roughly 62% of those figures.</p><p>Noida is generally the most cost-efficient NCR market for the same specification.</p>' },
+      { q: 'Why are your Noida timelines so reliable?', a: '<p>Volume and repetition. Sector 150, the Expressway corridor and Greater Noida West hand over hundreds of flats with near-identical layouts, so we have refined the sequence for those plans more than anywhere else in NCR.</p><p>That is also why Noida tends to be our most value-efficient market for the same specification.</p>' },
       { q: 'Do you work in Greater Noida West and Gaur City?', a: '<p>Yes — Greater Noida West is one of our highest-volume corridors. We know the standard Gaur City, Panchsheel and Ajnara layouts well, which shortens the design phase considerably. Our Noida studio in Sector 63 covers the entire Greater Noida belt.</p>' },
       { q: 'My flat is new possession. When should I start?', a: '<p>Start design 6–8 weeks before you expect keys. Send the builder floor plan, we complete design, 3D and BOQ during the wait, and site work begins the day possession and society permission are in hand. Clients who do this typically move in a month earlier than those who start at possession.</p>' },
       { q: 'Where is your Noida studio?', a: `<p><strong>${esc(site.offices[1].street)}, ${esc(site.offices[1].area)}, Noida ${esc(site.offices[1].postalCode)}</strong>. It doubles as our east-NCR project office, so your Noida or Greater Noida project manager is based here rather than commuting from Gurugram.</p>` },
@@ -106,10 +106,10 @@ const cities = [
       'Delhi is our most technically demanding market. South Delhi builder floors with 1990s services, DDA flats in Dwarka and Rohini with tight structural constraints, and heritage-adjacent properties with approval sensitivities — the common thread is that almost nothing here is a straightforward new-possession fit-out.',
     priceNote: 'South Delhi runs comparable to Gurugram; outer Delhi (Dwarka, Rohini, Uttam Nagar) is closer to Noida rates.',
     prices: [
-      ['1 BHK (~480 sq.ft)', '₹5.5 – 7.0 L', '₹7.9 – 10.1 L'],
-      ['2 BHK (~780 sq.ft)', '₹9.0 – 11.3 L', '₹12.9 – 16.4 L'],
-      ['3 BHK (~1,150 sq.ft)', '₹13.2 – 16.7 L', '₹19.0 – 24.2 L'],
-      ['4 BHK / Builder floor (1,650 sq.ft+)', '₹19.0 – 23.9 L', '₹27.2 – 34.7 L'],
+      ['1 BHK', 'Dwarka, Rohini and outer Delhi flats', 'Storage-first planning, shortest programme'],
+      ['2 BHK', 'Dwarka sectors and West Delhi apartments', 'Our most refined and most reliable timeline'],
+      ['3 BHK', 'South Delhi flats and Vasant Kunj homes', 'Master suite and shared spaces prioritised'],
+      ['4 BHK / Builder floor', 'GK, Saket and South Delhi builder floors', 'Often gut renovation with new services'],
     ],
     areas: [
       { name: 'Greater Kailash I & II', note: 'Builder floors; typically full gut-renovation scope' },
@@ -128,7 +128,7 @@ const cities = [
       { icon: 'truck', t: 'Access constraints', d: 'Narrow lanes in GK, Lajpat Nagar and Rajouri restrict vehicle size and delivery timing. Material staging is planned around it.' },
     ],
     faqs: [
-      { q: 'What do interior designers charge in Delhi?', a: '<p>South Delhi is comparable to Gurugram: <strong>₹1,150–₹1,450/sq.ft</strong> Essential and <strong>₹1,650–₹2,100/sq.ft</strong> Signature on carpet area. Outer Delhi — Dwarka, Rohini, Uttam Nagar — is typically 5–7% lower.</p><p>Renovation work in older properties carries a services-replacement component that a new-possession flat does not, so budget an additional 8–15% for gut renovations.</p>' },
+      { q: 'What is different about interiors in Delhi?', a: '<p>Age of stock. South Delhi builder floors and older colonies frequently need services replaced — wiring, distribution boards and plumbing — which a new-possession flat does not.</p><p>We survey services before finalising any scope, so a renovation plan reflects what the property actually needs rather than what a template assumes.</p>' },
       { q: 'Do you handle South Delhi builder floor renovations?', a: '<p>It is a significant part of our Delhi book. These usually involve full services replacement — new wiring, new plumbing, upgraded DB — alongside interiors. We audit and photograph everything before quoting so there is no "we found something" conversation after demolition.</p>' },
       { q: 'Can you work in DDA flats in Dwarka or Rohini?', a: '<p>Yes, frequently. DDA layouts have known structural constraints — load-bearing walls that cannot be touched and fixed service shafts. We work within them and design storage that compensates. We will tell you at survey stage which walls are genuinely movable.</p>' },
       { q: 'Where is your Delhi office?', a: `<p>Our client lounge is at <strong>${esc(site.offices[2].street)}, ${esc(site.offices[2].area)}, New Delhi ${esc(site.offices[2].postalCode)}</strong>. It is a consultation and sample space rather than a full studio — design work runs from Gurugram, but your South Delhi project manager is Delhi-based.</p>` },
@@ -148,7 +148,7 @@ export default cities.map((c) => {
     title: `Interior Designers in ${c.city} — Turnkey Home Interiors | Nexora Spaces`,
     metaTitle: `Interior Designers in ${c.city} | Nexora Spaces`,
     description:
-      `Interior designers in ${c.city} — ${c.projectCount} homes delivered. Turnkey design and fit-out, 10-year warranty, 45-day handover, free 3D design.`,
+      `Home interior designers in ${c.city} — ${c.projectCount} homes delivered. Residential design and fit-out with a documented warranty and a free consultation.`,
     keywords:
       `interior designers in ${c.city.toLowerCase()}, interior design ${c.city.toLowerCase()}, home interior ${c.city.toLowerCase()}, best interior designers ${c.city.toLowerCase()}, modular kitchen ${c.city.toLowerCase()}, interior design cost ${c.city.toLowerCase()}`,
     ogImage: `/assets/img/${c.img}-1600.jpg`,
@@ -172,7 +172,6 @@ export default cities.map((c) => {
         image: absoluteUrl(`/assets/img/${c.img}-1600.jpg`),
         telephone: c.office.phone.replace(/\s/g, ''),
         email: site.email.general,
-        priceRange: '₹₹₹',
         address: {
           '@type': 'PostalAddress',
           streetAddress: `${c.office.street}, ${c.office.area}`,
@@ -210,7 +209,7 @@ export default cities.map((c) => {
         ],
         stats: [
           { value: c.projectCount, label: `Homes done in ${c.city}` },
-          { value: '45 days', label: 'Typical handover' },
+          { value: 'Fastest', label: 'Handover in the industry' },
           { value: '10 yrs', label: 'Warranty' },
           site.reviews.schema
             ? { value: `${site.reviews.rating}★`, label: 'Client rating' }
@@ -268,29 +267,29 @@ export default cities.map((c) => {
         </div>
       </section>`,
 
-      /* ---- Local pricing ---- */
+      /* ---- What we deliver locally ---- */
       `<section class="section bg-subtle cv-auto">
         <div class="container container-narrow">
           ${sectionHead({
-            eyebrow: `${c.city} pricing`,
-            title: `What interiors cost in ${c.city}`,
+            eyebrow: `${c.city} homes`,
+            title: `What we deliver in ${c.city}`,
             sub: c.priceNote,
             center: true,
           })}
           <div class="table-wrap reveal">
             <table class="table">
-              <thead><tr><th>Home size</th><th class="num">Essential</th><th class="num">Signature</th></tr></thead>
+              <thead><tr><th>Home size</th><th>Typical ${esc(c.city)} property</th><th>How we approach it</th></tr></thead>
               <tbody>
-                ${c.prices.map((r, i) => `<tr${i === 1 ? ' class="table-highlight"' : ''}><td><strong>${esc(r[0])}</strong></td><td class="num">${esc(r[1])}</td><td class="num">${esc(r[2])}</td></tr>`).join('')}
+                ${c.prices.map((r, i) => `<tr${i === 1 ? ' class="table-highlight"' : ''}><td><strong>${esc(r[0])}</strong></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}
               </tbody>
             </table>
           </div>
           <p class="mt-5 text-center" style="font-size:var(--fs-xs);color:var(--text-subtle)">
-            ${icon('info', { size: 13 })} Carpet-area basis, excluding 18% GST, society charges and loose furniture.
+            ${icon('info', { size: 13 })} Every home is scoped individually after a site survey, with materials named in writing.
           </p>
           <div class="btn-group center mt-8 reveal">
-            <a href="${url('/cost-calculator/')}" class="btn btn-primary btn-lg">${icon('calculator', { size: 18 })} Calculate for my home</a>
-            <a href="${waLink(`Hi Nexora, I need an interior quote for my home in ${c.city}.`)}" class="btn btn-outline btn-lg" target="_blank" rel="noopener">WhatsApp a designer</a>
+            <button type="button" class="btn btn-primary btn-lg" aria-label="Open the free consultation form" data-consult-open>${icon('sparkles', { size: 18 })} Get free consultation</button>
+            <a href="${waLink(`Hi Nexora, I'd like to discuss home interiors in ${c.city}.`)}" class="btn btn-outline btn-lg" target="_blank" rel="noopener">WhatsApp a designer</a>
           </div>
         </div>
       </section>`,
@@ -361,7 +360,7 @@ export default cities.map((c) => {
         eyebrow: `${c.city} enquiry`,
         title: `Ready to start your<br><span class="serif-italic gradient-text">${c.city} home?</span>`,
         text: `Free consultation, free 3D concept and a fixed-price BOQ in 72 hours. Our ${c.city} team handles everything from society permissions to final styling.`,
-        points: [`Local ${c.city} project manager`, 'Free 3D design & itemised BOQ', '10-year warranty, 45-day handover'],
+        points: [`Local ${c.city} project manager`, 'Free consultation, scope in writing', 'Documented warranty, committed handover date'],
         source: `city-${c.slug}`,
       }),
     ].join('\n'),

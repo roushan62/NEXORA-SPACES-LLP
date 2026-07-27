@@ -9,12 +9,21 @@ import {
   metaTags, orgSchema, websiteSchema, webPageSchema,
   breadcrumbSchema, faqSchema, jsonLd, esc,
 } from '../lib/seo.js';
+import { consultModal } from './sections.js';
 
 /* Resolve a root-relative href to include the deploy basePath */
 export const url = (href = '/') => {
   if (/^(https?:|mailto:|tel:|#)/.test(href)) return href;
   return `${site.basePath}${href}`.replace(/\/{2,}/g, '/') || '/';
 };
+
+/**
+ * Rewrite root-relative links inside authored rich text (FAQ answers, blog
+ * bodies) so they respect the deploy basePath. Without this, a hand-written
+ * <a href="/warranty/"> in content data 404s on GitHub Project Pages.
+ */
+export const richText = (html = '') =>
+  String(html).replace(/(href|src)="(\/(?!\/)[^"]*)"/g, (m, attr, href) => `${attr}="${url(href)}"`);
 
 /* ------------------------------------------------------------------- Logo */
 export const logoMark = (size = 42) => `
@@ -44,7 +53,7 @@ const announceBar = () => `
   <div class="container announce-inner">
     <span class="announce-item announce-primary">
       ${icon('sparkles', { size: 14 })}
-      <span>Free 3D design + itemised quote in <strong>72 hours</strong></span>
+      <span>Residential interiors only — <strong>free design consultation</strong></span>
     </span>
     <span class="announce-sep" aria-hidden="true">|</span>
     <span class="announce-item">
@@ -103,7 +112,7 @@ const navbar = () => `
           <div class="mega ${item.mega === 'wide' ? 'mega-wide' : ''}">
             <div class="${gridCls}">${cols}${feature}</div>
             <div class="mega-foot">
-              <span>${icon('shieldCheck', { size: 15 })} ${site.guarantees.warrantyLabel} · ${site.guarantees.deliveryLabel}</span>
+              <span>${icon('shieldCheck', { size: 15 })} ${site.guarantees.qualityLabel} · ${site.guarantees.deliveryLabel}</span>
               <a href="${url(item.href)}" class="link-arrow">View all ${esc(item.label.toLowerCase())} ${icon('arrowRight', { size: 15 })}</a>
             </div>
           </div>
@@ -115,8 +124,8 @@ const navbar = () => `
       <a href="tel:${site.phone.tel}" class="nav-phone" aria-label="Call ${esc(site.phone.display)}">
         ${icon('phone', { size: 16 })}<span>${esc(site.phone.display)}</span>
       </a>
-      <a href="${url('/cost-calculator/')}" class="btn btn-outline btn-sm">Cost calculator</a>
-      <a href="${url('/contact/')}" class="btn btn-primary btn-sm">Free consultation</a>
+      <a href="${url('/gallery/')}" class="btn btn-outline btn-sm">View our work</a>
+      <button type="button" class="btn btn-primary btn-sm" data-consult-open>Free consultation</button>
       <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
         <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
       </button>
@@ -154,7 +163,7 @@ const drawer = () => `
     <div class="drawer-group"><a href="${url('/contact/')}" class="drawer-link">Contact</a></div>
   </div>
   <div class="drawer-foot">
-    <a href="${url('/contact/')}" class="btn btn-primary btn-block">Book free consultation</a>
+    <button type="button" class="btn btn-primary btn-block" data-consult-open>Get free consultation</button>
     <a href="${waLink()}" class="btn btn-whatsapp btn-block" target="_blank" rel="noopener">
       ${iconSolid('whatsapp', { size: 18 })} Chat on WhatsApp
     </a>
@@ -169,7 +178,7 @@ const mobileDock = () => `
   <div class="mobile-dock-inner">
     <a href="tel:${site.phone.tel}" class="dock-item">${icon('phone', { size: 19 })}<span>Call</span></a>
     <a href="${waLink()}" class="dock-item wa" target="_blank" rel="noopener">${iconSolid('whatsapp', { size: 19 })}<span>WhatsApp</span></a>
-    <a href="${url('/contact/')}" class="dock-item primary">${icon('calendar', { size: 19 })}<span>Free design</span></a>
+    <button type="button" class="dock-item primary" aria-label="Open the free consultation form" data-consult-open>${icon('calendar', { size: 19 })}<span>Free consult</span></button>
   </div>
 </nav>`;
 
@@ -181,9 +190,9 @@ const footer = () => `
       <div class="footer-brand">
         ${brandBlock()}
         <p class="footer-about">
-          ${esc(site.legalName)} is a turnkey interior design and fit-out firm serving Delhi,
-          Gurugram and Noida. In-house designers, own production, and a single contract from
-          concept to handover — backed by a ${site.guarantees.warrantyYears}-year warranty.
+          ${esc(site.legalName)} is a residential interior fit-out and design-build studio for
+          homes across Delhi, Gurugram and Noida — flats, apartments, villas and individual rooms.
+          In-house designers, own production, and one contract from concept to handover.
         </p>
         <ul class="footer-contact">
           <li>${icon('mapPin', { size: 16 })}<span>${esc(hq.street)},<br>${esc(hq.area)}, ${esc(hq.city)} ${esc(hq.postalCode)}</span></li>
@@ -293,7 +302,8 @@ ${body}
 
 ${footer()}
 ${mobileDock()}
-${floatingLayer()}`;
+${floatingLayer()}
+${consultModal()}`;
 
   const sprite = spriteFor(pageBody);
 

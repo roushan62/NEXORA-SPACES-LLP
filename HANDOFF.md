@@ -1,87 +1,64 @@
 # HANDOFF — Nexora Spaces LLP
 
-_Last updated: 2026-07-27_
+_Last updated: 2026-07-28 — residential refocus_
 
-## Current branch
+## What this site is now
 
-Use only:
+**Nexora Spaces LLP is a residential-only interior fit-out and design-build studio.**
+Flats, apartments, villas, independent floors and individual rooms. No office, retail,
+hospitality or commercial fit-out content anywhere.
 
-```bash
-git checkout arena/019fa4bc-nexora-spaces-llp
-```
+## Two rules that must not regress
 
-## What this session was asked to do
+1. **No pricing, anywhere.** No rates, ranges, per-sq-ft figures, EMI, package prices,
+   budget sliders or cost calculators — not in copy, not in JSON-LD, not in JS.
+   Value is expressed in words only: "value-driven", "budget-smart luxury",
+   "cost-effective".
+2. **Residential only.** Every page speaks to homeowners.
 
-The previous chat summary said there should be two local commits to push and merge:
-
-```text
-d931710  Add HANDOFF.md for session continuity
-c8dbc24  Add founder photo (Sourabh Pandey) + 11 review fixes
-```
-
-In this checkout those SHAs were **not present locally** and were also **not found on GitHub**. The repo only had `main` at `3367e9a`. The work was therefore recreated from the handoff summary.
-
-## Changes recreated in this branch
-
-1. Added an optimized founder image for Sourabh Pandey:
-   - Source: `Photos/Founder_Sourabh_Pandey.png`
-   - Web asset: `assets/img/team/sourabh-pandey.jpg`
-
-2. Replaced fake/persona leadership names with honest founder-led content:
-   - `src/data/content.js`
-   - `src/pages/company.js`
-   - `src/styles/08-pages.css`
-
-3. Disabled unverified review structured data:
-   - `src/config/site.config.js` → `site.reviews.schema = false`
-   - Review aggregate schema and Review JSON-LD are gated behind this flag.
-   - Visible rating/count claims are replaced with safer copy while schema is off.
-
-4. Rebuilt static site output:
-   - root `*.html` / page `index.html` files
-   - `assets/css/main.css`
-   - `assets/js/app.js` if build changes it
-   - `sitemap.xml`, `robots.txt`, `site.webmanifest`
-
-## Commands to verify
+Both are enforced automatically:
 
 ```bash
 npm run build
-npm run check
+npm run check     # links, images, canonicals, schema, headings
+npm run verify    # the residential brief — fails on a pricing or commercial leak
 ```
 
-Expected health from previous checks: 40 pages, all checks passing.
+## ⚠️ Placeholder media that still needs real assets
 
-## Important pending user data
+| What | Where | How to replace |
+|---|---|---|
+| **Hero video** | `site.heroVideo.sources` in `src/config/site.config.js` (currently empty) | Drop an interior-walkthrough file into `assets/video/` and list it in `sources`. Until then the hero runs an animated cross-fade walkthrough built from gallery stills — it autoplays everywhere and costs no extra download. |
+| **Gallery photography** (80 images) | `src/assets-src/gallery/` | Add `<packageId>-<room>.jpg` (e.g. `aurelia-kitchen.jpg`), then `npm run images && npm run build`. Real files always win over placeholders, one room at a time. |
+| **Project photos** (portfolio) | `src/assets-src/p1–p9.jpg` | Replace and run `npm run images`. |
 
-These still need real business details from the owner before final SEO/live launch:
+Package ids: `aurelia, meridian, sereno, aravalli, kalina, vasant, oakwood, lumen,
+palash, nirvaan`. Rooms: `overview, hall, kitchen, bedroom, puja, bath, closet, passage`.
 
-1. Co-founder details:
-   - real name
-   - real role/title
-   - real bio
-   - photo uploaded in `Photos/`
+## Still pending real business data
 
-2. Sourabh Pandey bio:
-   - current bio is generic and execution-focused
-   - replace with real background/experience/specialisation when available
+1. **Contact/NAP** — phone numbers, emails, office addresses and legal IDs in
+   `src/config/site.config.js` are still placeholders (marked `⚠️ REPLACE`).
+2. **Lead form endpoint** — `site.forms.endpoint` is empty, so the consultation form
+   falls back to opening WhatsApp with the enquiry pre-filled. No lead is lost, but a
+   Formspree/Web3Forms endpoint should be set before launch.
+3. **Reviews** — `site.reviews.schema` must stay `false` until the rating and count are
+   real and verifiable against a Google Business Profile. Unverified `aggregateRating`
+   markup risks a structured-data manual action.
+4. **Credentials** — the ISO and insurance lines in `src/data/stats.js` are marked
+   `⚠️ REPLACE`.
 
-3. Contact/NAP details:
-   - phone numbers in `src/config/site.config.js` are placeholders
-   - emails/offices/legal IDs/social profiles also need verification
+## Deliberate decisions worth knowing
 
-4. Reviews / Google Business Profile:
-   - `site.reviews.schema` must stay `false` until rating/count/reviews are real and match Google Business Profile or another verifiable source
-   - enabling fake `aggregateRating` or `Review` JSON-LD can trigger Google structured-data/manual-action issues
+- **About Us is company-level only.** No team photos, no founder headshots, no
+  "meet the team". The previous founder image and `assets/img/team/` were removed.
+  `npm run verify` fails if portrait imagery returns.
+- **Pricing pages are gone**, not hidden: `/pricing/`, `/cost-calculator/` and the whole
+  `/commercial/` tree were deleted, and every inbound link was rewritten.
+- **`richText()`** in `src/layouts/base.js` rewrites root-relative links inside authored
+  FAQ/blog HTML through the deploy `basePath`. Without it, a hand-written
+  `<a href="/warranty/">` in content data 404s on GitHub Project Pages.
 
-## Push / PR / merge flow
+## Branch
 
-After changes are committed:
-
-```bash
-git push origin arena/019fa4bc-nexora-spaces-llp
-gh pr create --base main --head arena/019fa4bc-nexora-spaces-llp --title "Update founder profile and disable unverified review schema" --body "Adds Sourabh Pandey founder profile/photo and gates unverified review structured data."
-gh pr merge <PR_NUMBER> --merge
-```
-
-Do **not** create/switch to any branch other than `arena/019fa4bc-nexora-spaces-llp` in Arena.
+Work happens on `arena/019fa4eb-nexora-spaces-llp`.

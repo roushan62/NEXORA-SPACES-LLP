@@ -108,77 +108,70 @@ const index = {
 const bodies = {
   'interior-design-cost-delhi-ncr': {
     toc: [
-      ['rates', 'The 2026 rate card'],
-      ['city', 'Why city matters'],
-      ['drivers', 'What drives cost'],
-      ['hidden', 'Five hidden line items'],
+      ['basis', 'Start with the area basis'],
+      ['drivers', 'What drives your budget'],
+      ['hidden', 'Five line items cheap quotes drop'],
       ['save', 'Where to save safely'],
-      ['compare', 'How to compare quotes'],
+      ['compare', 'How to compare two quotes'],
+      ['plan', 'Planning your budget'],
     ],
     html: `
-<p class="lead" style="font-size:var(--fs-lg);color:var(--text)">Ask five interior firms in Delhi NCR what a 2 BHK costs and you will get five answers between ₹6 lakh and ₹22 lakh. None of them are lying. They are quoting different scopes, different materials and — most misleadingly — different area bases.</p>
-<p>This guide gives you our actual 2026 rate card, explains what moves the number, and shows you how to compare two quotes properly. We publish it because an informed client is a faster, less painful project for everyone.</p>
+<p class="lead" style="font-size:var(--fs-lg);color:var(--text)">Ask five interior firms in Delhi NCR what your home will cost and you will get five very different answers. None of them are necessarily lying. They are quoting different scopes, different materials and — most misleadingly — different area bases.</p>
+<p>This guide explains what actually moves your budget and how to compare two quotes properly. We publish it because an informed homeowner makes for a faster, less painful project for everyone.</p>
+<p><strong>A note on numbers:</strong> we do not publish rate cards, because a per-square-foot figure detached from your actual home tells you almost nothing useful and is easy to weaponise in a sales conversation. What we do instead is issue a written, itemised scope after a site survey, with every material and brand named. Ask any firm you are speaking with for the same.</p>
 
-<h2 id="rates">The 2026 rate card</h2>
-<p>All figures below are <strong>per square foot of carpet area</strong> — the usable floor area inside your walls — and exclude 18% GST.</p>
-<table>
-  <thead><tr><th>Package</th><th>Rate / sq.ft</th><th>Typical 2 BHK (780 sq.ft)</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Essential</strong></td><td>₹1,150 – ₹1,450</td><td>₹9.0 L – ₹11.3 L</td></tr>
-    <tr><td><strong>Signature</strong></td><td>₹1,650 – ₹2,100</td><td>₹12.9 L – ₹16.4 L</td></tr>
-    <tr><td><strong>Luxe</strong></td><td>₹2,400 – ₹3,400</td><td>₹18.7 L – ₹26.5 L</td></tr>
-  </tbody>
-</table>
-<p>If a quote you have received sits well below the Essential band for a comparable scope, something is being left out — usually electrical, painting, or loft storage. That is not a cheaper quote; it is an incomplete one.</p>
-
-<h2 id="city">Why the same home costs more in Gurugram than Noida</h2>
-<p>Roughly 6–8% for identical scope and material. Three reasons:</p>
+<h2 id="basis">Start with the area basis — everything else depends on it</h2>
+<p>Before you compare a single figure, establish which area each firm is quoting on:</p>
 <ul>
-  <li><strong>Labour rates.</strong> Skilled carpentry and finishing labour costs more in Gurugram and South Delhi.</li>
-  <li><strong>Society access.</strong> Towers with single service-lift slots and 9am–6pm work windows stretch the same job across more days.</li>
-  <li><strong>Logistics.</strong> Material movement into Golf Course Road and inner South Delhi is slower and more restricted than into a Sector 150 tower during bulk possession.</li>
+  <li><strong>Carpet area</strong> — the usable floor area inside your walls. This is what we work to.</li>
+  <li><strong>Built-up area</strong> — adds walls and balconies, typically 20–30% larger.</li>
+  <li><strong>Super built-up area</strong> — adds a share of common areas on top of that.</li>
 </ul>
-<p>Outer Delhi — Dwarka, Rohini, Uttam Nagar — sits closer to Noida rates than to South Delhi.</p>
+<p>A rate quoted on super built-up looks dramatically lower for identical work. If you compare a carpet-area rate against a super built-up rate, you are not comparing anything at all.</p>
 
-<h2 id="drivers">What actually drives your cost</h2>
+<h2 id="drivers">What actually drives your budget</h2>
 <p>In order of impact:</p>
 <ol>
-  <li><strong>Carpet area.</strong> Everything is per square foot. There is no volume discount to negotiate.</li>
-  <li><strong>Material grade.</strong> 710 BWP plywood versus MR-grade is a 30% swing on the carcass alone. Acrylic versus laminate shutters is another 40%.</li>
-  <li><strong>Hardware.</strong> A Hettich soft-close hinge costs about 4× a local equivalent and lasts roughly 10× longer. Across a full home this is a ₹60,000 to ₹1.5 lakh decision.</li>
-  <li><strong>Scope depth.</strong> Modular-only is about 62% of a full-home cost. Add civil, flooring and plumbing and you are at roughly 124%.</li>
-  <li><strong>Timeline.</strong> Compressing 45 days to 30 needs parallel trades and short-lead materials — typically 8–14% more.</li>
+  <li><strong>Carpet area.</strong> Everything scales with usable area. There is no volume discount to negotiate here.</li>
+  <li><strong>Material grade.</strong> BWP plywood versus MR-grade is a large swing on the carcass alone. Acrylic versus laminate shutters is another significant step.</li>
+  <li><strong>Hardware.</strong> A branded soft-close hinge costs several times a local equivalent and lasts many times longer. Across a full home this is one of your biggest single decisions.</li>
+  <li><strong>Scope depth.</strong> Modular-only is a fraction of a full-home scope. Add civil, flooring and plumbing and you are well beyond it.</li>
+  <li><strong>City and society.</strong> Gurugram and South Delhi run above Noida for identical scope — labour rates, restricted service-lift slots and slower material movement all add hours to the same job.</li>
 </ol>
 
 <h2 id="hidden">Five line items that vanish from cheap quotes</h2>
-<p>When a quote looks suspiciously good, check whether these are present:</p>
+<p>When a quote looks suspiciously good, check whether these are actually present:</p>
 <ul>
-  <li><strong>Electrical work.</strong> New points, conduiting, modular switches and DB upgrade. Easily ₹70,000–₹1.7 lakh on a 2 BHK.</li>
+  <li><strong>Electrical work.</strong> New points, conduiting, modular switches and a distribution board upgrade.</li>
   <li><strong>Loft storage.</strong> Often quoted separately or omitted entirely, then added later at a premium.</li>
   <li><strong>Painting.</strong> Some quotes cover only the rooms with joinery, leaving you to paint the rest.</li>
   <li><strong>Hardware brand.</strong> "Soft-close hinges" with no brand named means the cheapest available on installation day.</li>
-  <li><strong>Edge banding thickness.</strong> 0.8mm looks identical to 2mm on day one and peels within two monsoons. It is rarely specified in a weak BOQ.</li>
+  <li><strong>Edge banding thickness.</strong> Thin banding looks identical to 2mm on day one and peels within two monsoons. It is rarely specified in a weak scope document.</li>
 </ul>
+<p>A quote that omits these is not cheaper. It is incomplete, and the gap will reappear as a variation later.</p>
 
 <h2 id="save">Where you can safely save</h2>
 <p>Not everything needs premium specification. Genuine savings that will not hurt you in year three:</p>
 <ul>
-  <li><strong>Guest bedroom and utility areas.</strong> Laminate instead of acrylic here is invisible in daily life.</li>
-  <li><strong>Loose furniture.</strong> Buy over time rather than financing it all into the project.</li>
-  <li><strong>Feature walls.</strong> One well-executed feature wall beats four mediocre ones, and costs a quarter as much.</li>
-  <li><strong>Phasing.</strong> Do the kitchen, wardrobes and painting now; living room and ceiling in twelve months. Design the whole home upfront so phase two matches.</li>
+  <li><strong>Guest bedroom and utility areas.</strong> A simpler finish here is invisible in daily life.</li>
+  <li><strong>Loose furniture.</strong> Buy over time rather than financing all of it into the project.</li>
+  <li><strong>Feature walls.</strong> One well-executed feature wall beats four mediocre ones, at a fraction of the scope.</li>
+  <li><strong>Phasing.</strong> Kitchen, wardrobes and painting now; living room and ceiling later. Design the whole home upfront so phase two matches exactly.</li>
 </ul>
-<p>Where you should not save: kitchen carcass grade, hardware, and anything concealed behind finished surfaces. Redoing those later means demolishing the work in front of them.</p>
+<p>Where you should <em>not</em> save: kitchen carcass grade, hardware, and anything concealed behind a finished surface. Redoing those later means demolishing the work in front of them.</p>
 
 <h2 id="compare">How to compare two quotes properly</h2>
 <p>Put them side by side and check five things:</p>
 <ol>
-  <li><strong>Area basis.</strong> Carpet, built-up or super built-up? A rate quoted on super built-up can look 25–30% lower for identical work.</li>
+  <li><strong>Area basis.</strong> Carpet, built-up or super built-up — established before anything else.</li>
   <li><strong>Brand names.</strong> Every hardware and material line should name a brand. "Premium quality hardware" is not a specification.</li>
   <li><strong>Quantities.</strong> Running feet of wardrobe, square feet of ceiling, number of electrical points. Vague quantities become variations later.</li>
   <li><strong>Exclusions list.</strong> A quote without a stated exclusions list is hiding them.</li>
-  <li><strong>Payment schedule.</strong> Anything demanding more than 50% before material dispatch deserves hard questions.</li>
+  <li><strong>Payment schedule.</strong> Anything demanding the bulk of the value before material dispatch deserves hard questions.</li>
 </ol>
+
+<h2 id="plan">Planning your budget realistically</h2>
+<p>Four things sit outside the interior contract and catch people out: society work-permission and lift charges, applicable taxes, loose furniture and appliances, and temporary accommodation if you cannot live on site during civil work. Plan for all four from the start.</p>
 <p>If you would like a second opinion on a quote you have received — even one from a competitor — send it to us. We will tell you honestly whether it is fair. We have talked several people out of switching to us because their existing quote was genuinely good.</p>`,
   },
 
@@ -201,13 +194,13 @@ const bodies = {
 
 <h2 id="shutters">Shutter finishes compared</h2>
 <table>
-  <thead><tr><th>Finish</th><th>Life</th><th>Maintenance</th><th>Rate / sq.ft</th></tr></thead>
+  <thead><tr><th>Finish</th><th>Life</th><th>Maintenance</th><th>Relative investment</th></tr></thead>
   <tbody>
-    <tr><td>Laminate 1mm</td><td>8–10 years</td><td>Very easy</td><td>₹1,450 – ₹1,900</td></tr>
-    <tr><td>Acrylic gloss</td><td>10+ years</td><td>Shows fingerprints</td><td>₹2,100 – ₹2,800</td></tr>
-    <tr><td>PU matte</td><td>10+ years</td><td>Can be re-coated</td><td>₹2,400 – ₹3,200</td></tr>
-    <tr><td>Membrane / PVC</td><td>5–7 years</td><td>Delaminates in heat</td><td>₹1,300 – ₹1,700</td></tr>
-    <tr><td>Lacquered glass</td><td>12+ years</td><td>Shows smudges</td><td>₹3,000 – ₹4,200</td></tr>
+    <tr><td>Laminate 1mm</td><td>8–10 years</td><td>Very easy</td><td>Most value-driven</td></tr>
+    <tr><td>Acrylic gloss</td><td>10+ years</td><td>Shows fingerprints</td><td>Mid-premium</td></tr>
+    <tr><td>PU matte</td><td>10+ years</td><td>Can be re-coated</td><td>Premium</td></tr>
+    <tr><td>Membrane / PVC</td><td>5–7 years</td><td>Delaminates in heat</td><td>Entry level</td></tr>
+    <tr><td>Lacquered glass</td><td>12+ years</td><td>Shows smudges</td><td>Most premium</td></tr>
   </tbody>
 </table>
 <p>Membrane finishes are popular because they are cheap and look good initially. In a Delhi kitchen with regular high heat, they are the finish most likely to fail early — we generally advise against them near the hob.</p>
@@ -222,7 +215,7 @@ const bodies = {
 </ul>
 
 <h2 id="counter">Countertops</h2>
-<p><strong>Granite</strong> is the value choice — heat-proof, durable, and around ₹280–₹550/sq.ft. <strong>Quartz</strong> costs ₹550–₹1,200/sq.ft, is non-porous and stain-resistant, but can discolour under prolonged direct heat. <strong>Solid surface</strong> allows seamless joins and integrated sinks at ₹900–₹2,200/sq.ft but scratches more easily.</p>
+<p><strong>Granite</strong> is the value choice — heat-proof and durable. <strong>Quartz</strong> sits above it: non-porous and stain-resistant, but it can discolour under prolonged direct heat. <strong>Solid surface</strong> is the most premium of the three, allowing seamless joins and integrated sinks, though it scratches more easily.</p>
 <p>For most Indian cooking patterns, quartz is the best balance — as long as you use a trivet under hot vessels.</p>
 
 <h2 id="read">Reading a kitchen BOQ in two minutes</h2>
@@ -246,19 +239,19 @@ const genericBody = (p) => ({
 
 <h2 id="overview">Overview</h2>
 <p>This guide is written from our own project data across Delhi, Gurugram and Noida — not from generic industry advice. Everything below reflects what we actually see on site in NCR homes.</p>
-<p>If you want this applied to your specific home rather than read in the abstract, send us your floor plan. We will come back with an itemised view within one working day.</p>
+<p>If you want this applied to your specific home rather than read in the abstract, send us your floor plan. A senior designer will come back with an itemised view within one working day.</p>
 
 <h2 id="detail">The detail</h2>
 <p>We are expanding this article with the full breakdown, worked examples and photographs from recent projects. In the meantime, these related guides cover adjacent ground in depth:</p>
 <ul>
   <li><a href="${url('/blog/interior-design-cost-delhi-ncr/')}">Interior design cost in Delhi NCR — the honest 2026 breakdown</a></li>
   <li><a href="${url('/blog/modular-kitchen-materials-guide/')}">BWP vs BWR vs MR plywood: what your kitchen actually needs</a></li>
-  <li><a href="${url('/pricing/')}">Our full pricing and package comparison</a></li>
-  <li><a href="${url('/process/')}">How we deliver a home in 45 days</a></li>
+  <li><a href="${url('/gallery/')}">Our home gallery — ten complete packages, room by room</a></li>
+  <li><a href="${url('/process/')}">How we deliver a home, stage by stage</a></li>
 </ul>
 
 <h2 id="next">What to do next</h2>
-<p>If you are within eight weeks of possession or planning a renovation, the most useful next step is a free site visit. A senior designer measures the home, discusses scope honestly against your budget, and you get a 3D concept and itemised BOQ to keep — whether you hire us or not.</p>`,
+<p>If you are within eight weeks of possession or planning a renovation, the most useful next step is a free consultation. A senior designer measures the home and discusses scope honestly against your budget — whether you hire us or not.</p>`,
 });
 
 /* ====================================================== ARTICLE PAGES */
@@ -313,7 +306,7 @@ const articles = posts.map((p) => {
                 ${content.toc.map(([id, label]) => `<li><a href="#${id}">${esc(label)}</a></li>`).join('')}
               </ul>
               <div class="mt-6" style="padding-top:var(--s-5);border-top:1px solid var(--line)">
-                <a href="${url('/cost-calculator/')}" class="btn btn-primary btn-sm btn-block">${icon('calculator', { size: 15 })} Cost calculator</a>
+                <button type="button" class="btn btn-primary btn-sm btn-block" aria-label="Open the free consultation form" data-consult-open>${icon('sparkles', { size: 15 })} Free consultation</button>
               </div>
             </aside>
 

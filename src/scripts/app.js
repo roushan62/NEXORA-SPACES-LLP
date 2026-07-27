@@ -317,129 +317,6 @@
   }
 
   /* =======================================================================
-     10. COST CALCULATOR
-     Transparent NCR pricing model. Rates are ₹ per sq.ft of carpet area.
-     ======================================================================= */
-  var CALC = {
-    /* City cost index — labour + logistics differential across NCR */
-    city: {
-      gurugram: 1.06, 'south-delhi': 1.08, delhi: 1.0,
-      noida: 0.97, 'greater-noida': 0.93, ghaziabad: 0.93,
-      faridabad: 0.95, other: 1.0
-    },
-    /* Base ₹/sqft by package tier */
-    pkg: {
-      essential: { min: 1150, max: 1450, label: 'Essential' },
-      signature: { min: 1650, max: 2100, label: 'Signature' },
-      luxe: { min: 2400, max: 3400, label: 'Luxe' }
-    },
-    /* Scope multipliers */
-    scope: { modular: 0.62, full: 1.0, turnkey: 1.24 },
-    /* Typical carpet area by config (used to auto-fill the slider) */
-    area: { '1bhk': 480, '2bhk': 780, '3bhk': 1150, '4bhk': 1650, villa: 2600 },
-    /* Cost split for the breakdown bars */
-    split: [
-      { key: 'Modular kitchen & wardrobes', pct: 0.38 },
-      { key: 'Furniture, beds & seating', pct: 0.21 },
-      { key: 'False ceiling, lighting & electrical', pct: 0.16 },
-      { key: 'Civil, painting & flooring', pct: 0.15 },
-      { key: 'Decor, soft furnishing & styling', pct: 0.10 }
-    ]
-  };
-
-  function inr(n) {
-    return '\u20B9' + Math.round(n).toLocaleString('en-IN');
-  }
-  function inrLakh(n) {
-    var l = n / 100000;
-    return '\u20B9' + (l >= 10 ? l.toFixed(1) : l.toFixed(2)) + ' L';
-  }
-
-  function initCalculator() {
-    var form = $('#calcForm');
-    if (!form) return;
-
-    var elCity = $('#calcCity');
-    var elConfig = $('#calcConfig');
-    var elArea = $('#calcArea');
-    var elAreaOut = $('#calcAreaOut');
-    var elScope = $$('input[name="calcScope"]');
-    var elPkg = $$('input[name="calcPkg"]');
-    var outMin = $('#calcMin');
-    var outMax = $('#calcMax');
-    var outRate = $('#calcRate');
-    var outRows = $('#calcRows');
-    var outEmi = $('#calcEmi');
-    var waBtn = $('#calcWa');
-
-    var manualArea = false;
-    on(elArea, 'input', function () { manualArea = true; });
-
-    function currentPkg() {
-      var c = elPkg.filter(function (r) { return r.checked; })[0];
-      return c ? c.value : 'signature';
-    }
-    function currentScope() {
-      var c = elScope.filter(function (r) { return r.checked; })[0];
-      return c ? c.value : 'full';
-    }
-
-    function compute() {
-      var city = CALC.city[elCity.value] || 1;
-      var pkg = CALC.pkg[currentPkg()];
-      var scope = CALC.scope[currentScope()] || 1;
-      var area = parseInt(elArea.value, 10) || 800;
-
-      var min = pkg.min * area * city * scope;
-      var max = pkg.max * area * city * scope;
-
-      if (elAreaOut) elAreaOut.textContent = area.toLocaleString('en-IN') + ' sq.ft';
-      if (outMin) outMin.textContent = inrLakh(min);
-      if (outMax) outMax.textContent = inrLakh(max);
-      if (outRate) outRate.textContent = inr(pkg.min * city * scope) + ' – ' + inr(pkg.max * city * scope) + ' / sq.ft';
-
-      /* 18-month no-cost-EMI style indication on the midpoint */
-      if (outEmi) outEmi.textContent = inr(((min + max) / 2) / 18);
-
-      if (outRows) {
-        outRows.innerHTML = CALC.split.map(function (s) {
-          var lo = min * s.pct, hi = max * s.pct;
-          return '<div class="calc-row">' +
-            '<div class="calc-row-head"><span>' + s.key + '</span><b>' + inrLakh(lo) + ' – ' + inrLakh(hi) + '</b></div>' +
-            '<div class="calc-bar"><span style="width:' + (s.pct * 100 * 2.2) + '%"></span></div>' +
-            '</div>';
-        }).join('');
-      }
-
-      if (waBtn) {
-        var msg = 'Hi Nexora Spaces, I used your cost calculator.\n\n' +
-          'City: ' + (elCity.options[elCity.selectedIndex] || {}).text + '\n' +
-          'Home: ' + (elConfig.options[elConfig.selectedIndex] || {}).text + '\n' +
-          'Carpet area: ' + area + ' sq.ft\n' +
-          'Package: ' + pkg.label + '\n' +
-          'Scope: ' + currentScope() + '\n' +
-          'Estimate shown: ' + inrLakh(min) + ' – ' + inrLakh(max) + '\n\n' +
-          'Please share a detailed quote.';
-        waBtn.href = waBtn.dataset.wa + encodeURIComponent(msg);
-      }
-    }
-
-    /* Config change auto-sets a sensible area (until the user drags) */
-    on(elConfig, 'change', function () {
-      if (!manualArea && CALC.area[elConfig.value]) {
-        elArea.value = CALC.area[elConfig.value];
-      }
-      compute();
-    });
-
-    [elCity, elArea].forEach(function (el) { on(el, 'input', compute); on(el, 'change', compute); });
-    elScope.concat(elPkg).forEach(function (el) { on(el, 'change', compute); });
-    on(form, 'submit', function (e) { e.preventDefault(); compute(); });
-
-    compute();
-  }
-
-  /* =======================================================================
      11. FORMS — validation, submit states, WhatsApp fallback
      ======================================================================= */
   function initForms() {
@@ -635,6 +512,266 @@
   }
 
   /* =======================================================================
+     17. HERO — video loader + walkthrough
+     The <video> (when real footage is configured) is only fetched after the
+     poster has painted and only on viewports wide enough to justify it, so
+     the hero never blocks first paint and never burns mobile data.
+     ======================================================================= */
+  function initHero() {
+    var vid = $('[data-hero-video]');
+    if (vid) {
+      var min = parseInt(vid.dataset.minWidth || '768', 10);
+      var conn = navigator.connection || {};
+      var saveData = conn.saveData === true;
+      var slow = /(^|-)2g$/.test(conn.effectiveType || '');
+
+      if (!reduceMotion && !saveData && !slow && window.innerWidth >= min) {
+        var load = function () {
+          $$('source[data-src]', vid).forEach(function (s) {
+            if (!s.src) s.src = s.dataset.src;
+          });
+          vid.load();
+          var p = vid.play();
+          /* Autoplay can still be refused; the poster simply stays put. */
+          if (p && p.catch) p.catch(function () {});
+          vid.classList.add('is-playing');
+        };
+        if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 2200 });
+        else setTimeout(load, 900);
+      }
+    }
+
+    /* Placeholder walkthrough — advance the cross-fade on a timer. */
+    var walk = $('[data-hero-walk]');
+    if (walk) {
+      var frames = $$('.hero-frame', walk);
+      if (frames.length > 1 && !reduceMotion) {
+        var idx = 0;
+        var timer = setInterval(function () {
+          /* Pause while the tab is hidden — no wasted paints. */
+          if (document.hidden) return;
+          frames[idx].classList.remove('is-active');
+          idx = (idx + 1) % frames.length;
+          frames[idx].classList.add('is-active');
+        }, 4200);
+        on(window, 'pagehide', function () { clearInterval(timer); });
+      }
+    }
+  }
+
+  /* =======================================================================
+     18. CONSULTATION MODAL
+     Every "Get free consultation" control on the site opens this.
+     ======================================================================= */
+  function initConsult() {
+    var modal = $('#consultModal');
+    var scrim = $('#consultScrim');
+    if (!modal) return;
+    var closeBtn = $('#consultClose');
+    var lastFocus = null;
+
+    function open(e) {
+      if (e) e.preventDefault();
+      lastFocus = document.activeElement;
+      modal.hidden = false;
+      if (scrim) scrim.hidden = false;
+      /* Next frame so the transition actually runs from the hidden state. */
+      requestAnimationFrame(function () {
+        modal.classList.add('is-open');
+        if (scrim) scrim.classList.add('is-open');
+      });
+      document.body.classList.add('is-locked');
+      var first = modal.querySelector('input, select, textarea, button');
+      if (first) setTimeout(function () { first.focus(); }, 140);
+    }
+
+    function close() {
+      modal.classList.remove('is-open');
+      if (scrim) scrim.classList.remove('is-open');
+      document.body.classList.remove('is-locked');
+      setTimeout(function () {
+        modal.hidden = true;
+        if (scrim) scrim.hidden = true;
+      }, 260);
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    $$('[data-consult-open]').forEach(function (btn) { on(btn, 'click', open); });
+    on(closeBtn, 'click', close);
+    on(scrim, 'click', close);
+    on(document, 'keydown', function (e) {
+      if (e.key === 'Escape' && !modal.hidden) close();
+      if (e.key === 'Tab' && !modal.hidden) {
+        var f = $$('a[href], button:not([disabled]), input, select, textarea', modal)
+          .filter(function (el) { return el.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    window.nexoraOpenConsult = open;
+  }
+
+  /* =======================================================================
+     19. GALLERY LIGHTBOX
+     Walks through every room of one home package. Keyboard, swipe and
+     thumbnail navigation, with the package id reflected in the URL hash.
+     ======================================================================= */
+  function initGallery() {
+    var dataEl = $('#galleryData');
+    var lb = $('#lightbox');
+    if (!dataEl || !lb) return;
+
+    var packages;
+    try { packages = JSON.parse(dataEl.textContent); } catch (e) { return; }
+    if (!packages || !packages.length) return;
+
+    var byId = {};
+    packages.forEach(function (p) { byId[p.id] = p; });
+
+    var imgEl = $('#lbImg'), nameEl = $('#lbName'), roomEl = $('#lbRoom');
+    var capEl = $('#lbCaption'), countEl = $('#lbCount'), thumbsEl = $('#lbThumbs');
+    var current = null, index = 0, lastFocus = null;
+
+    function render() {
+      if (!current) return;
+      var room = current.rooms[index];
+      imgEl.src = room.src;
+      imgEl.srcset = room.srcset || '';
+      imgEl.alt = room.alt;
+      nameEl.textContent = current.name;
+      roomEl.textContent = room.label;
+      capEl.textContent = room.caption;
+      countEl.textContent = (index + 1) + ' / ' + current.rooms.length;
+
+      $$('.lb-thumb', thumbsEl).forEach(function (t, i) {
+        var active = i === index;
+        t.classList.toggle('is-active', active);
+        t.setAttribute('aria-selected', String(active));
+      });
+
+      /* Preload the neighbours so arrowing through feels instant. */
+      [index + 1, index - 1].forEach(function (i) {
+        var r = current.rooms[(i + current.rooms.length) % current.rooms.length];
+        if (r) { var pre = new Image(); pre.src = r.src; }
+      });
+    }
+
+    function buildThumbs() {
+      thumbsEl.innerHTML = '';
+      current.rooms.forEach(function (room, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'lb-thumb';
+        b.setAttribute('role', 'tab');
+        b.setAttribute('aria-label', room.label);
+        b.innerHTML = '<img src="' + room.thumb + '" alt="" width="120" height="80" loading="lazy" decoding="async">' +
+          '<span>' + room.label + '</span>';
+        b.addEventListener('click', function () { index = i; render(); });
+        thumbsEl.appendChild(b);
+      });
+    }
+
+    function open(id, startAt) {
+      var pkg = byId[id];
+      if (!pkg) return;
+      current = pkg;
+      index = startAt || 0;
+      lastFocus = document.activeElement;
+      buildThumbs();
+      render();
+      lb.hidden = false;
+      requestAnimationFrame(function () { lb.classList.add('is-open'); });
+      document.body.classList.add('is-locked');
+      var c = $('#lbClose');
+      if (c) setTimeout(function () { c.focus(); }, 120);
+    }
+
+    function close() {
+      lb.classList.remove('is-open');
+      document.body.classList.remove('is-locked');
+      setTimeout(function () { lb.hidden = true; }, 240);
+      /* Drop the #package hash without adding a history entry. */
+      if (window.location.hash) {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+      current = null;
+    }
+
+    function step(dir) {
+      if (!current) return;
+      index = (index + dir + current.rooms.length) % current.rooms.length;
+      imgEl.classList.remove('is-swap');
+      /* Restart the fade — reading offsetWidth forces the reflow. */
+      void imgEl.offsetWidth;
+      imgEl.classList.add('is-swap');
+      render();
+    }
+
+    $$('[data-gallery-open]').forEach(function (el) {
+      on(el, 'click', function (e) {
+        e.preventDefault();
+        open(el.getAttribute('data-gallery-open'));
+      });
+    });
+
+    on($('#lbClose'), 'click', close);
+    on($('#lbPrev'), 'click', function () { step(-1); });
+    on($('#lbNext'), 'click', function () { step(1); });
+    on(lb, 'click', function (e) { if (e.target === lb) close(); });
+
+    on(document, 'keydown', function (e) {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowRight') step(1);
+      else if (e.key === 'ArrowLeft') step(-1);
+    });
+
+    /* Swipe on touch devices */
+    var x0 = null, y0 = null;
+    on(lb, 'touchstart', function (e) {
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+    }, { passive: true });
+    on(lb, 'touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      var dy = e.changedTouches[0].clientY - y0;
+      if (Math.abs(dx) > 46 && Math.abs(dx) > Math.abs(dy)) step(dx < 0 ? 1 : -1);
+      x0 = y0 = null;
+    }, { passive: true });
+
+    /* Deep link: /gallery/#aurelia opens that package straight away. */
+    var hash = (window.location.hash || '').replace('#', '');
+    if (hash && byId[hash]) open(hash);
+  }
+
+  /* =======================================================================
+     20. PARALLAX — subtle depth on decorated sections
+     ======================================================================= */
+  function initParallax() {
+    var els = $$('[data-parallax]');
+    if (!els.length || reduceMotion) return;
+
+    var update = rafThrottle(function () {
+      var vh = window.innerHeight;
+      els.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.bottom < -120 || r.top > vh + 120) return;
+        var speed = parseFloat(el.dataset.parallax) || 0.12;
+        var offset = (r.top + r.height / 2 - vh / 2) * -speed;
+        el.style.setProperty('--py', offset.toFixed(1) + 'px');
+      });
+    });
+
+    on(window, 'scroll', update, { passive: true });
+    on(window, 'resize', update);
+    update();
+  }
+
+  /* =======================================================================
      BOOT
      ======================================================================= */
   function boot() {
@@ -648,12 +785,15 @@
     try { initFilters(); } catch (e) {}
     try { initBeforeAfter(); } catch (e) {}
     try { initRails(); } catch (e) {}
-    try { initCalculator(); } catch (e) {}
     try { initForms(); } catch (e) {}
     try { initToc(); } catch (e) {}
     try { initFacades(); } catch (e) {}
     try { initActiveNav(); } catch (e) {}
     try { initCopy(); } catch (e) {}
+    try { initHero(); } catch (e) {}
+    try { initConsult(); } catch (e) {}
+    try { initGallery(); } catch (e) {}
+    try { initParallax(); } catch (e) {}
   }
 
   if (document.readyState === 'loading') {

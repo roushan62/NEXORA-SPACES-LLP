@@ -4,7 +4,7 @@
 import { site, waLink } from '../config/site.config.js';
 import { icon, iconSolid } from '../lib/icons.js';
 import { esc } from '../lib/seo.js';
-import { url } from './base.js';
+import { url, richText } from './base.js';
 
 /* --------------------------------------------------------------- Helpers */
 export const stars = (n = 5, cls = '') =>
@@ -16,6 +16,59 @@ export const sectionHead = ({ eyebrow, title, sub, center = false, wide = false,
   ${title ? `<h2 class="section-title">${title}</h2>` : ''}
   ${sub ? `<p class="section-sub">${sub}</p>` : ''}
 </div>`;
+
+/* ------------------------------------------------------------- Hero video
+   Full-bleed interior walkthrough behind the homepage hero.
+
+   Two modes, chosen by site.heroVideo.sources in site.config.js:
+
+   1. REAL FOOTAGE (sources listed) — renders a muted, looping, playsinline
+      <video> with a poster image. `preload="none"` plus data-src means the
+      file is only fetched once the poster has painted and the viewport is
+      wide enough, so it never blocks first paint and never burns mobile data.
+
+   2. NO FOOTAGE YET (sources empty — the current state) — renders the same
+      framing as a CSS cross-fading walkthrough across the gallery stills.
+      It autoplays everywhere, costs nothing extra to download, and cannot
+      404 on a missing video file.
+
+   ⚠️ TODO for Roushan: drop a real interior walkthrough into assets/video/
+   and list it in site.heroVideo.sources. Mode 1 then takes over on its own. */
+export const heroVideo = () => {
+  const { sources = [], poster, mobileBreakpoint = 768 } = site.heroVideo || {};
+  const posterUrl = url(poster || '/assets/img/hero-1536.jpg');
+
+  if (sources.length) {
+    return `
+<div class="hero-media hero-media-video">
+  <video class="hero-video" autoplay muted loop playsinline preload="none"
+         poster="${posterUrl}" aria-hidden="true" tabindex="-1"
+         data-hero-video data-min-width="${mobileBreakpoint}">
+    ${sources.map((s) => `<source data-src="${url(s.src)}" type="${esc(s.type)}">`).join('\n    ')}
+  </video>
+  <img class="hero-video-fallback" src="${posterUrl}" alt="" width="1536" height="1024"
+       fetchpriority="high" decoding="async">
+</div>`;
+  }
+
+  /* Fallback walkthrough — living room → kitchen → bedroom → whole home. */
+  const frames = [
+    { name: 'gallery/nirvaan-hall', alt: 'Living room of a completed Nexora Spaces home' },
+    { name: 'gallery/nirvaan-kitchen', alt: 'Modular kitchen of a completed Nexora Spaces home' },
+    { name: 'gallery/nirvaan-bedroom', alt: 'Bedroom of a completed Nexora Spaces home' },
+    { name: 'gallery/nirvaan-overview', alt: 'Full home overview of a completed Nexora Spaces interior' },
+  ];
+  return `
+<div class="hero-media hero-media-walk" data-hero-walk aria-hidden="true">
+  ${frames.map((f, i) => `
+  <div class="hero-frame${i === 0 ? ' is-active' : ''}" style="--i:${i}">
+    <img src="${url(`/assets/img/${f.name}-1400.jpg`)}"
+         srcset="${url(`/assets/img/${f.name}-640.jpg`)} 640w, ${url(`/assets/img/${f.name}-1400.jpg`)} 1400w"
+         sizes="100vw" alt="${esc(f.alt)}" width="1400" height="933"
+         ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">
+  </div>`).join('')}
+</div>`;
+};
 
 /* ------------------------------------------------------------ Breadcrumbs */
 export const breadcrumbs = (crumbs, onImage = true) => {
@@ -118,7 +171,7 @@ export const faqBlock = (faqs, { title = 'Frequently asked questions', eyebrow =
             <span>${esc(f.q)}</span>
             <span class="acc-icon">${icon('chevronDown', { size: 16 })}</span>
           </button>
-          <div class="acc-panel"><div><div class="acc-body">${f.a}</div></div></div>
+          <div class="acc-panel"><div><div class="acc-body">${richText(f.a)}</div></div></div>
         </div>`).join('')}
       </div>
     </div>
@@ -129,8 +182,8 @@ export const faqBlock = (faqs, { title = 'Frequently asked questions', eyebrow =
 export const leadForm = ({
   id = 'leadForm',
   compact = false,
-  heading = 'Book your free design consultation',
-  sub = 'Share a few details. A senior designer calls you within 2 working hours.',
+  heading = 'Get a free consultation',
+  sub = 'Share a few details and a senior designer calls you back — no cost, no obligation.',
   source = 'website',
 } = {}) => {
   const action = site.forms.endpoint || '#';
@@ -141,7 +194,7 @@ export const leadForm = ({
   ${heading ? `<h3>${esc(heading)}</h3>` : ''}
   ${sub ? `<p class="mb-6" style="font-size:var(--fs-sm);color:inherit;opacity:.72">${esc(sub)}</p>` : ''}
   ${site.forms.accessKey ? `<input type="hidden" name="access_key" value="${site.forms.accessKey}">` : ''}
-  <input type="hidden" name="_subject" value="New website enquiry — ${esc(site.name)}">
+  <input type="hidden" name="_subject" value="New consultation request — ${esc(site.name)}">
   <input type="hidden" name="source" value="${esc(source)}">
   <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
          style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
@@ -153,18 +206,11 @@ export const leadForm = ({
       <span class="field-error"></span>
     </div>
     <div class="field">
-      <label class="field-label" for="${id}-phone">Mobile <span class="req">*</span></label>
+      <label class="field-label" for="${id}-phone">Phone <span class="req">*</span></label>
       <input class="field-input" id="${id}-phone" name="phone" type="tel" required autocomplete="tel" inputmode="numeric" placeholder="10-digit number">
       <span class="field-error"></span>
     </div>
   </div>
-
-  ${compact ? '' : `
-  <div class="field">
-    <label class="field-label" for="${id}-email">Email</label>
-    <input class="field-input" id="${id}-email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
-    <span class="field-error"></span>
-  </div>`}
 
   <div class="field-row">
     <div class="field">
@@ -181,24 +227,29 @@ export const leadForm = ({
       <span class="field-error"></span>
     </div>
     <div class="field">
-      <label class="field-label" for="${id}-type">Property <span class="req">*</span></label>
-      <select class="field-select" id="${id}-type" name="property" required>
+      <label class="field-label" for="${id}-type">Home type <span class="req">*</span></label>
+      <select class="field-select" id="${id}-type" name="home_type" required>
         <option value="">Select type</option>
-        <option>1 BHK</option>
-        <option>2 BHK</option>
-        <option>3 BHK</option>
-        <option>4 BHK / Villa</option>
-        <option>Office / Commercial</option>
+        <option>Flat / Apartment</option>
+        <option>Villa</option>
+        <option>Independent House</option>
       </select>
       <span class="field-error"></span>
     </div>
   </div>
 
+  <div class="field">
+    <label class="field-label" for="${id}-area">Approx. area <span class="field-optional">(optional)</span></label>
+    <input class="field-input" id="${id}-area" name="approx_area" type="text" inputmode="numeric"
+           placeholder="e.g. 1,200 sq.ft — skip if you are not sure">
+    <span class="field-error"></span>
+  </div>
+
   ${compact ? '' : `
   <div class="field">
-    <label class="field-label" for="${id}-msg">Tell us about your project</label>
+    <label class="field-label" for="${id}-msg">Message</label>
     <textarea class="field-textarea" id="${id}-msg" name="message" rows="3"
-      placeholder="Possession date, rooms to be done, budget range, anything specific…"></textarea>
+      placeholder="Possession date, rooms to be done, the look you have in mind…"></textarea>
   </div>`}
 
   <label class="consent mb-6">
@@ -207,24 +258,48 @@ export const leadForm = ({
   </label>
 
   <button type="submit" class="btn btn-accent btn-block btn-lg">
-    <span class="btn-text">Get my free design</span>
+    <span class="btn-text">Request my free consultation</span>
     ${icon('arrowRight', { size: 18 })}
   </button>
   <p class="mt-4 text-center" style="font-size:var(--fs-xs);opacity:.6">
-    ${icon('lock', { size: 12 })} No spam. Your details stay with our design team only.
+    ${icon('lock', { size: 12 })} No spam, and never any pressure. Your details stay with our design team only.
   </p>
 </form>`;
 };
+
+/* ------------------------------------------------- Consultation modal
+   Rendered once per page in the base layout. Any element with
+   data-consult-open toggles it — that is how every "Get Free Consultation"
+   button on the site works. */
+export const consultModal = () => `
+<div class="modal-scrim" id="consultScrim" hidden></div>
+<div class="modal" id="consultModal" role="dialog" aria-modal="true"
+     aria-labelledby="consultModalTitle" hidden>
+  <div class="modal-panel">
+    <button class="modal-close" id="consultClose" aria-label="Close consultation form">
+      ${icon('close', { size: 20 })}
+    </button>
+    <span class="modal-eyebrow" id="consultModalTitle">
+      ${icon('sparkles', { size: 14 })} Free design consultation
+    </span>
+    ${leadForm({
+      id: 'consultForm',
+      heading: '',
+      sub: '',
+      source: 'consult-modal',
+    })}
+  </div>
+</div>`;
 
 /* --------------------------------------------------------------- CTA band */
 export const ctaBand = ({
   eyebrow = 'Start your project',
   title = 'Let\'s design a home you\'ll <span class="serif-italic gradient-text">never want to leave</span>',
-  text = 'Free consultation, free 3D concept, and a fixed-price quote in 72 hours. No pressure, no hidden charges.',
+  text = 'A free consultation with a senior designer, a concept built around how your family actually lives, and a delivery date you can hold us to.',
   points = [
-    'Free 3D design & itemised BOQ',
-    '45-day delivery, written in the contract',
-    '10-year warranty on modular work',
+    'Free consultation, no obligation',
+    'Industry-fastest handover, written in the contract',
+    'Designer-grade finish, value-driven throughout',
   ],
   form = true,
   source = 'cta-band',
@@ -244,7 +319,7 @@ export const ctaBand = ({
           <a href="${waLink()}" class="btn btn-glass" target="_blank" rel="noopener">${iconSolid('whatsapp', { size: 18 })} WhatsApp</a>
         </div>
       </div>
-      ${form ? `<div class="cta-panel reveal delay-1">${leadForm({ id: 'ctaForm', compact: true, heading: 'Get your free 3D design', sub: 'Takes 40 seconds. A designer calls you within 2 working hours.', source })}</div>` : ''}
+      ${form ? `<div class="cta-panel reveal delay-1">${leadForm({ id: 'ctaForm', compact: true, heading: 'Get a free consultation', sub: 'Takes under a minute. A senior designer calls you back.', source })}</div>` : ''}
     </div>
   </div>
 </section>`;
