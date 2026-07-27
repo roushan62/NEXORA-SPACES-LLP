@@ -1,0 +1,15 @@
+# Nexora Spaces LLP - robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://nexoraspaces.com/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Disallow admin or private areas (if any in future)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$

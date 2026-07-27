@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Page Not Found - Nexora Spaces LLP">
+    <title>404 - Page Not Found | Nexora Spaces LLP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><div class="logo-card"><div class="logo-icon"><svg viewBox="0 0 60 60" class="logo-svg"><defs><linearGradient id="goldGradNav" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#B8860B"/><stop offset="50%" style="stop-color:#D4AF37"/><stop offset="100%" style="stop-color:#F4E5A1"/></linearGradient></defs><path d="M10 50 L10 15 L20 15 L20 35 L30 35 L30 10 L40 10 L40 30 L50 30 L50 50 Z" fill="url(#goldGradNav)"/></svg></div><div class="logo-text"><span class="logo-name">NEXORA SPACES</span><span class="logo-tagline">DESIGN · BUILD · DELIVER</span></div></div></a>
+        </div>
+    </nav>
+
+    <section class="error-page">
+        <div class="error-content">
+            <div class="error-number">404</div>
+            <h1>Page Not Found</h1>
+            <p>Oops! The page you're looking for doesn't exist or has been moved.</p>
+            <div class="error-links">
+                <a href="index.html" class="btn btn-primary">
+                    <i data-lucide="home"></i>
+                    Back to Home
+                </a>
+                <a href="contact.html" class="btn btn-secondary">
+                    <i data-lucide="mail"></i>
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .error-page {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-bg-primary);
+            padding: var(--space-2xl);
+        }
+        .error-content {
+            text-align: center;
+            max-width: 500px;
+        }
+        .error-number {
+            font-family: var(--font-display);
+            font-size: 8rem;
+            font-weight: 700;
+            background: var(--color-gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin-bottom: var(--space-lg);
+        }
+        .error-content h1 {
+            font-size: 2rem;
+            margin-bottom: var(--space-md);
+        }
+        .error-content p {
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-2xl);
+        }
+        .error-links {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+        }
+        @media (max-width: 480px) {
+            .error-number { font-size: 5rem; }
+            .error-links { flex-direction: column; }
+        }
+    </style>
+</body>
+</html>
