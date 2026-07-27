@@ -1,181 +1,188 @@
-# Nexora Spaces LLP - Website
+# Nexora Spaces LLP — Website
 
-Premium Residential Interior Design & Fit-Out Company Website
+Turnkey interior design & fit-out company website targeting **Delhi, Gurugram and Noida**.
 
-## 🚀 Quick Start
+40 pages · fully static · zero third-party requests · SEO and Core-Web-Vitals optimised.
 
-This is a **pure static website** - no build tools, no npm, no server required. Just HTML, CSS, and JavaScript.
-
-### Option 1: Direct GitHub Pages (Easiest)
-
-1. Fork or clone this repository to your GitHub account
-2. Go to repository **Settings** → **Pages**
-3. Set Source to: `Deploy from a branch` → Select `main` or `master` branch
-4. Set the folder to `/ (root)` or `/docs`
-5. Click **Save**
-6. Wait 2-3 minutes for deployment
-7. Your site will be live at: `https://yourusername.github.io/repo-name/`
-
-### Option 2: Custom Domain
-
-1. Follow steps above to enable GitHub Pages
-2. Edit the `CNAME` file and replace `YourCustomDomain.com` with your actual domain
-3. Add a DNS record in your domain registrar:
-   - **A Records:**
-     - 185.199.108.153
-     - 185.199.109.153
-     - 185.199.110.153
-     - 185.199.111.153
-   - **CNAME:** www → yourusername.github.io
-
-### Option 3: Traditional Hosting
-
-Upload all files to any web hosting service (GoDaddy, Hostinger, Bluehost, etc.) via FTP or File Manager.
+**Live:** https://roushan62.github.io/NEXORA-SPACES-LLP/
 
 ---
 
-## 📁 File Structure
+## Quick start
 
-```
-nexora-website/
-├── index.html          # Home page (main entry)
-├── residential.html    # Residential interior services
-├── commercial.html     # Commercial consultancy services
-├── portfolio.html      # Project gallery
-├── tools.html          # Interactive calculators & quiz
-├── about.html          # About us
-├── contact.html        # Contact form & details
-├── testimonials.html   # Client reviews (placeholder)
-├── blog.html           # Blog listing (placeholder)
-├── careers.html        # Careers page (placeholder)
-├── privacy.html        # Privacy policy (placeholder)
-├── terms.html          # Terms of service (placeholder)
-├── style.css           # Complete stylesheet
-├── script.js           # All JavaScript functionality
-├── sitemap.xml         # SEO sitemap
-├── robots.txt          # Search engine directives
-├── CNAME               # Custom domain config
-└── README.md           # This file
+```bash
+npm install        # one time
+npm run build      # generate the site
+npm run serve      # preview at http://localhost:4321/NEXORA-SPACES-LLP/
 ```
 
----
-
-## ✨ Features
-
-### Working Interactive Elements
-- ✅ **Residential Cost Calculator** - Real-time pricing with city/property/package selection
-- ✅ **Commercial Fee Estimator** - Advisory-only pricing
-- ✅ **Modular Kitchen Configurator** - Layout, finish, and price calculation
-- ✅ **EMI Calculator** - With visual breakdown chart
-- ✅ **Package Comparison Table** - Essential vs Premium vs Luxury
-- ✅ **Design Style Quiz** - 5-question quiz with personalized results
-- ✅ **Multi-step Contact Form** - With validation and mailto submission
-- ✅ **Portfolio Gallery** - Filterable by property type
-- ✅ **Testimonial Carousel** - Auto-scrolling with touch support
-- ✅ **FAQ Accordion** - Animated expand/collapse
-- ✅ **Animated Statistics** - Count-up numbers on scroll
-- ✅ **Lightbox** - Project detail modal
-- ✅ **WhatsApp Button** - Floating with pulse animation
-- ✅ **Back to Top** - Smooth scroll button
-
-### SEO Features
-- ✅ Semantic HTML5 structure
-- ✅ Meta tags (title, description, keywords)
-- ✅ Open Graph & Twitter Card tags
-- ✅ JSON-LD structured data (Organization, Service, FAQ)
-- ✅ Static sitemap.xml
-- ✅ robots.txt
-- ✅ Canonical URLs
-
-### Performance
-- ✅ Lazy-loaded images
-- ✅ Optimized font loading with display:swap
-- ✅ Minimal JavaScript (vanilla JS only)
-- ✅ CSS custom properties for theming
-- ✅ No external dependencies except fonts & icons
+| Command | What it does |
+|---|---|
+| `npm run build` | Renders all pages, bundles + minifies CSS/JS, writes sitemap & robots |
+| `npm run check` | Validates every internal link, image, canonical, schema and heading |
+| `npm run audit` | Reports payload budget, CSS coverage, a11y and SEO completeness |
+| `npm run images` | Regenerates responsive AVIF/WebP/JPEG derivatives + OG card + favicons |
+| `npm run serve` | Local preview server that mirrors GitHub Pages paths |
 
 ---
 
-## 🎨 Design System
+## ⚙️ Edit your business details in ONE place
 
-### Colors (Bright Premium Theme)
-- **Background:** Ivory/Warm White `#FBFAF7`
-- **Secondary:** Soft Cream `#F5F1E8`
-- **Surface:** Warm Beige `#EFE9DC`
-- **Text Primary:** Charcoal `#1E1E1E`
-- **Text Muted:** Warm Gray `#6B6B63`
-- **Accent Gold:** `#B8860B → #D4AF37 → #F4E5A1`
-- **Silver:** `#B8B8B0`
+Everything — phone numbers, email, addresses, GST, prices, social links — comes from
+a single file:
 
-### Typography
-- **Display:** Cormorant Garamond
-- **Body:** Manrope / Inter
-
----
-
-## 📝 Customization
-
-### Adding Your Logo
-Replace the SVG in the `<Logo />` component with your actual logo image.
-
-### Updating Placeholder Content
-Search for `[PLACEHOLDER]` in HTML files and replace with actual content:
-- Phone numbers
-- Email addresses
-- Physical addresses
-- CIN/GST numbers
-- Team member names
-- Award/press mentions
-- City-specific details
-
-### Changing Colors
-Edit CSS custom properties in `style.css`:
-```css
-:root {
-    --color-gold: #D4AF37;
-    --color-gold-dark: #B8860B;
-    --color-bg-primary: #FBFAF7;
-    /* etc. */
-}
+```
+src/config/site.config.js
 ```
 
-### Adding More Pages
-Simply duplicate an existing HTML file and update the content. Remember to:
-1. Add to sitemap.xml
-2. Add navigation links in navbar
+Change a value there, run `npm run build`, and it updates across all 40 pages.
+Anything marked `// ⚠️ REPLACE` is a realistic placeholder awaiting your real data.
+
+### Before going live — the checklist
+
+1. **Contact details** — `site.phone`, `site.email`, `site.offices[]` (3 studios)
+2. **Legal** — `site.legal` (LLPIN, GSTIN, MSME, registered address)
+3. **Social links** — `site.social`
+4. **Reviews** — `site.reviews`. ⚠️ Only keep `schema: true` once the rating and count
+   reflect **real, verifiable** reviews. Fake rating markup risks a Google penalty.
+5. **Lead form** — `site.forms.endpoint`. Create a free
+   [Formspree](https://formspree.io) or [Web3Forms](https://web3forms.com) endpoint
+   and paste it in. Until then forms gracefully fall back to opening WhatsApp with
+   the enquiry pre-filled, so **no lead is ever lost**.
+6. **Analytics** — `site.analytics.ga4` / `.gtm` (left empty = script never loads)
+7. **Photography** — replace `src/assets-src/*.jpg` with real project photos and run
+   `npm run images`
+8. **Content** — real projects, reviews and team in `src/data/content.js`
+
+### Moving to a custom domain later
+
+```js
+// src/config/site.config.js
+baseUrl: 'https://www.nexoraspaces.in',
+basePath: '',
+```
+
+Then add a `CNAME` file containing your domain and rebuild. Canonicals, sitemap,
+schema and every internal link update automatically.
 
 ---
 
-## 📱 Responsive Breakpoints
+## Architecture
 
-- **Desktop:** 1200px+
-- **Tablet:** 768px - 1199px
-- **Mobile:** Below 768px
+A small Node build system renders templates to static HTML. Nav, footer, SEO tags and
+schema live in **one** place instead of being copy-pasted across 40 files.
+
+```
+src/
+├── config/site.config.js   ← ALL business data (single source of truth)
+├── data/
+│   ├── content.js          ← projects, reviews, FAQs, packages, blog, team
+│   └── stats.js            ← headline numbers, trust badges, credentials
+├── lib/
+│   ├── icons.js            ← 90 inline SVG icons → one sprite per page
+│   ├── seo.js              ← meta tags + JSON-LD schema builders
+│   ├── nav.js              ← site information architecture
+│   └── picture.js          ← responsive <picture> helper
+├── layouts/
+│   ├── base.js             ← the HTML shell every page renders through
+│   └── sections.js         ← reusable sections (hero, FAQ, CTA, forms…)
+├── styles/                 ← 9 layered CSS files, bundled to one
+├── scripts/app.js          ← vanilla JS runtime (12 KB minified)
+└── pages/                  ← one file per page group
+
+scripts/
+├── build.mjs   ├── check.mjs   ├── audit.mjs   ├── images.mjs   └── serve.mjs
+```
+
+Generated HTML is written to the repo root so GitHub Pages serves it directly.
 
 ---
 
-## 🔧 Browser Support
+## Pages (40)
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- Mobile browsers
+**Core** — Home · Residential · Commercial · Portfolio · Pricing · Cost Calculator ·
+About · Process · Contact · Reviews · FAQ · Careers · Warranty · Design Journal
 
----
+**Local SEO** — Interior Designers in Gurgaon / Noida / Delhi
 
-## 📄 License
+**Residential** — 1 BHK · 2 BHK · 3 BHK · 4 BHK & Villas
 
-Proprietary - Nexora Spaces LLP. All rights reserved.
+**Services** — Modular Kitchen · Wardrobes · Turnkey Interiors · Renovation
 
----
+**Commercial** — Office · Retail · Hospitality · Clinics
 
-## 📞 Support
-
-For website-related questions, contact:
-- Email: [placeholder]
-- Phone: [placeholder]
+**Blog** — 6 articles · **Legal** — Privacy · Terms · Refund · 404 · Thank-you
 
 ---
 
-*Built with ❤️ by Nexora Spaces*
+## Performance
+
+| Metric | Value |
+|---|---|
+| Initial payload (home) | **429 KB** — HTML + CSS + fonts + LCP image |
+| CSS | 81 KB minified, single file |
+| JS | 12 KB minified, deferred, no dependencies |
+| Third-party render-blocking requests | **0** — fonts, icons and images all self-hosted |
+| Images | AVIF → WebP → JPEG, responsive `srcset`, every one has `width`/`height` |
+| Layout shift | None — all media has intrinsic dimensions reserved |
+
+Fonts (Inter + Fraunces variable, 83 KB) are self-hosted and preloaded. Icons are one
+inline SVG sprite per page. Google Maps loads only on click via a lightweight facade.
+
+---
+
+## SEO
+
+- Unique title + meta description per page, all within SERP length limits
+- Canonical URLs, `hreflang="en-IN"`, Open Graph and Twitter cards
+- **JSON-LD `@graph`**: `HomeAndConstructionBusiness`, `WebSite`, `WebPage`,
+  `BreadcrumbList`, `FAQPage`, `Service`, `Offer`, `AggregateRating`, `JobPosting`,
+  `BlogPosting`, plus a per-city `LocalBusiness` node
+- Auto-generated `sitemap.xml` with computed priorities, plus `robots.txt`
+- Geo meta tags, three city landing pages, and locality internal-linking in the footer
+- `npm run check` fails the build on a broken link, missing canonical or duplicate `<h1>`
+
+---
+
+## Accessibility
+
+WCAG-minded: semantic landmarks, one `<h1>` per page, visible `:focus-visible` rings,
+44px+ touch targets, `aria-expanded` on all disclosures, focus-trapped mobile drawer,
+labelled form fields with inline error messaging, and full
+`prefers-reduced-motion` support.
+
+---
+
+## Deploying
+
+The built HTML is committed at the repo root, so **no build step is needed to go live**.
+
+### Option 1 — GitHub Pages (deploy from branch) · simplest
+
+**Settings → Pages → Source → Deploy from a branch → `main` / `(root)` → Save.**
+Live in 2–3 minutes. Every future `npm run build` + push republishes automatically.
+
+### Option 2 — GitHub Actions (build + validate on every push)
+
+A ready workflow is included at `.github/deploy.workflow.yml.example`. To enable it:
+
+```bash
+mkdir -p .github/workflows
+mv .github/deploy.workflow.yml.example .github/workflows/deploy.yml
+git add -A && git commit -m "Enable Pages workflow" && git push
+```
+
+Then set **Settings → Pages → Source → GitHub Actions**. This runs `npm run check`
+on every push, so a broken link or missing canonical fails the deploy before it ships.
+
+> It ships as `.example` because the automation that created this branch does not hold
+> GitHub's `workflows` permission — moving the file yourself takes one command.
+
+### Option 3 — Any static host
+
+Upload the repository contents (excluding `node_modules/`, `src/`, `scripts/`) to
+Netlify, Vercel, Hostinger, cPanel or S3. It is plain HTML, CSS, JS and images.
+
+---
+
+© Nexora Spaces LLP. All rights reserved.

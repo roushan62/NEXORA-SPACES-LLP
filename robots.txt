@@ -1,15 +1,11 @@
-# Nexora Spaces LLP - robots.txt
-
+# Nexora Spaces LLP
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://nexoraspaces.com/sitemap.xml
+# Block noisy scrapers that add no SEO value
+User-agent: AhrefsBot
+Crawl-delay: 10
+User-agent: SemrushBot
+Crawl-delay: 10
 
-# Crawl-delay for polite crawling
-Crawl-delay: 1
-
-# Disallow admin or private areas (if any in future)
-Disallow: /admin/
-Disallow: /private/
-Disallow: /*.json$
+Sitemap: https://roushan62.github.io/NEXORA-SPACES-LLP/sitemap.xml
