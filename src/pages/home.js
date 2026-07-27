@@ -73,7 +73,7 @@ const hero = () => `
   </div>
 
   <div class="hero-card anim-fade-up anim-d5">
-    <h4>${icon('shieldCheck', { size: 16 })} Value-driven from day one</h4>
+    <p class="hero-card-title">${icon('shieldCheck', { size: 16 })} Value-driven from day one</p>
     <p>Budget-smart luxury: premium materials and detailing, specified honestly, with the scope agreed in writing before a single panel is cut.</p>
     <a href="${url('/about/')}" class="link-arrow" style="color:var(--brand-300)">How we work ${icon('arrowRight', { size: 15 })}</a>
   </div>

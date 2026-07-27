@@ -269,6 +269,32 @@ for (const file of files) {
     if (!facade.querySelector('iframe')) fail(`${page} → embed facade did not load an iframe on click`);
   }
 
+  /* ---- Known singleton controls must actually do something when clicked.
+     A button that is revealed on scroll but wired to nothing is the exact
+     class of bug that ships unnoticed. */
+  {
+    const toTop = $(doc, '#toTop');
+    if (toTop) {
+      let scrolled = false;
+      win.scrollTo = () => { scrolled = true; };
+      click(win, toTop);
+      if (!scrolled) fail(`${page} → "Back to top" button has no click handler`);
+    }
+  }
+
+  /* ---- Heading outline: never skip a level. Screen-reader users navigate by
+     heading, and a jump from h1 straight to h4 hides the structure between. */
+  {
+    const levels = $$(doc, 'h1, h2, h3, h4, h5, h6').map((h) => Number(h.tagName[1]));
+    let prev = 0;
+    const skips = [];
+    for (const lv of levels) {
+      if (prev && lv > prev + 1) skips.push(`h${prev}→h${lv}`);
+      prev = lv;
+    }
+    if (skips.length) fail(`${page} → heading level skipped: ${skips.slice(0, 3).join(', ')}`);
+  }
+
   /* ---- Duplicate element ids break getElementById, label[for] and url(#…) */
   {
     const seen = new Map();
@@ -308,6 +334,7 @@ for (const file of files) {
 if (!bootFailures) pass(`${files.length} pages boot with zero JS errors`);
 pass(`${files.length} pages: modal, drawer, accordion, tabs, filters, rails and facades all respond`);
 pass(`${files.length} pages: unique element ids, every label bound to a real control`);
+pass(`${files.length} pages: heading outline never skips a level`);
 
 /* ================================================== 2. Lead form behaviour */
 {

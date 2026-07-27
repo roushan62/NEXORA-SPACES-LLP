@@ -132,7 +132,13 @@
   color: #fff;
   box-shadow: var(--sh-2xl);
 }
-.hero-card h4 {
+/* Was an <h4>; demoted to <p> so it does not sit above the page <h1> in the
+   outline. These four lines restore the heading typography it inherited. */
+.hero-card .hero-card-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-snug);
   color: #fff;
   font-size: var(--fs-md);
   margin-bottom: var(--s-2);
@@ -140,7 +146,7 @@
   align-items: center;
   gap: var(--s-2);
 }
-.hero-card h4 .ico { color: var(--brand-300); }
+.hero-card .hero-card-title .ico { color: var(--brand-300); }
 .hero-card p { font-size: var(--fs-sm); color: rgba(255,255,255,.82); line-height: 1.55; margin-bottom: var(--s-4); }
 @media (max-width: 1200px) { .hero-card { display: none; } }
 
@@ -763,7 +769,7 @@
   line-height: var(--lh-relaxed);
   color: rgba(255, 255, 255, .6);
 }
-.footer-col h4 {
+.footer-col h2 {
   font-family: var(--font-sans);
   font-size: var(--fs-2xs);
   font-weight: 700;
@@ -809,7 +815,7 @@
   padding-block: var(--s-8);
   border-top: 1px solid rgba(255, 255, 255, .09);
 }
-.footer-areas h4 {
+.footer-areas h2 {
   font-family: var(--font-sans);
   font-size: var(--fs-2xs);
   font-weight: 700;
@@ -917,7 +923,7 @@
   position: sticky;
   top: calc(var(--nav-h) + var(--s-5));
 }
-.toc h4 {
+.toc h2 {
   font-family: var(--font-sans);
   font-size: var(--fs-2xs);
   text-transform: uppercase;

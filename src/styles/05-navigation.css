@@ -216,8 +216,19 @@
   background: radial-gradient(circle, rgba(207,165,79,.3), transparent 70%);
   pointer-events: none;
 }
-.mega-feature h4 { color: #fff; font-size: var(--fs-lg); margin-bottom: var(--s-2); position: relative; }
+/* Styled like a heading but marked up as a <p> — see base.js: a real <h4>
+   in the nav would sit above the page <h1> and break the outline. */
+.mega-feature .mega-feature-title {
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  line-height: 1.25;
+  margin-bottom: var(--s-2);
+  position: relative;
+}
 .mega-feature p { font-size: var(--fs-sm); color: rgba(255,255,255,.7); margin-bottom: var(--s-5); position: relative; }
+.mega-feature .mega-feature-title { margin-bottom: var(--s-2); }
 .mega-feature .link-arrow { color: var(--brand-300); position: relative; }
 
 .mega-foot {

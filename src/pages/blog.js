@@ -300,8 +300,8 @@ const articles = posts.map((p) => {
       `<section class="section">
         <div class="container">
           <div class="article-shell">
-            <aside class="toc" id="toc">
-              <h4>On this page</h4>
+            <aside class="toc" id="toc" aria-labelledby="tocTitle">
+              <h2 id="tocTitle">On this page</h2>
               <ul>
                 ${content.toc.map(([id, label]) => `<li><a href="#${id}">${esc(label)}</a></li>`).join('')}
               </ul>

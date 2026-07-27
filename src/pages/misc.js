@@ -377,6 +377,7 @@ const notFound = {
     <p class="section-sub mx-auto mb-10">
       The link is broken or the page has moved. Here is where most people were heading.
     </p>
+    <h2 class="sr-only">Popular pages</h2>
     <div class="grid grid-3 gap-5 mb-10" style="text-align:left">
       ${[
         ['Home interiors', '/residential/', 'home'],

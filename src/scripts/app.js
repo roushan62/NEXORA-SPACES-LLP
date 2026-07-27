@@ -36,8 +36,6 @@
     var bar = $('#scrollBar');
     var toTop = $('#toTop');
     var dock = $('#mobileDock');
-    var leadBar = $('#leadBar');
-    var lastY = window.scrollY;
 
     var update = rafThrottle(function () {
       var y = window.scrollY;
@@ -47,16 +45,24 @@
       if (bar) bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(y / h, 1) : 0) + ')';
       if (toTop) toTop.classList.toggle('is-visible', y > 700);
       if (dock) dock.classList.add('is-visible');
+    });
 
-      /* Sticky lead bar appears after the hero, hides near the footer */
-      if (leadBar) {
-        var nearEnd = y + window.innerHeight > docEl.scrollHeight - 560;
-        leadBar.classList.toggle('is-visible', y > 900 && !nearEnd);
-      }
-      lastY = y;
+    /* The button is revealed on scroll, so it must actually go back to top. */
+    on(toTop, 'click', function () {
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+      /* Return focus to the start of the document, not just the viewport,
+         so keyboard and screen-reader users follow the same jump. */
+      var target = $('#main') || document.body;
+      target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+      target.removeAttribute('tabindex');
     });
 
     on(window, 'scroll', update, { passive: true });
+    /* The dock and progress bar must also settle correctly when the viewport
+       changes size or the page is restored from the back/forward cache. */
+    on(window, 'resize', update);
+    on(window, 'pageshow', update);
     update();
   }
 

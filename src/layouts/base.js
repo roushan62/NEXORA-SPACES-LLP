@@ -108,7 +108,9 @@ const navbar = () => `
         const feature = item.feature ? `
           <div class="mega-feature">
             <div>
-              <h4>${esc(item.feature.title)}</h4>
+              <!-- Not a heading: this sits in the nav, above the page <h1>, so a
+                   real <h4> here breaks the document outline for screen readers. -->
+              <p class="mega-feature-title">${esc(item.feature.title)}</p>
               <p>${esc(item.feature.text)}</p>
             </div>
             <a href="${url(item.feature.href)}" class="link-arrow">${esc(item.feature.cta)} ${icon('arrowRight', { size: 16 })}</a>
@@ -223,13 +225,15 @@ const footer = () => `
 
       ${footerNav.map((col) => `
       <div class="footer-col">
-        <h4>${esc(col.title)}</h4>
+        <!-- h2: the footer is a top-level landmark, so its group labels sit
+             directly under the page h1 rather than skipping to h4. -->
+        <h2>${esc(col.title)}</h2>
         <ul>${col.links.map((l) => `<li><a href="${url(l.href)}">${esc(l.label)}</a></li>`).join('')}</ul>
       </div>`).join('')}
     </div>
 
     <div class="footer-areas">
-      <h4>Interior design services across Delhi NCR</h4>
+      <h2>Interior design services across Delhi NCR</h2>
       <ul class="area-links">
         ${serviceAreas.map((a) => `<li><a href="${url(a.href)}">${esc(a.label)}</a></li>`).join('')}
       </ul>

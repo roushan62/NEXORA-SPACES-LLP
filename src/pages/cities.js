@@ -219,6 +219,7 @@ export default cities.map((c) => {
       /* ---- Local studio card ---- */
       `<section class="section-sm bg-subtle section-divided">
         <div class="container">
+          <h2 class="sr-only">Your ${esc(c.city)} studio and how to reach it</h2>
           <div class="grid grid-3 gap-6 reveal-stagger">
             <div class="contact-method">
               <span class="ico-wrap">${icon('mapPin', { size: 20 })}</span>

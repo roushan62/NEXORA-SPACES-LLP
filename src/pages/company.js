@@ -338,6 +338,7 @@ const warranty = {
     }),
     `<section class="section">
       <div class="container container-narrow">
+        <h2 class="sr-only">What the warranty covers</h2>
         <div class="grid grid-2 gap-6 mb-12 reveal-stagger">
           <div class="card card-pad-lg" style="border-color:var(--line-brand);background:var(--brand-50)">
             <span class="card-icon">${icon('shieldCheck', { size: 24 })}</span>

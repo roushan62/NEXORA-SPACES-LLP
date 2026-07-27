@@ -2,6 +2,23 @@
    UTILITIES — animation, reveal-on-scroll, decorative flourishes
    ========================================================================== */
 
+/* ------------------------------------------------- Screen-reader only
+   Removed from the visual layout but still announced, and still focusable
+   if it ever needs to be. Used for section headings that carry the document
+   outline where the design shows no visible title. */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* --------------------------------------------------------- Scroll reveal
    Elements start hidden then transition in when observed by JS.
    .no-js safeguard: if JS never runs, everything stays visible. */
