@@ -115,7 +115,10 @@ export const site = {
   reviews: {
     rating: 4.9,
     count: 218,
-    schema: true,
+    // Keep disabled until the Google Business Profile rating/count and the
+    // testimonials below are real and verifiable. Enabling unverified review
+    // markup can trigger a Google structured-data manual action.
+    schema: false,
     googleUrl: 'https://g.page/nexoraspaces',              // ⚠️ REPLACE
   },
 

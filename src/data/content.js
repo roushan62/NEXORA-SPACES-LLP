@@ -303,12 +303,35 @@ export const processSteps = [
   { title: 'Snag, handover & warranty', text: 'You raise a snag list, we close it, then you get warranty documents, care guides and a dedicated post-handover contact.', time: 'Day 45+' },
 ];
 
-/* --------------------------------------------------------------- Team ⚠️ */
+/* --------------------------------------------------------------- Team
+   Co-founder profile is intentionally not shown until the real name, bio and
+   photo are available. Avoid publishing invented leadership details. */
 export const team = [
-  { name: 'Aarav Mehta', role: 'Founding Partner & Principal Designer', bio: '14 years across residential and hospitality interiors. Leads design direction and reviews every BOQ before it reaches a client.', initials: 'AM' },
-  { name: 'Ishita Raghav', role: 'Partner — Design Studio', bio: 'NID-trained, specialises in space planning for compact NCR apartments. Runs the studio\'s material library and finish standards.', initials: 'IR' },
-  { name: 'Vikrant Sood', role: 'Head of Projects & Delivery', bio: 'Civil engineer with 16 years of site experience. Owns the 45-day delivery promise and the weekly reporting discipline.', initials: 'VS' },
-  { name: 'Nandini Kapoor', role: 'Head of Client Experience', bio: 'Your escalation point from day one to handover. Runs the snag-closure process and the post-handover warranty desk.', initials: 'NK' },
+  {
+    name: 'Sourabh Pandey',
+    role: 'Founder',
+    bio: 'Sourabh founded Nexora Spaces after years of watching good design get undone by poor execution. He keeps the company focused on clear BOQs, documented timelines and site delivery that matches the design promise.',
+    initials: 'SP',
+    photo: '/assets/img/team/sourabh-pandey.jpg',
+  },
+  {
+    name: 'Design Studio',
+    role: 'Space planning & material specification',
+    bio: 'The in-house design team turns client briefs into practical layouts, 3D concepts, finish palettes and execution drawings before anything reaches site.',
+    initials: 'DS',
+  },
+  {
+    name: 'Project Delivery',
+    role: 'Site execution & weekly reporting',
+    bio: 'Project managers coordinate civil, electrical, ceiling, painting and modular installation with written schedules, photo reports and snag closure.',
+    initials: 'PD',
+  },
+  {
+    name: 'Production & Warranty',
+    role: 'Factory QC & after-handover support',
+    bio: 'The production and warranty desk tracks modular quality, hardware alignment, dispatch readiness and post-handover service requests.',
+    initials: 'PW',
+  },
 ];
 
 /* ----------------------------------------------------------- Design styles */

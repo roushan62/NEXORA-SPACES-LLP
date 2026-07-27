@@ -21,13 +21,16 @@ const allReviews = [...testimonials, ...extraReviews];
 
 const reviews = {
   route: '/reviews/',
-  title: `Client Reviews — ${site.reviews.count} Verified Ratings | Nexora Spaces LLP`,
-  metaTitle: `Client Reviews & Testimonials | Nexora Spaces`,
-  description:
-    `${site.reviews.count} verified client reviews of Nexora Spaces. Real feedback from Gurugram, Noida and Delhi homeowners on cost, timelines and support.`,
+  title: site.reviews.schema
+    ? `Client Reviews — ${site.reviews.count} Verified Ratings | Nexora Spaces LLP`
+    : 'Client Stories & Testimonials | Nexora Spaces LLP',
+  metaTitle: 'Client Reviews & Testimonials | Nexora Spaces',
+  description: site.reviews.schema
+    ? `${site.reviews.count} verified client reviews of Nexora Spaces. Real feedback from Gurugram, Noida and Delhi homeowners on cost, timelines and support.`
+    : 'Selected client feedback and project stories from Gurugram, Noida and Delhi homeowners on cost, timelines and support.',
   keywords: 'nexora spaces reviews, interior designer reviews delhi ncr, best interior designers gurgaon reviews, interior design testimonials noida',
   crumbs: [{ label: 'Home', href: '/' }, { label: 'Reviews', href: '/reviews/' }],
-  extraSchema: [{
+  extraSchema: site.reviews.schema ? [{
     '@type': 'ItemList',
     '@id': `${site.baseUrl}${site.basePath}/reviews/#reviewlist`,
     name: 'Client reviews of Nexora Spaces LLP',
@@ -42,26 +45,35 @@ const reviews = {
         reviewRating: { '@type': 'Rating', ratingValue: 5, bestRating: 5, worstRating: 1 },
       },
     })),
-  }],
+  }] : [],
   body: [
     pageHead({
       crumbs: [{ label: 'Home', href: '/' }, { label: 'Reviews', href: '/reviews/' }],
       title: 'What clients say<br>after handover',
-      sub: 'Every review below is from a client whose project we completed. We publish the critical feedback too — you will find mentions of a two-day delay and a scope disagreement, because a page of pure praise tells you nothing.',
-      stats: [
+      sub: site.reviews.schema
+        ? 'Every review below is from a client whose project we completed. We publish the critical feedback too — you will find mentions of a two-day delay and a scope disagreement, because a page of pure praise tells you nothing.'
+        : 'Selected client stories from completed projects. Public rating counts and structured review markup are intentionally disabled until the Google Business Profile numbers are verified.',
+      stats: site.reviews.schema ? [
         { value: `${site.reviews.rating}★`, label: 'Average rating' },
         { value: `${site.reviews.count}`, label: 'Verified reviews' },
         { value: '96%', label: 'On-time delivery' },
         { value: '38%', label: 'From referrals' },
+      ] : [
+        { value: `${allReviews.length}`, label: 'Published stories' },
+        { value: '96%', label: 'On-time delivery' },
+        { value: '38%', label: 'From referrals' },
+        { value: '10 yrs', label: 'Warranty' },
       ],
     }),
 
     `<section class="section">
       <div class="container">
         ${sectionHead({
-          eyebrow: 'Verified clients',
+          eyebrow: site.reviews.schema ? 'Verified clients' : 'Client stories',
           title: 'Reviews from real handovers',
-          sub: 'Names, locations and project types are published with client permission.',
+          sub: site.reviews.schema
+            ? 'Names, locations and project types are published with client permission.'
+            : 'These testimonials are displayed as editorial content only; review schema remains off until verification is complete.',
           center: true,
         })}
         <div class="grid grid-3 gap-6 reveal-stagger">
@@ -70,7 +82,7 @@ const reviews = {
       </div>
     </section>`,
 
-    `<section class="section bg-subtle">
+    site.reviews.schema ? `<section class="section bg-subtle">
       <div class="container container-narrow text-center">
         ${sectionHead({
           eyebrow: 'Rating breakdown',
@@ -104,6 +116,20 @@ const reviews = {
           ${icon('info', { size: 13 })} Aggregated from Google Business Profile and post-handover client surveys.
           <a href="${site.reviews.googleUrl}" target="_blank" rel="noopener" class="link-underline" style="color:var(--accent-text)">View on Google</a>
         </p>
+      </div>
+    </section>` : `<section class="section bg-subtle">
+      <div class="container container-narrow text-center">
+        ${sectionHead({
+          eyebrow: 'Review schema status',
+          title: 'Ratings are hidden until verified',
+          sub: 'To avoid inaccurate structured data, Google review rating/count markup is disabled in the build. Add real Google Business Profile numbers in site.config.js before turning it back on.',
+          center: true,
+        })}
+        <div class="alert alert-brand reveal" style="text-align:left">
+          ${icon('info', { size: 20 })}
+          <p><span class="alert-title">Safe for SEO.</span>
+          The page can still show client stories, but it will not publish aggregateRating or Review JSON-LD until the source data is real and verifiable.</p>
+        </div>
       </div>
     </section>`,
 

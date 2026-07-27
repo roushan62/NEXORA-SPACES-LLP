@@ -383,6 +383,18 @@
   color: var(--ink-950);
   box-shadow: var(--sh-md);
   position: relative;
+  overflow: visible;
+}
+.team-photo.has-image {
+  background: var(--surface);
+}
+.team-photo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
 }
 .team-photo::after {
   content: '';

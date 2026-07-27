@@ -29,8 +29,9 @@ const hero = () => `
   <div class="container hero-inner">
     <div class="hero-copy">
       <span class="hero-badge anim-fade-up">
-        ${stars(5)}
-        <span>${site.reviews.rating} on Google · ${site.reviews.count} verified reviews</span>
+        ${site.reviews.schema
+          ? `${stars(5)}<span>${site.reviews.rating} on Google · ${site.reviews.count} verified reviews</span>`
+          : `${icon('shieldCheck', { size: 16 })}<span>Founder-led turnkey interiors · Delhi NCR</span>`}
       </span>
 
       <h1 class="hero-title anim-fade-up anim-d1">
@@ -445,7 +446,9 @@ export default {
     trustMarquee([
       ...trustBadges,
       { icon: 'users', label: '62 in-house designers & PMs' },
-      { icon: 'star', label: `${site.reviews.rating}★ average client rating` },
+      site.reviews.schema
+        ? { icon: 'star', label: `${site.reviews.rating}★ average client rating` }
+        : { icon: 'fileText', label: 'Itemised BOQ before sign-off' },
       { icon: 'building', label: '18+ NCR micro-markets served' },
       { icon: 'gem', label: 'Hettich · Blum · Ebco hardware' },
     ]),

@@ -212,7 +212,9 @@ export default cities.map((c) => {
           { value: c.projectCount, label: `Homes done in ${c.city}` },
           { value: '45 days', label: 'Typical handover' },
           { value: '10 yrs', label: 'Warranty' },
-          { value: '4.9★', label: 'Client rating' },
+          site.reviews.schema
+            ? { value: `${site.reviews.rating}★`, label: 'Client rating' }
+            : { value: 'Local PM', label: 'Dedicated project lead' },
         ],
       }),
 

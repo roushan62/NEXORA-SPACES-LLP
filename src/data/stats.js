@@ -1,4 +1,4 @@
-import { yearsInBusiness } from '../config/site.config.js';
+import { site, yearsInBusiness } from '../config/site.config.js';
 
 /** Headline numbers used on the home page, about page and city pages. */
 export const stats = [
@@ -12,7 +12,9 @@ export const statsWide = [
   { value: 850, suffix: '+', label: 'Homes & offices delivered' },
   { value: 62, suffix: '+', label: 'In-house designers & PMs' },
   { value: 18, suffix: '+', label: 'Micro-markets served' },
-  { value: 4.9, suffix: '/5', label: 'Average client rating', decimals: 1 },
+  site.reviews.schema
+    ? { value: site.reviews.rating, suffix: '/5', label: 'Average client rating', decimals: 1 }
+    : { value: site.guarantees.warrantyYears, suffix: '-year', label: 'Documented modular warranty' },
 ];
 
 /** Trust markers shown in the hero strip and sticky proof bar. */
@@ -27,7 +29,9 @@ export const trustBadges = [
 export const credentials = [
   { icon: 'award', label: 'ISO 9001:2015 Certified Processes' },      // ⚠️ REPLACE
   { icon: 'building', label: 'MSME / Udyam Registered LLP' },
-  { icon: 'star', label: '4.9★ Google Rating · 218 reviews' },        // ⚠️ REPLACE
+  site.reviews.schema
+    ? { icon: 'star', label: `${site.reviews.rating}★ Google Rating · ${site.reviews.count} reviews` }
+    : { icon: 'fileText', label: 'Itemised BOQs with named material specs' },
   { icon: 'leaf', label: 'BWP / BWR Grade Materials Only' },
   { icon: 'shield', label: '₹1 Cr Site Liability Insurance' },        // ⚠️ REPLACE
 ];
