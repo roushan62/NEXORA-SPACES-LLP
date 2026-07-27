@@ -26,9 +26,12 @@ npm run serve      # preview at http://localhost:4321/NEXORA-SPACES-LLP/
 
 | Command | What it does |
 |---|---|
+| `npm test` | **Everything below in one go** — build, links, brief, interactions, API |
 | `npm run build` | Renders all pages, bundles + minifies CSS/JS, writes sitemap & robots |
 | `npm run check` | Validates every internal link, image, canonical, schema and heading |
-| `npm run verify` | Enforces the residential brief: no pricing/calculator, no commercial language, hero + modal + gallery integrity, no team photos |
+| `npm run verify` | Enforces the residential brief: no pricing/calculator, no commercial language (in copy **and** JSON-LD), hero + modal + gallery integrity, unique schema `@id`s |
+| `npm run e2e` | Boots every built page in a real DOM and drives the modal, drawer, accordions, carousels, filters, lightbox and form — catches dead controls and JS errors |
+| `npm run test:api` | Runs `api/contact.php` on PHP 8.2 (WebAssembly, no PHP install needed) and asserts 29 behaviours |
 | `npm run audit` | Reports payload budget, CSS coverage, a11y and SEO completeness |
 | `npm run images` | Regenerates responsive AVIF/WebP/JPEG derivatives + OG card + favicons |
 | `npm run serve` | Local preview server that mirrors GitHub Pages paths |
@@ -57,10 +60,11 @@ Anything marked `// ⚠️ REPLACE` is a realistic placeholder awaiting your rea
 4b. **Hero video** — `site.heroVideo.sources`. Empty by default, which makes the hero
    run an animated walkthrough built from the gallery stills. Drop real footage into
    `assets/video/` and list it there to switch to a true `<video>` background.
-5. **Lead form** — `site.forms.endpoint`. Create a free
-   [Formspree](https://formspree.io) or [Web3Forms](https://web3forms.com) endpoint
-   and paste it in. Until then forms gracefully fall back to opening WhatsApp with
-   the enquiry pre-filled, so **no lead is ever lost**.
+5. **Lead form** — deploy the included PHP backend to Vercel (10 minutes,
+   free) and paste the URL into `site.forms.endpoint`. Full walkthrough:
+   **[`api/README.md`](api/README.md)**. Until then forms gracefully fall back
+   to opening WhatsApp with the enquiry pre-filled, so **no lead is ever lost**.
+   Formspree/Web3Forms also drop in unchanged if you prefer.
 6. **Analytics** — `site.analytics.ga4` / `.gtm` (left empty = script never loads)
 7. **Photography** — replace `src/assets-src/*.jpg` with real project photos and run
    `npm run images`
@@ -184,6 +188,30 @@ WCAG-minded: semantic landmarks, one `<h1>` per page, visible `:focus-visible` r
 44px+ touch targets, `aria-expanded` on all disclosures, focus-trapped mobile drawer,
 labelled form fields with inline error messaging, and full
 `prefers-reduced-motion` support.
+
+---
+
+## The contact form
+
+The site is static, so the consultation form posts to **one PHP function
+running on Vercel** (`api/contact.php`), which emails the enquiry to your
+inbox. Free on Vercel's Hobby plan, and free to send via a Gmail App Password.
+
+```
+Visitor → form on GitHub Pages → POST → Vercel /api/contact.php → your inbox
+```
+
+- **Setup guide:** [`api/README.md`](api/README.md) — about 10 minutes
+- **Recipient:** the `MAIL_TO` environment variable on Vercel.
+  ⚠️ Currently the testing placeholder `kingboy620478@gmail.com` — change it
+  at launch.
+- **No endpoint configured?** The form falls back to WhatsApp with the enquiry
+  pre-filled. No lead is lost either way.
+
+The endpoint validates every field server-side, blocks bots with a honeypot and
+spam heuristics, rate-limits per IP, restricts CORS to your own origins, and
+never lets user input inject email headers. `npm run test:api` proves all of it
+against a real PHP 8.2 runtime.
 
 ---
 

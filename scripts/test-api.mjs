@@ -328,3 +328,7 @@ if (failures.length) {
 console.log(`  ✓ ${passes.length} API checks passed\n`);
 passes.forEach((p) => console.log(`    ✓ ${p}`));
 console.log('\n  ✓ CONTACT API VERIFIED\n');
+
+/* The PHP WebAssembly runtime keeps a handle open, so Node would otherwise
+   hang here instead of returning to the shell. Exit explicitly. */
+process.exit(0);

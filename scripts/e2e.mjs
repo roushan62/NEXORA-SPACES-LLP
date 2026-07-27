@@ -269,6 +269,25 @@ for (const file of files) {
     if (!facade.querySelector('iframe')) fail(`${page} → embed facade did not load an iframe on click`);
   }
 
+  /* ---- Duplicate element ids break getElementById, label[for] and url(#…) */
+  {
+    const seen = new Map();
+    const dupes = new Set();
+    for (const el of $$(doc, '[id]')) {
+      const id = el.id;
+      if (seen.has(id)) dupes.add(id);
+      seen.set(id, true);
+    }
+    if (dupes.size) fail(`${page} → duplicate element id(s): ${[...dupes].slice(0, 5).join(', ')}`);
+  }
+
+  /* ---- Every label[for] must point at a real control */
+  for (const label of $$(doc, 'label[for]')) {
+    if (!doc.getElementById(label.htmlFor)) {
+      fail(`${page} → <label for="${label.htmlFor}"> points at no control`);
+    }
+  }
+
   /* ---- Active nav state resolves for the current URL */
   const currentPath = win.location.pathname.replace(/index\.html$/, '').replace(/\/$/, '');
   const navLinks = $$(doc, '.nav-link[href], .drawer-link[href]');
@@ -288,6 +307,7 @@ for (const file of files) {
 
 if (!bootFailures) pass(`${files.length} pages boot with zero JS errors`);
 pass(`${files.length} pages: modal, drawer, accordion, tabs, filters, rails and facades all respond`);
+pass(`${files.length} pages: unique element ids, every label bound to a real control`);
 
 /* ================================================== 2. Lead form behaviour */
 {

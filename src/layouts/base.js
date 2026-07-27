@@ -25,18 +25,30 @@ export const url = (href = '/') => {
 export const richText = (html = '') =>
   String(html).replace(/(href|src)="(\/(?!\/)[^"]*)"/g, (m, attr, href) => `${attr}="${url(href)}"`);
 
-/* ------------------------------------------------------------------- Logo */
-export const logoMark = (size = 42) => `
+/* ------------------------------------------------------------------- Logo
+ * The mark renders up to three times per page (header, drawer, footer). An
+ * `id` must be unique in a document, so the gradient id is suffixed per
+ * instance — duplicating it is invalid HTML and browsers resolve every
+ * url(#…) to the first definition, which breaks if that instance is removed.
+ */
+let logoInstance = 0;
+export const logoMark = (size = 42) => {
+  const gid = `nxGold${++logoInstance}`;
+  return `
 <svg class="brand-mark" width="${size}" height="${size}" viewBox="0 0 48 48" fill="none" role="img" aria-label="${esc(site.legalName)} logo">
   <defs>
-    <linearGradient id="nxGold" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+    <linearGradient id="${gid}" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
       <stop stop-color="#9B7028"/><stop offset=".45" stop-color="#CFA54F"/><stop offset="1" stop-color="#EAD7A8"/>
     </linearGradient>
   </defs>
-  <rect x="1.25" y="1.25" width="45.5" height="45.5" rx="11" stroke="url(#nxGold)" stroke-width="1.5"/>
-  <path d="M15 34V15.5c0-.35.42-.52.66-.27L32 32.2" stroke="url(#nxGold)" stroke-width="2.6" stroke-linecap="round"/>
-  <path d="M33 14v18.5c0 .35-.42.52-.66.27L16 15.8" stroke="url(#nxGold)" stroke-width="2.6" stroke-linecap="round" opacity=".55"/>
+  <rect x="1.25" y="1.25" width="45.5" height="45.5" rx="11" stroke="url(#${gid})" stroke-width="1.5"/>
+  <path d="M15 34V15.5c0-.35.42-.52.66-.27L32 32.2" stroke="url(#${gid})" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M33 14v18.5c0 .35-.42.52-.66.27L16 15.8" stroke="url(#${gid})" stroke-width="2.6" stroke-linecap="round" opacity=".55"/>
 </svg>`;
+};
+
+/** Reset between pages so ids stay stable and builds are reproducible. */
+export const resetLogoIds = () => { logoInstance = 0; };
 
 const brandBlock = (cls = '') => `
 <a href="${url('/')}" class="brand ${cls}" aria-label="${esc(site.legalName)} home">
@@ -264,6 +276,10 @@ const analytics = () => {
 
 /* ============================================================ RENDER PAGE */
 export function renderPage(page) {
+  /* Restart per page so the same logo instance gets the same gradient id on
+     every build — otherwise the ids drift and every page shows a diff. */
+  resetLogoIds();
+
   const {
     route = '/',
     body = '',
