@@ -32,7 +32,7 @@ async function buildCss() {
   const files = [
     '00-fonts.css', '01-tokens.css', '02-base.css', '03-layout.css',
     '04-components.css', '05-navigation.css', '06-sections.css',
-    '07-utilities.css', '08-pages.css',
+    '07-utilities.css', '08-pages.css', '09-gallery.css',
   ];
   let css = '';
   for (const f of files) {
@@ -165,7 +165,7 @@ async function buildManifest() {
   await write('site.webmanifest', JSON.stringify({
     name: site.legalName,
     short_name: site.name,
-    description: 'Turnkey interior design & fit-out in Delhi, Gurugram and Noida.',
+    description: 'Residential interior fit-out for homes in Delhi, Gurugram and Noida.',
     start_url: `${site.basePath}/`,
     scope: `${site.basePath}/`,
     display: 'standalone',

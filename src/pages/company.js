@@ -7,17 +7,17 @@ import {
   pageHead, sectionHead, faqBlock, ctaBand, testimonialSection,
   processRail, credentialStrip,
 } from '../layouts/sections.js';
-import { team, processSteps, testimonials, faqsGeneral } from '../data/content.js';
+import { processSteps, testimonials, faqsGeneral } from '../data/content.js';
 import { statsWide, credentials } from '../data/stats.js';
 
 /* ============================================================== ABOUT */
 const about = {
   route: '/about/',
-  title: 'About Nexora Spaces LLP | Interior Design & Fit-Out Firm, Delhi NCR',
-  metaTitle: 'About Us | Interior Designers in Delhi NCR | Nexora',
+  title: 'About Nexora Spaces LLP | Residential Interior Fit-Out, Delhi NCR',
+  metaTitle: 'About Us | Residential Interior Fit-Out | Nexora',
   description:
-    `Turnkey interior design and fit-out firm serving Delhi, Gurugram and Noida since ${site.foundedYear}. 62 in-house staff, own production, 850+ homes delivered.`,
-  keywords: 'about nexora spaces, interior design company delhi ncr, interior design firm gurgaon, best interior designers noida',
+    `Residential interior fit-out and design-build studio serving Delhi, Gurugram and Noida since ${site.foundedYear}. In-house design, own production, 850+ homes delivered.`,
+  keywords: 'about nexora spaces, residential interior company delhi ncr, home interior firm gurgaon, house interior designers noida',
   ogImage: '/assets/img/pages/about-1600.jpg',
   crumbs: [{ label: 'Home', href: '/' }, { label: 'About', href: '/about/' }],
   extraSchema: [{
@@ -28,14 +28,14 @@ const about = {
   body: [
     pageHead({
       crumbs: [{ label: 'Home', href: '/' }, { label: 'About', href: '/about/' }],
-      title: 'We started because<br>the industry deserved better',
-      sub: `Nexora Spaces LLP was built in ${site.foundedYear} around a simple operating belief: good design only matters when execution protects it. ${yearsInBusiness} years and 850 homes later, that is still the whole thesis.`,
+      title: 'We build homes,<br>and only homes',
+      sub: `Nexora Spaces LLP is a residential interior fit-out and design-build studio. Built in ${site.foundedYear} around a simple operating belief: good design only matters when execution protects it. ${yearsInBusiness} years and 850 homes later, that is still the whole thesis.`,
       image: '/assets/img/pages/about-1600.jpg',
       stats: [
-        { value: '850+', label: 'Projects delivered' },
+        { value: '850+', label: 'Homes delivered' },
         { value: '62', label: 'In-house team' },
-        { value: `${yearsInBusiness}+ yrs`, label: 'In business' },
-        { value: '96%', label: 'On-time delivery' },
+        { value: `${yearsInBusiness}+ yrs`, label: 'Building homes' },
+        { value: '96%', label: 'On-time handover' },
       ],
     }),
 
@@ -46,17 +46,18 @@ const about = {
           <div class="reveal">
             ${sectionHead({ eyebrow: 'Our story', title: 'Design was never the problem' })}
             <div class="prose">
-              <p>Every interior firm in Delhi NCR can produce a good-looking 3D render. What almost nobody could do consistently — in ${site.foundedYear}, and honestly still today — was <strong>deliver that render on time, at the quoted price, with materials that match the specification.</strong></p>
-              <p>Founder Sourabh Pandey had spent years on the other side of that gap: good schemes getting value-engineered into something unrecognisable, and families being told why the handover date had moved for the third time.</p>
-              <p>So Nexora was built backwards from the failure points. We brought design in-house so nobody was working on commission. We set up our own production unit so modular quality was controlled before it reached site. We wrote the warranty and the delivery date into the contract, because a promise that is not documented is just marketing.</p>
-              <p>It is not a romantic origin story. It is an operations one — and it is why our on-time delivery rate is 96% rather than the industry's rather more forgiving average.</p>
+              <p>Every interior firm in Delhi NCR can produce a good-looking render. What almost nobody could do consistently — in ${site.foundedYear}, and honestly still today — was <strong>deliver that render on time, with materials that match the specification.</strong></p>
+              <p>Our founding team had spent years on the other side of that gap: good schemes value-engineered into something unrecognisable, and families being told why the handover date had moved for the third time.</p>
+              <p>So Nexora was built backwards from the failure points. We brought design in-house so nobody was working on commission. We set up our own production unit so modular quality was controlled before it reached site. We wrote the warranty and the handover date into the contract, because a promise that is not documented is just marketing.</p>
+              <p>And we stayed residential. No offices, no retail, no restaurants — because a studio that does everything is optimised for nothing. Every process we run is tuned for families living in, or moving into, a home.</p>
+              <p>It is not a romantic origin story. It is an operations one — and it is why our on-time handover rate is 96% rather than the industry's rather more forgiving average.</p>
             </div>
             <div class="btn-group mt-8">
               <a href="${url('/process/')}" class="btn btn-primary">See how we work</a>
-              <a href="${url('/portfolio/')}" class="btn btn-ghost">View our work</a>
+              <a href="${url('/gallery/')}" class="btn btn-ghost">View our work</a>
             </div>
           </div>
-          <div class="split-media reveal delay-1">
+          <div class="split-media reveal delay-1" data-parallax="0.05">
             <div class="img-offset">
               ${picture({ name: 'pages/about', alt: 'Interior design studio workspace with material samples and floor plans', widths: [960, 1600], sizes: '(max-width:1024px) 100vw, 50vw', width: 960, height: 640, className: 'img-round img-shadow' })}
             </div>
@@ -104,28 +105,51 @@ const about = {
       </div>
     </section>`,
 
-    /* Team */
+    /* What we do — company level, deliberately no individual photos or names */
     `<section class="section bg-subtle cv-auto">
       <div class="container">
         ${sectionHead({
-          eyebrow: 'Leadership',
-          title: 'The founder-led team accountable for your project',
-          sub: 'No invented leadership names and no stock-photo team page. Sourabh leads the operating system, supported by the in-house teams that design, build and service each project.',
+          eyebrow: 'What we do',
+          title: 'Four teams, one accountable studio',
+          sub: 'We describe Nexora at company level rather than parading headshots. What matters to your home is which team owns which stage — and that every one of them works to the same documented scope.',
           center: true,
         })}
-        <div class="grid grid-4 gap-8 reveal-stagger">
-          ${team.map((m) => `
-          <div class="team-card">
-            ${m.photo ? `<div class="team-photo has-image"><img src="${url(m.photo)}" alt="${esc(m.name)}" width="116" height="116" loading="lazy" decoding="async"></div>` : `<div class="team-photo" aria-hidden="true">${esc(m.initials)}</div>`}
-            <h3 class="team-name">${esc(m.name)}</h3>
-            <span class="team-role">${esc(m.role)}</span>
-            <p class="team-bio">${esc(m.bio)}</p>
+        <div class="grid grid-4 gap-6 reveal-stagger">
+          ${[
+            { icon: 'ruler', t: 'Design studio', d: 'Space planning, layout options, finish palettes, detailed views and execution drawings — settled before anything reaches site.' },
+            { icon: 'hardHat', t: 'Production', d: 'Modular carcasses and shutters cut, edge-banded and finished in a controlled unit, then quality-checked before dispatch.' },
+            { icon: 'userCheck', t: 'Project delivery', d: 'Civil, electrical, ceiling, painting and installation sequenced by a named project manager, with weekly photo reporting.' },
+            { icon: 'shieldCheck', t: 'Warranty & service', d: 'Snag closure, hardware realignment and post-handover support — the desk that still answers in year eight.' },
+          ].map((v) => `
+          <div class="card card-hover">
+            <span class="card-icon">${icon(v.icon, { size: 22 })}</span>
+            <h3 class="card-title" style="font-size:var(--fs-lg)">${esc(v.t)}</h3>
+            <p class="card-text">${esc(v.d)}</p>
           </div>`).join('')}
         </div>
         <p class="text-center mt-10" style="font-size:var(--fs-sm);color:var(--text-muted)">
-          Behind this operating team: designers, project managers, production staff and site execution partners working to the same documented BOQ and handover process.
+          Designers, project managers, production staff and site execution partners — all working to the same documented scope and handover process.
           <a href="${url('/careers/')}" class="link-underline" style="color:var(--accent-text);font-weight:600">We are hiring</a>.
         </p>
+      </div>
+    </section>`,
+
+    /* Mission & vision */
+    `<section class="section">
+      <div class="container container-narrow">
+        ${sectionHead({ eyebrow: 'Mission & vision', title: 'What we are trying to build', center: true })}
+        <div class="grid grid-2 gap-6 reveal-stagger">
+          <div class="card card-pad-lg">
+            <span class="card-icon">${icon('compass', { size: 22 })}</span>
+            <h3 class="card-title" style="font-size:var(--fs-lg)">Our mission</h3>
+            <p class="card-text">To make a beautifully finished home an achievable, predictable purchase for ordinary families — delivered faster than the industry manages, at a value-driven investment, without ever compromising the finish.</p>
+          </div>
+          <div class="card card-pad-lg">
+            <span class="card-icon">${icon('sparkles', { size: 22 })}</span>
+            <h3 class="card-title" style="font-size:var(--fs-lg)">Our vision</h3>
+            <p class="card-text">To be the residential studio Delhi NCR recommends by default — known not for the loudest marketing, but for homes that still look and work exactly as promised a decade after handover.</p>
+          </div>
+        </div>
       </div>
     </section>`,
 
@@ -148,7 +172,7 @@ const about = {
       </div>
     </section>`,
 
-    testimonialSection(testimonials, { title: 'Clients who trusted us early', eyebrow: 'Reviews' }),
+    testimonialSection(testimonials, { title: 'Families who trusted us early', eyebrow: 'Client stories' }),
     ctaBand({ source: 'about' }),
   ].join('\n'),
 };
@@ -159,7 +183,7 @@ const processPage = {
   title: 'Our Interior Design Process — 7 Stages from Brief to Handover | Nexora Spaces',
   metaTitle: 'Our Process | Interiors Delivered in 45 Days | Nexora',
   description:
-    'The seven-stage system behind every project — consultation, 3D design, itemised BOQ, production, execution and snag-free handover in 45 days.',
+    'The seven-stage system behind every home — consultation, design, written scope, production, execution and snag-free handover on a committed date.',
   keywords: 'interior design process, how interior design works, interior project timeline, turnkey interior process india',
   ogImage: '/assets/img/pages/process-1600.jpg',
   crumbs: [{ label: 'Home', href: '/' }, { label: 'Process', href: '/process/' }],
@@ -168,11 +192,11 @@ const processPage = {
     pageHead({
       crumbs: [{ label: 'Home', href: '/' }, { label: 'Process', href: '/process/' }],
       title: 'How a Nexora home<br>gets built',
-      sub: 'The same seven stages run on every project, whether it is a ₹6 lakh 1 BHK or a ₹2 crore villa. Documented, tracked, and reported to you weekly.',
+      sub: 'The same seven stages run on every home, whether it is a compact 1 BHK or a multi-level villa. Documented, tracked, and reported to you weekly.',
       image: '/assets/img/pages/process-1600.jpg',
       stats: [
         { value: '7', label: 'Documented stages' },
-        { value: '45 days', label: 'Standard handover' },
+        { value: 'Fastest', label: 'Handover in the industry' },
         { value: '96%', label: 'On-time rate' },
         { value: 'Weekly', label: 'Photo reporting' },
       ],
@@ -200,7 +224,7 @@ const processPage = {
         <div class="timeline reveal">
           ${[
             { t: 'Consultation & site survey', time: 'Day 1–3', d: 'A senior designer — not a salesperson — visits your home. We measure every wall, photograph existing services, check structural constraints, and talk through how your family actually uses space. You get an honest budget conversation at this meeting, before anyone is invested.' },
-            { t: 'Concept & 3D design', time: 'Day 4–10', d: 'Mood boards establish direction, then we develop layouts and produce photoreal 3D views of every room. You get up to three revision rounds on Signature and unlimited on Luxe. Material samples come to your home so you decide on physical finishes, not screen colours.' },
+            { t: 'Concept & 3D design', time: 'Day 4–10', d: 'Mood boards establish direction, then we develop layouts and produce photoreal 3D views of every room. Revision rounds are agreed upfront and written into your scope. Material samples come to your home so you decide on physical finishes, not screen colours.' },
             { t: 'Itemised BOQ & contract', time: 'Day 11–14', d: 'Every line item priced with brand and specification named. You can take this document to any other vendor and compare like for like — we encourage it. Contract locks scope, price, payment milestones and the handover date.' },
             { t: 'Production in our facility', time: 'Day 15–32', d: 'Modular units are CNC-cut from 710-grade ply, edge-banded at 2mm, and finished in a controlled environment. Hardware is fitted and quality-checked before dispatch. Nothing is assembled with dust blowing across your living room floor.' },
             { t: 'Site execution', time: 'Day 20–40', d: 'Civil, plumbing, electrical, false ceiling and painting run to a sequenced programme with daily supervision. Overlapping with production is how we compress the timeline. You get weekly photo reports and a named PM on WhatsApp.' },
@@ -279,8 +303,8 @@ const processPage = {
           </div>
         </div>
         <p class="text-center mt-8 measure mx-auto" style="color:var(--text-muted)">
-          If you have a contractor you already trust and the bandwidth to run site yourself, take our
-          <a href="${url('/commercial/#engagement')}" class="link-underline" style="color:var(--accent-text);font-weight:600">design-only engagement</a>
+          If you have a contractor you already trust and the bandwidth to run site yourself, ask us about a
+          <a href="${url('/contact/')}" class="link-underline" style="color:var(--accent-text);font-weight:600">design-only engagement</a>
           instead. We would rather give you the right advice than the bigger invoice.
         </p>
       </div>
@@ -360,7 +384,7 @@ const warranty = {
           </ul>
 
           <h2>Annual maintenance</h2>
-          <p>We offer an optional AMC covering hardware realignment, hinge servicing, touch-up polishing and a full inspection. It is not required to keep the warranty valid — we mention it only because clients ask. Pricing starts at ₹6,500 per year for a 2 BHK.</p>
+          <p>We offer an optional AMC covering hardware realignment, hinge servicing, touch-up polishing and a full inspection. It is not required to keep the warranty valid — we mention it only because clients ask, and we will quote it for your home on request.</p>
 
           <h2>Raising a claim</h2>
           <p>WhatsApp <a href="${waLink('Hi Nexora, I would like to raise a warranty claim.')}">${esc(site.phone.display)}</a> or email <a href="mailto:${site.email.general}">${esc(site.email.general)}</a> with your project code, photographs and a short description. That is the entire process — no forms, no portal, no ticket number you have to chase.</p>

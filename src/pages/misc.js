@@ -1,7 +1,7 @@
 import { site, waLink, currentYear, yearsInBusiness, hq } from '../config/site.config.js';
 import { icon, iconSolid } from '../lib/icons.js';
 import { esc } from '../lib/seo.js';
-import { url } from '../layouts/base.js';
+import { url, richText } from '../layouts/base.js';
 import {
   pageHead, sectionHead, faqBlock, ctaBand, quoteCard, stars, leadForm,
 } from '../layouts/sections.js';
@@ -9,7 +9,7 @@ import { testimonials, faqsGeneral, faqsCost, projects } from '../data/content.j
 
 /* ============================================================= REVIEWS */
 const extraReviews = [
-  { name: 'Nikhil & Aparna Joshi', project: '3 BHK Turnkey', location: 'Sector 137, Noida', text: 'Third quote we took, and the only one that itemised hardware by brand. That single detail told us who was serious. Delivered in 47 days against a 45-day commitment, and they flagged the two-day slip a week before it happened rather than on the day.' },
+  { name: 'Nikhil & Aparna Joshi', project: '3 BHK Turnkey', location: 'Sector 137, Noida', text: 'Third quote we took, and the only one that itemised hardware by brand. That single detail told us who was serious. They flagged a two-day slip a week before it happened rather than on the day, which is the only time I have ever seen that in a fit-out.' },
   { name: 'Ritu Malhotra', project: 'Kitchen + Wardrobes', location: 'Vasant Kunj, Delhi', text: 'I only wanted the kitchen and two wardrobes. Never once did they try to upsell me a full home package. The kitchen is two years old now and the soft-close still closes soft.' },
   { name: 'Arjun Sethi', project: '2 BHK Renovation', location: 'Indirapuram, Ghaziabad', text: 'Old flat, hidden problems. When they found corroded plumbing behind the bathroom wall they photographed it, quoted the fix in writing, and waited for my approval before touching it. That is the whole difference.' },
   { name: 'Col. (Retd.) H. S. Bedi', project: '4 BHK Independent Floor', location: 'Punjabi Bagh, Delhi', text: 'I am difficult about punctuality and paperwork. They matched it. Every invoice arrived with GST, every variation was approved in writing before work, and the site was swept clean every evening.' },
@@ -143,7 +143,7 @@ const faqExtra = [
   { q: 'What brands of material and hardware do you use?', a: '<p>Plywood from Century, Greenply or Austin (710 grade). Hardware from Hettich, Blum or Ebco depending on package. Paint from Asian Paints or Berger. Laminates from Merino, Greenlam or Century. Every brand is named on your BOQ — never "premium quality" as a description.</p>' },
   { q: 'Can I supply my own materials?', a: '<p>You can, for finishes and loose items. We will deduct the corresponding line from the BOQ. We do not, however, warranty client-supplied material, and we cannot take responsibility for delays if it arrives late — that gets stated in the contract so expectations are clear.</p>' },
   { q: 'Do you handle Vastu requirements?', a: '<p>Regularly. Tell us your requirements at the briefing stage and we will work them into the layout. Where a Vastu requirement conflicts with a structural or practical constraint, we will show you the options and their cost implications rather than quietly ignoring it.</p>' },
-  { q: 'What if I am not happy with the design?', a: '<p>Revisions are included — one round on Essential, three on Signature, unlimited on Luxe. If we genuinely cannot land on a direction you are happy with before contract signature, you walk away having paid nothing.</p>' },
+  { q: 'What if I am not happy with the design?', a: '<p>Revision rounds are included, and the number is agreed with you upfront and written into your scope. If we genuinely cannot land on a direction you are happy with before contract signature, you walk away having paid nothing.</p>' },
   { q: 'Do you work with tenants and rented properties?', a: '<p>Yes, with a different approach — we focus on removable, non-permanent interventions and modular units you can take with you. Tell us upfront that the property is rented so we design accordingly.</p>' },
   { q: 'How do I check on progress if I live abroad?', a: '<p>Weekly photo and video reports on WhatsApp, plus scheduled video walkthroughs at each milestone. About one in six of our clients is an NRI or based in another city, so this workflow is well tested.</p>' },
   { q: 'What happens if my project is delayed?', a: '<p>If the delay is within our control, the contract defines the consequence. If it is caused by scope changes, society permission issues or client-side decisions, we document the revised date in writing when it happens — not at the end. Our current on-time rate is 96%, and we publish that number rather than claiming 100%.</p>' },
@@ -185,7 +185,7 @@ const faq = {
                 <span>${esc(f.q)}</span>
                 <span class="acc-icon">${icon('chevronDown', { size: 16 })}</span>
               </button>
-              <div class="acc-panel"><div><div class="acc-body">${f.a}</div></div></div>
+              <div class="acc-panel"><div><div class="acc-body">${richText(f.a)}</div></div></div>
             </div>`).join('')}
           </div>
         </div>`).join('')}
@@ -355,7 +355,7 @@ const thankYou = {
       <p class="rule-label mb-6">While you wait</p>
       <div class="grid grid-3 gap-5">
         <a href="${url('/portfolio/')}" class="card card-hover"><span class="card-icon">${icon('image', { size: 20 })}</span><h3 class="card-title" style="font-size:var(--fs-base)">Browse our portfolio</h3></a>
-        <a href="${url('/cost-calculator/')}" class="card card-hover"><span class="card-icon">${icon('calculator', { size: 20 })}</span><h3 class="card-title" style="font-size:var(--fs-base)">Try the cost calculator</h3></a>
+        <a href="${url('/gallery/')}" class="card card-hover"><span class="card-icon">${icon('image', { size: 20 })}</span><h3 class="card-title" style="font-size:var(--fs-base)">Browse home packages</h3></a>
         <a href="${url('/process/')}" class="card card-hover"><span class="card-icon">${icon('compass', { size: 20 })}</span><h3 class="card-title" style="font-size:var(--fs-base)">See how we work</h3></a>
       </div>
     </div>
@@ -367,7 +367,7 @@ const thankYou = {
 const notFound = {
   route: '/404',
   title: 'Page Not Found | Nexora Spaces LLP',
-  description: 'The page you are looking for does not exist. Browse our interior design services for Delhi, Gurugram and Noida.',
+  description: 'The page you are looking for does not exist. Browse our residential interior services for Delhi, Gurugram and Noida.',
   noindex: true,
   body: `
 <section class="error-page">
@@ -379,10 +379,10 @@ const notFound = {
     </p>
     <div class="grid grid-3 gap-5 mb-10" style="text-align:left">
       ${[
-        ['Residential interiors', '/residential/', 'home'],
-        ['Pricing & packages', '/pricing/', 'receipt'],
-        ['Cost calculator', '/cost-calculator/', 'calculator'],
-        ['Our portfolio', '/portfolio/', 'image'],
+        ['Home interiors', '/residential/', 'home'],
+        ['Home gallery', '/gallery/', 'image'],
+        ['Our services', '/services/turnkey-interiors/', 'key'],
+        ['Our portfolio', '/portfolio/', 'layers'],
         ['Interior designers in Gurgaon', '/interior-designers-in-gurgaon/', 'mapPin'],
         ['Contact us', '/contact/', 'phone'],
       ].map(([label, href, ic]) => `
@@ -435,7 +435,7 @@ const privacy = legalPage({
   sections: [
     { h: 'Information we collect', body: `<p>We collect information you give us directly when you fill a form, call, WhatsApp or email us — typically your name, phone number, email address, city, property type and project requirements.</p><p>We also collect limited technical information automatically: pages visited, approximate location derived from IP, device type and referral source. This is used to understand which pages are useful and to improve the site.</p>` },
     { h: 'How we use your information', body: `<ul><li>To respond to your enquiry and provide a quotation</li><li>To schedule site visits and manage your project</li><li>To send project updates, invoices and warranty documents</li><li>To improve our services and website</li><li>To comply with statutory, tax and accounting obligations</li></ul><p>We do <strong>not</strong> sell, rent or trade your personal information to third parties for their marketing purposes.</p>` },
-    { h: 'Who we share it with', body: `<p>Only where necessary to deliver your project: our own project and production teams, and where relevant our finance partners (for EMI applications you initiate), logistics providers, and professional advisers bound by confidentiality. We may disclose information where required by law.</p>` },
+    { h: 'Who we share it with', body: `<p>Only where necessary to deliver your project: our own project and production teams, logistics providers, and professional advisers bound by confidentiality. We may disclose information where required by law.</p>` },
     { h: 'How long we keep it', body: `<p>Enquiry data that does not convert is retained for 24 months, after which it is deleted. Project and financial records are retained for 8 years to meet statutory accounting and tax requirements. Warranty records are retained for the warranty period plus 2 years.</p>` },
     { h: 'Your rights', body: `<p>You can ask us to provide a copy of the data we hold about you, correct anything inaccurate, delete your data where we have no legal obligation to retain it, or stop marketing communications. Email <a href="mailto:${site.email.general}">${site.email.general}</a> and we will respond within 30 days.</p>` },
     { h: 'Cookies', body: `<p>This website uses only essential cookies required for it to function. If analytics are enabled, they run in anonymised mode with IP anonymisation active. We do not use advertising or cross-site tracking cookies.</p>` },
@@ -454,7 +454,7 @@ const terms = legalPage({
   sub: 'The rules for using this website, and how our service agreements work.',
   sections: [
     { h: 'Acceptance of terms', body: `<p>By accessing this website you agree to these terms. If you do not agree, please do not use the site. These terms govern website use only — project work is governed by the separate signed agreement between you and ${esc(site.legalName)}.</p>` },
-    { h: 'Estimates and quotations', body: `<p>Prices, rates and calculator outputs shown on this website are <strong>indicative only</strong> and do not constitute an offer. Binding pricing is provided solely through a written, itemised BOQ issued after a site survey. Rates are subject to change without notice as material costs move.</p>` },
+    { h: 'Estimates and quotations', body: `<p>This website does not publish prices, rates or estimates of any kind. Nothing shown here constitutes an offer. A binding scope and quotation is provided solely as a written, itemised document issued after a site survey, and remains valid for the period stated on it.</p>` },
     { h: 'Scope of services', body: `<p>We provide interior design, project management and turnkey fit-out services. The precise scope for your project is defined exclusively in your signed agreement and accompanying BOQ. Anything not listed there is outside scope.</p>` },
     { h: 'Payment terms', body: `<p>Standard residential milestones are 10% on design sign-off, 40% on material dispatch, 40% on installation start and 10% on snag closure. All amounts attract GST at prevailing rates. Delayed payments may attract interest as specified in your agreement and may shift the delivery programme.</p>` },
     { h: 'Timelines', body: `<p>Committed delivery dates run from design sign-off and receipt of the applicable milestone payment, and assume society permissions are in place. Delays caused by client-side decisions, scope changes, permission issues or force majeure extend the programme accordingly, and we will confirm any revised date in writing when it arises.</p>` },

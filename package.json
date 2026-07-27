@@ -11,7 +11,8 @@
     "images": "node scripts/images.mjs",
     "serve": "node scripts/serve.mjs",
     "check": "node scripts/check.mjs",
-    "audit": "node scripts/audit.mjs"
+    "audit": "node scripts/audit.mjs",
+    "verify": "node scripts/verify.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/fraunces": "^5.2.5",

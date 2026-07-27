@@ -16,7 +16,7 @@ export const site = {
   name: 'Nexora Spaces',
   legalName: 'Nexora Spaces LLP',
   shortName: 'Nexora',
-  tagline: 'Design · Build · Deliver',
+  tagline: 'Homes, Beautifully Built',
   foundedYear: 2020,
 
   /* ------------------------------------------------------------ Deployment
@@ -144,15 +144,43 @@ export const site = {
     searchConsoleVerification: '',// google-site-verification content value
   },
 
-  /* -------------------------------------------------------------- Promises */
+  /* -------------------------------------------------------------- Promises
+   * Worded, never numeric where money is concerned. The site must not display
+   * prices, rates, EMI or any calculated amount anywhere — see README.
+   */
   guarantees: {
     warrantyYears: 10,
-    warrantyLabel: '10-Year Warranty',
-    warrantyDetail: '10 years on modular woodwork & hardware, 1 year on on-site services',
-    deliveryDays: 45,
-    deliveryLabel: '45-Day Delivery',
-    deliveryDetail: 'Standard 45-day handover for full-home interiors, contractually committed',
+    warrantyLabel: 'Long-Term Warranty',
+    warrantyDetail: 'A documented, written warranty on modular woodwork and hardware',
+    deliveryLabel: 'Industry-Fastest Handover',
+    deliveryDetail: 'Committed handover dates written into your contract, not promised verbally',
+    valueLabel: 'Value-Driven Pricing',
+    valueDetail: 'Budget-smart luxury — designer-grade finish without the designer-brand markup',
+    qualityLabel: 'Best-in-Class Execution',
+    qualityDetail: 'Factory-finished modular work and supervised site delivery on every home',
     milestonePayments: true,
+  },
+
+  /* ------------------------------------------------------------ Hero video
+   * Full-bleed interior walkthrough behind the homepage hero.
+   *
+   * `sources` is intentionally EMPTY until real footage is supplied. While it
+   * is empty the hero renders an animated, cross-fading room walkthrough built
+   * from the gallery stills (autoplays everywhere, no download cost, no 404s).
+   *
+   * ⚠️ TO GO LIVE WITH REAL FOOTAGE: drop the files into assets/video/ and list
+   * them here, smallest/most-compatible last. Nothing else needs to change.
+   *   sources: [
+   *     { src: '/assets/video/home-walkthrough.webm', type: 'video/webm' },
+   *     { src: '/assets/video/home-walkthrough.mp4',  type: 'video/mp4'  },
+   *   ],
+   */
+  heroVideo: {
+    sources: [],
+    poster: '/assets/img/hero-1536.jpg',
+    /* Below this viewport width the <video> is never fetched — the poster and
+       the CSS walkthrough carry the hero, which keeps mobile data use at zero. */
+    mobileBreakpoint: 768,
   },
 };
 
