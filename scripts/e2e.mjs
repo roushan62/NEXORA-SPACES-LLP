@@ -36,12 +36,17 @@ function htmlFiles(dir = ROOT, acc = []) {
 const files = htmlFiles().sort();
 const rel = (f) => '/' + path.relative(ROOT, f).replace(/\\/g, '/');
 const appJs = fs.readFileSync(path.join(ROOT, 'assets/js/app.js'), 'utf8');
+const appCss = fs.readFileSync(path.join(ROOT, 'assets/css/main.css'), 'utf8');
 
 /* --------------------------------------------------------------- DOM boot */
 
 /** Load a built page, execute app.js, return { dom, win, doc, jsErrors }. */
 async function boot(file) {
-  const html = fs.readFileSync(file, 'utf8');
+  /* jsdom cannot fetch the stylesheet over http, so inline the built CSS.
+     Without it every computed display falls back to the UA default and the
+     overlay check below would pass vacuously. */
+  const html = fs.readFileSync(file, 'utf8')
+    .replace(/<link[^>]+assets\/css\/main\.css[^>]*>/, `<style>${appCss}</style>`);
   const jsErrors = [];
   const vc = new VirtualConsole();
   vc.on('jsdomError', (e) => jsErrors.push(e.message));
@@ -335,6 +340,39 @@ if (!bootFailures) pass(`${files.length} pages boot with zero JS errors`);
 pass(`${files.length} pages: modal, drawer, accordion, tabs, filters, rails and facades all respond`);
 pass(`${files.length} pages: unique element ids, every label bound to a real control`);
 pass(`${files.length} pages: heading outline never skips a level`);
+
+/* ============================================ 1b. Overlay hit-testing
+   The `hidden` attribute is only a UA-level `display:none`, so ANY component
+   rule that sets `display` beats it and leaves an invisible full-screen panel
+   on top of the page, swallowing every click behind it. jsdom resolves
+   `hidden` more strictly than real browsers, so assert on the CSS itself.  */
+{
+  const overlaysToggledByHidden = new Set();
+  for (const file of files) {
+    const html = fs.readFileSync(file, 'utf8');
+    for (const m of html.matchAll(/<[a-z]+[^>]*\bclass="([^"]*)"[^>]*\shidden(?=[\s>])/g)) {
+      m[1].split(/\s+/).filter(Boolean).forEach((c) => overlaysToggledByHidden.add(c));
+    }
+  }
+  /* Strip comments so a commented-out rule cannot satisfy the check. */
+  const css = appCss.replace(/\/\*[\s\S]*?\*\//g, '');
+  const hasGlobalGuard = /\[hidden\][^{]*\{[^}]*display\s*:\s*none\s*!important/.test(css);
+
+  const risky = [];
+  for (const cls of overlaysToggledByHidden) {
+    const rule = new RegExp(`\\.${cls.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\{([^}]*)\\}`, 'g');
+    for (const m of css.matchAll(rule)) {
+      const decl = m[1];
+      if (/display\s*:\s*(?!none)/.test(decl)) risky.push(`.${cls}`);
+    }
+  }
+
+  if (risky.length && !hasGlobalGuard) {
+    fail(`[hidden] is overridden by a display rule on ${[...new Set(risky)].join(', ')} — closed overlays stay clickable. Add [hidden]{display:none!important}`);
+  } else {
+    pass(`closed overlays (${[...overlaysToggledByHidden].map((c) => '.' + c).join(', ')}) cannot swallow clicks`);
+  }
+}
 
 /* ================================================== 2. Lead form behaviour */
 {

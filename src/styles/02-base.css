@@ -32,6 +32,13 @@ body {
 
 body.is-locked { overflow: hidden; }
 
+/* The `hidden` attribute is only `display:none` at the UA level, so ANY
+   component rule that sets display (e.g. `.modal { display: grid }`) silently
+   overrides it. The closed consultation modal then stayed in the layout and
+   swallowed every tap on the mobile dock behind it. This makes `hidden`
+   authoritative for the whole site; components opt out with .is-open. */
+[hidden] { display: none !important; }
+
 img, svg, video, canvas, picture {
   display: block;
   max-width: 100%;

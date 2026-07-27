@@ -7,6 +7,10 @@
 export const nav = [
   {
     label: 'Home Interiors',
+    /* navLabel: shorter text for the desktop bar only. The full `label` is
+       still used in the drawer, where there is room for it. Without this the
+       five links need 998px and collide with the phone number and CTA. */
+    navLabel: 'Interiors',
     href: '/residential/',
     mega: 'wide',
     columns: [
@@ -109,6 +113,7 @@ export const nav = [
   },
   {
     label: 'Where We Work',
+    navLabel: 'Locations',
     href: '/interior-designers-in-gurgaon/',
     columns: [
       {

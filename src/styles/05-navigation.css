@@ -90,9 +90,14 @@
   align-items: center;
   gap: var(--s-1);
   margin-inline: auto;
-  /* Allow the menu to yield space before the CTAs are forced to wrap */
-  min-width: 0;
-  flex-shrink: 1;
+  /* The links are nowrap and cannot reflow, so this row must never be
+     squeezed narrower than its contents — that is what made the links
+     render on top of the phone number and CTA. It may still shrink to its
+     min-content width; the breakpoints below move it into the drawer well
+     before that point is reached. */
+  flex: 0 1 auto;
+  min-width: min-content;
+  overflow: clip;
 }
 .nav-item { position: relative; }
 .nav-link {
@@ -245,7 +250,22 @@
 }
 
 /* --------------------------------------------------------------- Nav CTAs */
-.nav-actions { display: flex; align-items: center; gap: var(--s-3); flex-shrink: 0; }
+/* flex-shrink:0 kept this from ever yielding, so on narrow phones the CTA +
+   burger pushed past the container and the page scrolled sideways. Let it
+   shrink and let the button ellipsise instead. */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.nav-actions > .btn {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .nav-phone {
   display: inline-flex;
   align-items: center;
@@ -260,16 +280,41 @@
 .nav-phone:hover { color: var(--accent-text); background: var(--brand-50); }
 .nav-phone .ico { width: 16px; height: 16px; color: var(--brand-500); }
 
-/* Progressive collapse so the bar never crowds:
-   <1400px  drop the "Cost calculator" button
-   <1280px  phone becomes an icon-only tap target
-   <1080px  full menu moves into the drawer */
-@media (max-width: 1400px) { .nav-actions .btn-outline { display: none; } }
-@media (max-width: 1280px) {
+/* Progressive collapse so the bar never crowds.
+   The nav links are nowrap and cannot reflow, so each step below removes a
+   real chunk of width. Measured against the widest label set: brand 227px +
+   menu 998px + actions 442px + gaps/gutter 128px.
+     <1500px  drop the "New" badge in the menu
+     <1440px  "View our work" lives in the hero and drawer anyway
+     <1360px  phone becomes an icon-only tap target
+     <1280px  tighten link padding to buy ~90px
+     <1200px  full menu moves into the drawer                              */
+@media (max-width: 1500px) {
+  .nav-menu .badge { display: none; }
+}
+@media (max-width: 1440px) {
+  .nav-actions .btn-outline { display: none; }
+}
+@media (max-width: 1360px) {
   .nav-phone span { display: none; }
   .nav-phone { width: 40px; height: 40px; justify-content: center; padding: 0; }
 }
-@media (max-width: 1080px) { .nav-menu { display: none; } }
+@media (max-width: 1280px) {
+  .nav-menu { gap: 0; }
+  .nav-link { padding-inline: var(--s-3); font-size: var(--fs-sm); }
+}
+@media (max-width: 1200px) {
+  .nav-menu { display: none; }
+}
+/* Small phones: the full "Free consultation" label plus the burger no longer
+   fit beside the logo, so shorten it. The drawer and the sticky mobile dock
+   both still carry the full call to action. */
+@media (max-width: 460px) {
+  .nav-actions .btn-primary { font-size: var(--fs-xs); padding-inline: var(--s-3); }
+}
+@media (max-width: 380px) {
+  .nav-actions .btn-primary { display: none; }
+}
 
 /* --------------------------------------------------------- Hamburger button */
 .nav-toggle {
@@ -284,7 +329,9 @@
   transition: all var(--t-fast);
 }
 .nav-toggle:hover { border-color: var(--brand-400); background: var(--brand-50); }
-@media (max-width: 1080px) { .nav-toggle { display: inline-flex; } }
+/* Must match the width at which .nav-menu hides, or there is a band with
+   no navigation at all. */
+@media (max-width: 1200px) { .nav-toggle { display: inline-flex; } }
 
 .burger { width: 20px; height: 14px; position: relative; }
 .burger span {

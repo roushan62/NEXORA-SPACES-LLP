@@ -679,8 +679,19 @@
   font-size: var(--fs-base);
   font-weight: 500;
   max-width: calc(100vw - 2rem);
-  transition: transform var(--t-slow);
+  transition: transform var(--t-slow), opacity var(--t-base), visibility var(--t-slow);
+  /* Hidden only by transform, the toast still sat over the mobile dock and
+     swallowed taps on the middle action. Take it out of hit-testing and out
+     of the accessibility tree until it is actually shown. */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
-.toast.is-visible { transform: translate(-50%, 0); }
+.toast.is-visible {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
 .toast .ico { color: var(--brand-300); }
 @media (max-width: 640px) { .toast { bottom: 96px; } }

@@ -101,8 +101,11 @@ const navbar = () => `
 
     <nav class="nav-menu" aria-label="Primary">
       ${nav.map((item) => {
+        /* The desktop bar uses the shorter navLabel when one is defined; the
+           drawer and the mega-menu keep the full, descriptive label. */
+        const barLabel = item.navLabel || item.label;
         if (!item.columns) {
-          return `<div class="nav-item"><a href="${url(item.href)}" class="nav-link">${esc(item.label)}</a></div>`;
+          return `<div class="nav-item"><a href="${url(item.href)}" class="nav-link">${esc(barLabel)}</a></div>`;
         }
         const cols = item.columns.map(megaColumn).join('');
         const feature = item.feature ? `
@@ -118,8 +121,9 @@ const navbar = () => `
         const gridCls = item.feature ? 'mega-grid mega-grid-3' : `mega-grid${item.columns.length > 2 ? ' mega-grid-3' : ''}`;
         return `
         <div class="nav-item">
-          <a href="${url(item.href)}" class="nav-link" aria-haspopup="true">
-            ${esc(item.label)}
+          <a href="${url(item.href)}" class="nav-link" aria-haspopup="true"
+             ${item.navLabel ? `aria-label="${esc(item.label)}"` : ''}>
+            ${esc(barLabel)}
             ${item.badge ? `<span class="badge badge-accent badge-caps">${esc(item.badge)}</span>` : ''}
             ${icon('chevronDown', { size: 14 })}
           </a>
