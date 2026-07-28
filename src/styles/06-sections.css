@@ -18,6 +18,10 @@
   width: 100%; height: 100%;
   object-fit: cover;
   object-position: center 42%;
+  /* Gentle continuous zoom layered under the cross-fade frames → reads like a
+     slow interior video walkthrough. Disabled under prefers-reduced-motion. */
+  animation: nxKenBurns 32s ease-in-out infinite alternate;
+  will-change: transform;
 }
 .hero-scrim {
   position: absolute;
@@ -114,6 +118,12 @@
 }
 .hero-scroll .ico { animation: bob 2.4s var(--e-in-out) infinite; }
 @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+/* Slow cinematic zoom used by hero / page-head backgrounds. Starts slightly
+   enlarged so the pan never exposes an edge. */
+@keyframes nxKenBurns {
+  0%   { transform: scale(1.04) translate3d(0, 0, 0); }
+  100% { transform: scale(1.14) translate3d(-1.6%, -1.4%, 0); }
+}
 @media (max-width: 900px) { .hero-scroll { display: none; } }
 
 /* Floating quote card on hero (desktop only) */
@@ -163,7 +173,16 @@
     radial-gradient(700px 380px at 8% 110%, rgba(207,165,79,.1), transparent 62%);
 }
 .page-head-media { position: absolute; inset: 0; z-index: -2; }
-.page-head-media img { width: 100%; height: 100%; object-fit: cover; opacity: .32; }
+/* Slow Ken Burns drift so every inner-page hero has a living, page-themed
+   background (each page paints its own image). Transform only → GPU friendly,
+   and disabled under prefers-reduced-motion (see 02-base.css). */
+.page-head-media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: .32;
+  animation: nxKenBurns 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
 .page-head-media::after {
   content: '';
   position: absolute;
