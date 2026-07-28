@@ -26,30 +26,35 @@ const ensure = (d) => fs.mkdir(d, { recursive: true });
    placeholder when it does not. Then run `npm run images && npm run build`.
    ========================================================================== */
 
-/** Fallback source render for each room type. */
+/** Fallback source render for each room type. Drawn from the library of real,
+ *  full-colour residential renders (hero.jpg + p1–p9.jpg). The pipeline rotates
+ *  which render each package pulls (`pick % pool.length`) so neighbouring cards
+ *  in the grid never show the identical photo. */
 const ROOM_FALLBACK = {
-  overview: ['gallery/a-overview.jpg', 'p2.jpg', 'p3.jpg', 'p7.jpg'],
-  hall: ['gallery/a-living.jpg', 'gallery/b-living.jpg', 'p1.jpg', 'p3.jpg', 'p7.jpg'],
-  kitchen: ['gallery/a-kitchen.jpg', 'gallery/b-kitchen.jpg', 'p4.jpg'],
-  bedroom: ['gallery/a-bedroom.jpg', 'p6.jpg', 'p9.jpg'],
-  puja: ['gallery/a-puja.jpg'],
-  bath: ['gallery/a-bath.jpg'],
-  closet: ['gallery/a-closet.jpg'],
-  passage: ['gallery/a-passage.jpg'],
+  overview: ['hero.jpg', 'p5.jpg', 'p1.jpg', 'p7.jpg', 'p3.jpg'],
+  hall:     ['p1.jpg', 'p5.jpg', 'p7.jpg'],
+  kitchen:  ['p2.jpg', 'p4.jpg'],
+  bedroom:  ['p3.jpg', 'p6.jpg'],
+  puja:     ['p3.jpg', 'p6.jpg', 'p8.jpg'],
+  bath:     ['p8.jpg'],
+  closet:   ['p9.jpg'],
+  passage:  ['hero.jpg', 'p1.jpg', 'p5.jpg', 'p7.jpg'],
 };
 
-/** Per-package grade so the ten sets do not look like one repeated home. */
+/** Subtle per-package grade — keeps the vivid, real-photo look while nudging
+ *  brightness/hue and the crop frame so the ten sets read as different homes.
+ *  (Saturation stays at ~1.0 so colour is never washed out.) */
 const PKG_GRADE = {
-  aurelia:  { saturation: 1.02, brightness: 1.03, hue: 0,   tint: null,                     crop: 'centre' },
-  meridian: { saturation: 0.94, brightness: 1.07, hue: -6,  tint: { r: 255, g: 250, b: 240 }, crop: 'right' },
-  sereno:   { saturation: 0.82, brightness: 1.06, hue: 4,   tint: { r: 250, g: 249, b: 244 }, crop: 'left' },
-  aravalli: { saturation: 1.06, brightness: 0.94, hue: -10, tint: { r: 248, g: 240, b: 226 }, crop: 'centre' },
-  kalina:   { saturation: 0.98, brightness: 1.09, hue: 6,   tint: null,                     crop: 'left' },
-  vasant:   { saturation: 1.14, brightness: 0.99, hue: -14, tint: { r: 255, g: 244, b: 225 }, crop: 'right' },
-  oakwood:  { saturation: 1.0,  brightness: 1.05, hue: 2,   tint: { r: 253, g: 249, b: 241 }, crop: 'centre' },
-  lumen:    { saturation: 1.05, brightness: 0.88, hue: -4,  tint: { r: 240, g: 234, b: 224 }, crop: 'right' },
-  palash:   { saturation: 0.9,  brightness: 1.01, hue: 8,   tint: { r: 250, g: 247, b: 238 }, crop: 'left' },
-  nirvaan:  { saturation: 1.03, brightness: 1.02, hue: -2,  tint: null,                     crop: 'centre' },
+  aurelia:  { saturation: 1.00, brightness: 1.00, hue: 0,   tint: null, crop: 'centre' },
+  meridian: { saturation: 1.00, brightness: 1.03, hue: -4,  tint: null, crop: 'right'  },
+  sereno:   { saturation: 1.00, brightness: 1.02, hue: 4,   tint: null, crop: 'left'   },
+  aravalli: { saturation: 1.04, brightness: 0.98, hue: -6,  tint: null, crop: 'centre' },
+  kalina:   { saturation: 1.00, brightness: 1.03, hue: 5,   tint: null, crop: 'left'    },
+  vasant:   { saturation: 1.06, brightness: 0.99, hue: -8,  tint: null, crop: 'right'  },
+  oakwood:  { saturation: 1.00, brightness: 1.01, hue: 2,   tint: null, crop: 'centre' },
+  lumen:    { saturation: 1.03, brightness: 0.97, hue: -3,  tint: null, crop: 'right'  },
+  palash:   { saturation: 1.00, brightness: 1.00, hue: 6,   tint: null, crop: 'left'    },
+  nirvaan:  { saturation: 1.02, brightness: 1.00, hue: -2,  tint: null, crop: 'centre' },
 };
 
 const GALLERY_WIDTHS = { thumb: 640, full: 1400 };

@@ -19,6 +19,27 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const DEV = process.argv.includes('--dev');
 
+/* The deploy host (used to avoid rewriting canonical/OG/schema URLs that are
+   already origin-absolute). */
+const HOST = (() => { try { return new URL(site.baseUrl).host; } catch { return ''; } })();
+
+/**
+ * Rewrite the hard-coded `basePath` prefix in rendered HTML to a path that is
+ * RELATIVE to the page, so the static output works when opened via file://,
+ * served from GitHub Pages, or hosted anywhere — no rebuild or server needed.
+ *
+ * Only bare `basePath/` occurrences (navigation, assets, embedded JSON) are
+ * rewritten. Origin-absolute URLs (canonical, Open Graph, JSON-LD, hreflang)
+ * keep their leading host and are left untouched — which is what SEO expects.
+ */
+function relativize(html, route) {
+  const depth = route.replace(/^\/|\/$/g, '').split('/').filter(Boolean).length;
+  const prefix = depth === 0 ? './' : '../'.repeat(depth);
+  const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp('(?<!' + esc(HOST) + ')' + esc(site.basePath) + '/', 'g');
+  return html.replace(re, prefix);
+}
+
 const read = (p) => fs.readFile(path.join(ROOT, p), 'utf8');
 const write = async (p, c) => {
   const full = path.join(ROOT, p);
@@ -41,7 +62,7 @@ async function buildCss() {
   }
   /* Font URLs are relative to the CSS file at /assets/css/, so rewrite them
      to be absolute from the deploy root. */
-  css = css.replace(/url\('assets\/fonts\//g, `url('${site.basePath}/assets/fonts/`);
+  css = css.replace(/url\('assets\/fonts\//g, "url('../fonts/");
 
   const out = DEV ? css : new CleanCSS({ level: 2, returnPromise: false }).minify(css).styles;
   const size = await write('assets/css/main.css', out);
@@ -87,7 +108,7 @@ function routeToFile(route) {
 async function buildPages(pages) {
   const results = [];
   for (const page of pages) {
-    let html = renderPage(page);
+    let html = relativize(renderPage(page), page.route);
     if (!DEV) {
       html = await minifyHtml(html, {
         collapseWhitespace: true,
@@ -166,16 +187,16 @@ async function buildManifest() {
     name: site.legalName,
     short_name: site.name,
     description: 'Residential interior fit-out for homes in Delhi, Gurugram and Noida.',
-    start_url: `${site.basePath}/`,
-    scope: `${site.basePath}/`,
+    start_url: '.',
+    scope: '.',
     display: 'standalone',
     background_color: '#fdfcfa',
     theme_color: '#0b0d0f',
     lang: 'en-IN',
     categories: ['business', 'lifestyle', 'shopping'],
     icons: [
-      { src: `${site.basePath}/assets/img/logo-192.png`, sizes: '192x192', type: 'image/png', purpose: 'any' },
-      { src: `${site.basePath}/assets/img/logo-512.png`, sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+      { src: 'assets/img/logo-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+      { src: 'assets/img/logo-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
     ],
   }, null, 2));
 

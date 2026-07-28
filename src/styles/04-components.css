@@ -32,6 +32,23 @@
 .btn[disabled], .btn.is-disabled {
   opacity: .5; pointer-events: none;
 }
+/* Submit loading state — JS adds .is-loading and sets the label to "Sending…".
+   A spinner is prepended to the label and the trailing icon fades, so the form
+   feels responsive while the (client-side / WhatsApp-fallback) submit runs. */
+.btn.is-loading { pointer-events: none; }
+.btn.is-loading .btn-text::before {
+  content: '';
+  display: inline-block;
+  width: 1em; height: 1em;
+  margin-right: .55em;
+  border: 2px solid rgba(255, 255, 255, .45);
+  border-top-color: #fff;
+  border-radius: 50%;
+  vertical-align: -.125em;
+  animation: nxSpin .7s linear infinite;
+}
+.btn.is-loading .ico { opacity: 0; transition: opacity var(--t-fast); }
+@keyframes nxSpin { to { transform: rotate(360deg); } }
 
 /* Sheen sweep on hover — subtle, premium */
 .btn::after {
@@ -311,7 +328,8 @@
   align-items: center;
   gap: var(--s-1);
 }
-.field.has-error .field-error { display: flex; }
+.field.has-error .field-error { display: flex; animation: nxFadeUp .25s ease both; }
+@keyframes nxFadeUp { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
 
 .field-row {
   display: grid;
