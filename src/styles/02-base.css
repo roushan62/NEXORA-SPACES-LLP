@@ -171,7 +171,7 @@ code, kbd, samp {
     transition-duration: .01ms !important;
     scroll-behavior: auto !important;
   }
-  .reveal { opacity: 1 !important; transform: none !important; }
+  .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; }
 }
 
 /* ------------------------------------------------------------------ Print */

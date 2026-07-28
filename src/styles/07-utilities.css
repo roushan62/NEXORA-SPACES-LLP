@@ -4,34 +4,37 @@
 
 /* --------------------------------------------------------- Scroll reveal
    Elements start hidden then transition in when observed by JS.
-   .no-js safeguard: if JS never runs, everything stays visible. */
-.reveal {
+
+   SAFEGUARD: the hidden state is scoped to html.js, which the inline script in
+   <head> sets before first paint. If JS is blocked, fails to parse or 404s,
+   .js is never added and every .reveal element renders fully visible instead
+   of leaving the page blank. Never author these rules unscoped. */
+.js .reveal {
   opacity: 0;
   transform: translateY(22px);
   transition: opacity 700ms var(--e-out), transform 700ms var(--e-out);
-  will-change: opacity, transform;
 }
-.reveal.is-in { opacity: 1; transform: none; }
-.reveal-left  { transform: translateX(-26px); }
-.reveal-right { transform: translateX(26px); }
-.reveal-scale { transform: scale(.965); }
-.reveal-fade  { transform: none; }
+.js .reveal.is-in { opacity: 1; transform: none; }
+.js .reveal-left  { transform: translateX(-26px); }
+.js .reveal-right { transform: translateX(26px); }
+.js .reveal-scale { transform: scale(.965); }
+.js .reveal-fade  { transform: none; }
 
-/* Stagger children */
-.reveal-stagger > * {
+/* Stagger children — same .js scoping, same reason */
+.js .reveal-stagger > * {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 620ms var(--e-out), transform 620ms var(--e-out);
 }
-.reveal-stagger.is-in > * { opacity: 1; transform: none; }
-.reveal-stagger.is-in > *:nth-child(1) { transition-delay: 0ms; }
-.reveal-stagger.is-in > *:nth-child(2) { transition-delay: 70ms; }
-.reveal-stagger.is-in > *:nth-child(3) { transition-delay: 140ms; }
-.reveal-stagger.is-in > *:nth-child(4) { transition-delay: 210ms; }
-.reveal-stagger.is-in > *:nth-child(5) { transition-delay: 280ms; }
-.reveal-stagger.is-in > *:nth-child(6) { transition-delay: 350ms; }
-.reveal-stagger.is-in > *:nth-child(7) { transition-delay: 420ms; }
-.reveal-stagger.is-in > *:nth-child(8) { transition-delay: 490ms; }
+.js .reveal-stagger.is-in > * { opacity: 1; transform: none; }
+.js .reveal-stagger.is-in > *:nth-child(1) { transition-delay: 0ms; }
+.js .reveal-stagger.is-in > *:nth-child(2) { transition-delay: 70ms; }
+.js .reveal-stagger.is-in > *:nth-child(3) { transition-delay: 140ms; }
+.js .reveal-stagger.is-in > *:nth-child(4) { transition-delay: 210ms; }
+.js .reveal-stagger.is-in > *:nth-child(5) { transition-delay: 280ms; }
+.js .reveal-stagger.is-in > *:nth-child(6) { transition-delay: 350ms; }
+.js .reveal-stagger.is-in > *:nth-child(7) { transition-delay: 420ms; }
+.js .reveal-stagger.is-in > *:nth-child(8) { transition-delay: 490ms; }
 
 .delay-1 { transition-delay: 90ms; }
 .delay-2 { transition-delay: 180ms; }

@@ -164,9 +164,7 @@ const main = {
           <a href="${url('/portfolio/')}" class="btn btn-outline hide-sm">Full portfolio ${icon('arrowRight', { size: 16 })}</a>
         </div>
         <div class="folio-grid reveal-stagger">
-          ${projects.filter((p) => p.tags.includes('residential')).slice(0, 6).map((p) => folioCard({
-            ...p, image: `/assets/img/projects/${p.image.split('/').pop().replace('.jpg', '')}-800.jpg`,
-          })).join('')}
+          ${projects.filter((p) => p.tags.includes('residential')).slice(0, 6).map((p) => folioCard(p)).join('')}
         </div>
       </div>
     </section>`,
@@ -380,9 +378,7 @@ const bhkPages = bhkData.map((b) => ({
           <a href="${url('/portfolio/')}" class="btn btn-outline hide-sm">All projects ${icon('arrowRight', { size: 16 })}</a>
         </div>
         <div class="folio-grid reveal-stagger">
-          ${projects.filter((p) => p.tags.includes('residential')).slice(0, 3).map((p) => folioCard({
-            ...p, image: `/assets/img/projects/${p.image.split('/').pop().replace('.jpg', '')}-800.jpg`,
-          })).join('')}
+          ${projects.filter((p) => p.tags.includes('residential')).slice(0, 3).map((p) => folioCard(p)).join('')}
         </div>
       </div>
     </section>`,

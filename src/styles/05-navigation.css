@@ -448,7 +448,8 @@
 @media (max-width: 768px) {
   .mobile-dock { display: block; }
   body { padding-bottom: 0; }
-  .site-footer { padding-bottom: 76px; }
+  /* Clear the fixed dock, including the iOS home-bar inset it absorbs. */
+  .site-footer { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
 }
 
 /* ------------------------------------------------- Floating action buttons */
@@ -461,7 +462,14 @@
   gap: var(--s-3);
   justify-items: center;
 }
-@media (max-width: 768px) { .float-stack { bottom: 84px; right: var(--s-4); } }
+/* The dock grows by the home-bar inset on notched iPhones, so the FABs have to
+   clear 84px PLUS that inset — a flat 84px left them sitting on the dock. */
+@media (max-width: 768px) {
+  .float-stack {
+    bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+    right: var(--s-4);
+  }
+}
 
 .fab {
   width: 54px; height: 54px;

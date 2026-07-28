@@ -101,7 +101,14 @@
 /* Parallax hook — JS writes --py, CSS does the moving. */
 [data-parallax] { transform: translate3d(0, var(--py, 0), 0); will-change: transform; }
 
-/* ====================================================== Consultation modal */
+/* ====================================================== Consultation modal
+   The modal, its scrim and the lightbox are toggled with the `hidden`
+   attribute, but each also sets `display`. An author `display` declaration
+   beats the user-agent `[hidden] { display: none }` rule, so without the
+   guard below a "hidden" full-screen overlay stays in the layout at
+   z-index 800 and silently swallows every click on the page. */
+[hidden] { display: none !important; }
+
 .modal-scrim {
   position: fixed;
   inset: 0;
@@ -180,7 +187,10 @@
 /* ========================================================= Package grid */
 .pkg-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  /* min(300px, 100%) — without the min() the track keeps its 300px floor on a
+     narrower screen and the grid overflows horizontally. Matches the guard
+     already used by .grid-auto and .folio-grid. */
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: var(--s-6);
 }
 

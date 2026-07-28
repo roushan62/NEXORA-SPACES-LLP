@@ -25,18 +25,26 @@ export const url = (href = '/') => {
 export const richText = (html = '') =>
   String(html).replace(/(href|src)="(\/(?!\/)[^"]*)"/g, (m, attr, href) => `${attr}="${url(href)}"`);
 
-/* ------------------------------------------------------------------- Logo */
-export const logoMark = (size = 42) => `
+/* ------------------------------------------------------------------- Logo
+   The logo appears three times per page (navbar, drawer, footer). An `id` may
+   only occur once in a document, so the gradient id is suffixed per instance —
+   duplicates made the markup invalid and let browsers resolve url(#nxGold) to
+   the wrong node, dropping the gold gradient on the later logos. */
+let logoSeq = 0;
+export const logoMark = (size = 42) => {
+  const gid = `nxGold${++logoSeq}`;
+  return `
 <svg class="brand-mark" width="${size}" height="${size}" viewBox="0 0 48 48" fill="none" role="img" aria-label="${esc(site.legalName)} logo">
   <defs>
-    <linearGradient id="nxGold" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+    <linearGradient id="${gid}" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
       <stop stop-color="#9B7028"/><stop offset=".45" stop-color="#CFA54F"/><stop offset="1" stop-color="#EAD7A8"/>
     </linearGradient>
   </defs>
-  <rect x="1.25" y="1.25" width="45.5" height="45.5" rx="11" stroke="url(#nxGold)" stroke-width="1.5"/>
-  <path d="M15 34V15.5c0-.35.42-.52.66-.27L32 32.2" stroke="url(#nxGold)" stroke-width="2.6" stroke-linecap="round"/>
-  <path d="M33 14v18.5c0 .35-.42.52-.66.27L16 15.8" stroke="url(#nxGold)" stroke-width="2.6" stroke-linecap="round" opacity=".55"/>
+  <rect x="1.25" y="1.25" width="45.5" height="45.5" rx="11" stroke="url(#${gid})" stroke-width="1.5"/>
+  <path d="M15 34V15.5c0-.35.42-.52.66-.27L32 32.2" stroke="url(#${gid})" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M33 14v18.5c0 .35-.42.52-.66.27L16 15.8" stroke="url(#${gid})" stroke-width="2.6" stroke-linecap="round" opacity=".55"/>
 </svg>`;
+};
 
 const brandBlock = (cls = '') => `
 <a href="${url('/')}" class="brand ${cls}" aria-label="${esc(site.legalName)} home">
@@ -283,6 +291,10 @@ export function renderPage(page) {
     ...extraSchema,
   ]);
 
+  /* Reset per page so the generated gradient ids are deterministic and the
+     build produces byte-identical output when nothing else changed. */
+  logoSeq = 0;
+
   const asset = (p) => url(p);
 
   /* Assemble the document body first, then generate an icon sprite containing
@@ -309,15 +321,19 @@ ${consultModal()}`;
 
   return `<!DOCTYPE html>
 <html lang="en-IN" class="no-js">
+<!-- The inline script below swaps .no-js → .js before first paint, so the
+     scroll-reveal rules (which are scoped to html.js) only ever hide content
+     on browsers that can actually reveal it again. -->
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>document.documentElement.className="js"</script>
 ${metaTags(page)}
 
 <link rel="preconnect" href="${site.baseUrl}">
 <link rel="preload" as="font" type="font/woff2" href="${asset('/assets/fonts/inter-var.woff2')}" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="${asset('/assets/fonts/fraunces-var.woff2')}" crossorigin>
-${preloadImage ? `<link rel="preload" as="image" href="${asset(preloadImage)}" fetchpriority="high">` : ''}
+${preloadImage ? `<link rel="preload" as="image" href="${asset(preloadImage)}"${/\.avif$/.test(preloadImage) ? ' type="image/avif"' : /\.webp$/.test(preloadImage) ? ' type="image/webp"' : ''} fetchpriority="high">` : ''}
 
 <link rel="stylesheet" href="${asset('/assets/css/main.css')}">
 

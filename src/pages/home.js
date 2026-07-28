@@ -5,7 +5,7 @@ import { url } from '../layouts/base.js';
 import { picture } from '../lib/picture.js';
 import {
   sectionHead, statStrip, trustMarquee, processRail, faqBlock,
-  ctaBand, testimonialSection, credentialStrip, stars, heroVideo,
+  ctaBand, testimonialSection, credentialStrip, stars, heroVideo, heroLcpImage,
 } from '../layouts/sections.js';
 import { stats, trustBadges, credentials } from '../data/stats.js';
 import { testimonials, faqsGeneral, processSteps, designStyles, posts } from '../data/content.js';
@@ -387,7 +387,11 @@ export default {
   keywords:
     'residential interior fit out delhi, home interior designers gurgaon, flat interior design noida, apartment interior delhi ncr, villa interior designers, modular kitchen home interiors',
   ogImage: '/assets/img/og-default.jpg',
-  preloadImage: '/assets/img/hero-1536.avif',
+  /* Derived from the hero itself, so it always preloads the image actually
+     painted. It previously hard-coded hero-1536.avif, which the walkthrough
+     hero never renders — 135 KB downloaded at high priority and thrown away,
+     while the real LCP image waited behind it. */
+  preloadImage: heroLcpImage(),
   crumbs: [{ label: 'Home', href: '/' }],
   faqs: faqsGeneral,
   extraSchema: [

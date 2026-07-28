@@ -51,24 +51,42 @@ export const heroVideo = () => {
 </div>`;
   }
 
-  /* Fallback walkthrough — living room → kitchen → bedroom → whole home. */
+  /* Fallback walkthrough — living room → kitchen → bedroom → whole home.
+
+     Frame 1 is the LCP element, so it is served as <picture> (AVIF → WebP →
+     JPEG) and is the image the page preloads. Frames 2-4 only appear after
+     ~4s of cross-fade, so they stay lazy and are never on the critical path. */
   const frames = [
     { name: 'gallery/nirvaan-hall', alt: 'Living room of a completed Nexora Spaces home' },
     { name: 'gallery/nirvaan-kitchen', alt: 'Modular kitchen of a completed Nexora Spaces home' },
     { name: 'gallery/nirvaan-bedroom', alt: 'Bedroom of a completed Nexora Spaces home' },
     { name: 'gallery/nirvaan-overview', alt: 'Full home overview of a completed Nexora Spaces interior' },
   ];
+  const srcset = (name, ext) =>
+    `${url(`/assets/img/${name}-640.${ext}`)} 640w, ${url(`/assets/img/${name}-1400.${ext}`)} 1400w`;
+
   return `
 <div class="hero-media hero-media-walk" data-hero-walk aria-hidden="true">
   ${frames.map((f, i) => `
   <div class="hero-frame${i === 0 ? ' is-active' : ''}" style="--i:${i}">
-    <img src="${url(`/assets/img/${f.name}-1400.jpg`)}"
-         srcset="${url(`/assets/img/${f.name}-640.jpg`)} 640w, ${url(`/assets/img/${f.name}-1400.jpg`)} 1400w"
-         sizes="100vw" alt="${esc(f.alt)}" width="1400" height="933"
-         ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">
+    <picture>
+      <source type="image/avif" srcset="${srcset(f.name, 'avif')}" sizes="100vw">
+      <source type="image/webp" srcset="${srcset(f.name, 'webp')}" sizes="100vw">
+      <img src="${url(`/assets/img/${f.name}-1400.jpg`)}"
+           srcset="${srcset(f.name, 'jpg')}"
+           sizes="100vw" alt="${esc(f.alt)}" width="1400" height="933"
+           ${i === 0 ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}>
+    </picture>
   </div>`).join('')}
 </div>`;
 };
+
+/** The exact asset the hero paints first — kept next to the markup above so
+ *  the homepage <link rel=preload> can never drift out of sync with it again. */
+export const heroLcpImage = () =>
+  (site.heroVideo && site.heroVideo.sources && site.heroVideo.sources.length)
+    ? (site.heroVideo.poster || '/assets/img/hero-1536.jpg')
+    : '/assets/img/gallery/nirvaan-hall-1400.avif';
 
 /* ------------------------------------------------------------ Breadcrumbs */
 export const breadcrumbs = (crumbs, onImage = true) => {
@@ -85,9 +103,37 @@ export const breadcrumbs = (crumbs, onImage = true) => {
 };
 
 /* ------------------------------------------------------------- Page header */
+/* The banner behind a page title is the LCP element on most inner pages, so
+   it is served AVIF → WebP → JPEG instead of one large JPEG at every viewport.
+
+   Callers pass a concrete derivative (…-1600.jpg or …-1200.jpg) and the two
+   image families on disk have different widths — assets/img/pages/* is
+   960/1600, assets/img/projects/* is 420/800/1200. So the narrower companion
+   width is derived from the filename rather than assumed, otherwise the
+   srcset points at derivatives that were never generated. */
+const HEAD_WIDTHS = { 1600: [960, 1600], 1200: [420, 800, 1200] };
+
+const pageHeadMedia = (image) => {
+  const path = String(image).replace(/^.*\/assets\/img\//, '');
+  const match = path.match(/^(.*)-(\d+)\.(jpg|jpeg|png|webp|avif)$/i);
+  const base = match ? match[1] : path.replace(/\.(jpg|jpeg|png|webp|avif)$/i, '');
+  const largest = match ? Number(match[2]) : 1600;
+  const widths = HEAD_WIDTHS[largest] || [largest];
+
+  const set = (ext) => widths.map((w) => `${url(`/assets/img/${base}-${w}.${ext}`)} ${w}w`).join(', ');
+  return `<div class="page-head-media">
+    <picture>
+      <source type="image/avif" srcset="${set('avif')}" sizes="100vw">
+      <source type="image/webp" srcset="${set('webp')}" sizes="100vw">
+      <img src="${url(`/assets/img/${base}-${largest}.jpg`)}" srcset="${set('jpg')}" sizes="100vw"
+           alt="" width="1600" height="700" fetchpriority="high" decoding="async">
+    </picture>
+  </div>`;
+};
+
 export const pageHead = ({ crumbs, title, sub, actions = [], stats = [], image, light = false }) => `
 <section class="page-head${light ? ' page-head-light' : ''}">
-  ${image && !light ? `<div class="page-head-media"><img src="${url(image)}" alt="" width="1600" height="700" fetchpriority="high" decoding="async"></div>` : ''}
+  ${image && !light ? pageHeadMedia(image) : ''}
   <div class="container">
     <div class="${stats.length ? 'page-head-grid' : ''}">
       <div>
@@ -340,30 +386,48 @@ export const quoteCard = (t) => `
   </div>
 </article>`;
 
+/* One [data-rail] scope wraps BOTH the arrows and the .rail they scroll.
+   They used to sit in two sibling scopes, so the arrow scope contained no
+   .rail and initRails threw before binding anything — dead arrows sitewide. */
 export const testimonialSection = (items, { eyebrow = 'Client stories', title = 'What NCR homeowners say', sub = '' } = {}) => `
 <section class="section bg-subtle cv-auto">
-  <div class="container">
+  <div class="container" data-rail>
     <div class="section-head-row">
       ${sectionHead({ eyebrow, title, sub })}
-      <div class="rail-nav only-desktop" data-rail>
-        <button class="rail-btn" data-rail-prev aria-label="Previous">${icon('arrowLeft', { size: 18 })}</button>
-        <button class="rail-btn" data-rail-next aria-label="Next">${icon('arrowRight', { size: 18 })}</button>
+      <div class="rail-nav only-desktop">
+        <button type="button" class="rail-btn" data-rail-prev aria-label="Show previous client stories">${icon('arrowLeft', { size: 18 })}</button>
+        <button type="button" class="rail-btn" data-rail-next aria-label="Show more client stories">${icon('arrowRight', { size: 18 })}</button>
       </div>
     </div>
-    <div data-rail>
-      <div class="rail-nav only-mobile mb-4" style="display:none"></div>
-      <div class="rail">${items.map(quoteCard).join('')}</div>
-    </div>
+    <div class="rail" tabindex="0" role="group" aria-label="Client stories, scrollable">${items.map(quoteCard).join('')}</div>
     <div class="mt-8 text-center reveal">
       <a href="${url('/reviews/')}" class="link-arrow">${site.reviews.schema ? `Read all ${site.reviews.count} verified reviews` : 'Read client stories'} ${icon('arrowRight', { size: 16 })}</a>
     </div>
   </div>
 </section>`;
 
-/* ------------------------------------------------------------ Folio cards */
-export const folioCard = (p, featured = false) => `
+/* ------------------------------------------------------------ Folio cards
+   Takes the bare project image path (e.g. /assets/img/projects/p1.jpg) and
+   derives the responsive set itself. Callers used to hand-build the "-800.jpg"
+   filename, which shipped a plain JPEG and ignored the AVIF/WebP derivatives
+   that npm run images had already generated — roughly 40% wasted bytes on
+   every portfolio grid. The first card is the LCP candidate, so it loads
+   eagerly at high priority; the rest stay lazy. */
+export const folioCard = (p, featured = false) => {
+  const base = String(p.image).replace(/^.*\/assets\/img\//, '').replace(/(-\d+)?\.(jpg|jpeg|png|webp|avif)$/i, '');
+  const set = (ext) => [420, 800, 1200]
+    .map((w) => `${url(`/assets/img/${base}-${w}.${ext}`)} ${w}w`).join(', ');
+  const sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
+
+  return `
 <a href="${url('/portfolio/')}" class="folio-item${featured ? ' is-featured' : ''}" data-tags="${esc(p.tags.join(' '))}">
-  <img src="${url(p.image)}" alt="${esc(p.alt)}" width="800" height="600" loading="lazy" decoding="async">
+  <picture>
+    <source type="image/avif" srcset="${set('avif')}" sizes="${sizes}">
+    <source type="image/webp" srcset="${set('webp')}" sizes="${sizes}">
+    <img src="${url(`/assets/img/${base}-800.jpg`)}" srcset="${set('jpg')}" sizes="${sizes}"
+         alt="${esc(p.alt)}" width="800" height="600"
+         ${featured ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}>
+  </picture>
   <span class="folio-veil"></span>
   <div class="folio-body">
     <span class="folio-cat">${esc(p.category)}</span>
@@ -376,6 +440,7 @@ export const folioCard = (p, featured = false) => `
     <span class="folio-cta">View project ${icon('arrowRight', { size: 15 })}</span>
   </div>
 </a>`;
+};
 
 /* --------------------------------------------------- Credentials strip */
 export const credentialStrip = (items) => `

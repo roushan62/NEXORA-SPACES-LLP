@@ -8,11 +8,15 @@ export function picture({
 }) {
   const set = (ext) => widths.map((w) => `${url(`/assets/img/${name}-${w}.${ext}`)} ${w}w`).join(', ');
   const fallback = url(`/assets/img/${name}-${widths[widths.length - 1]}.jpg`);
+  /* The <img> carries a JPEG srcset too, not just the largest file. Without it
+     a browser that cannot decode AVIF or WebP ignored the small derivatives
+     entirely and pulled the full-width JPEG onto a phone. */
   return `<picture class="${className}">
   <source type="image/avif" srcset="${set('avif')}" sizes="${sizes}">
   <source type="image/webp" srcset="${set('webp')}" sizes="${sizes}">
-  <img src="${fallback}" alt="${esc(alt)}" width="${width}" height="${height}"
-       class="${imgClass}" ${priority ? 'fetchpriority="high"' : `loading="${loading}"`} decoding="async">
+  <img src="${fallback}" srcset="${set('jpg')}" sizes="${sizes}"
+       alt="${esc(alt)}" width="${width}" height="${height}"
+       class="${imgClass}" ${priority ? 'fetchpriority="high" decoding="sync"' : `loading="${loading}" decoding="async"`}>
 </picture>`;
 }
 

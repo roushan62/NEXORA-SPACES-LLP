@@ -69,9 +69,7 @@ export default {
         </div>
 
         <div class="folio-grid" id="folioGrid">
-          ${projects.map((p, i) => folioCard({
-            ...p, image: `/assets/img/projects/${p.image.split('/').pop().replace('.jpg', '')}-800.jpg`,
-          }, i === 0)).join('')}
+          ${projects.map((p, i) => folioCard(p, i === 0)).join('')}
         </div>
 
         <p id="folioEmpty" style="display:none;text-align:center;padding:var(--s-16) 0;color:var(--text-muted)">
@@ -133,8 +131,14 @@ export default {
           <div class="split-media reveal delay-1">
             <div class="ba" tabindex="0" role="slider" aria-label="Before and after comparison slider"
                  aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" style="--pos:50%">
-              <img src="${url('/assets/img/ba-before.jpg')}" alt="Bedroom before renovation — dated finishes and freestanding storage" width="1000" height="625" loading="lazy" decoding="async">
-              <img class="ba-after" src="${url('/assets/img/ba-after.jpg')}" alt="The same bedroom after Nexora Spaces renovation — fitted wardrobe and layered lighting" width="1000" height="625" loading="lazy" decoding="async">
+              <picture>
+                <source type="image/webp" srcset="${url('/assets/img/ba-before.webp')}">
+                <img src="${url('/assets/img/ba-before.jpg')}" alt="Bedroom before renovation — dated finishes and freestanding storage" width="1000" height="625" loading="lazy" decoding="async">
+              </picture>
+              <picture class="ba-after">
+                <source type="image/webp" srcset="${url('/assets/img/ba-after.webp')}">
+                <img src="${url('/assets/img/ba-after.jpg')}" alt="The same bedroom after Nexora Spaces renovation — fitted wardrobe and layered lighting" width="1000" height="625" loading="lazy" decoding="async">
+              </picture>
               <span class="ba-tag left">Before</span>
               <span class="ba-tag right">After</span>
               <span class="ba-handle"><span class="ba-knob">${icon('chevronLeft', { size: 9 })}${icon('chevronRight', { size: 9 })}</span></span>
