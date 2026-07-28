@@ -1,7 +1,7 @@
 import { site, waLink } from '../config/site.config.js';
 import { icon } from '../lib/icons.js';
 import { esc, articleSchema } from '../lib/seo.js';
-import { url } from '../layouts/base.js';
+import { url, richText } from '../layouts/base.js';
 import { picture } from '../lib/picture.js';
 import { pageHead, sectionHead, ctaBand, faqBlock } from '../layouts/sections.js';
 import { posts, faqsCost, faqsGeneral } from '../data/content.js';
@@ -314,7 +314,7 @@ const articles = posts.map((p) => {
               <div class="img-round img-shadow mb-10">
                 ${picture({ name: imgName(p), alt: p.alt, widths: [420, 800], sizes: '(max-width:1024px) 100vw, 70vw', width: 800, height: 500 })}
               </div>
-              <div class="prose">${content.html}</div>
+              <div class="prose">${richText(content.html)}</div>
 
               <div class="magnet mt-12">
                 <div>

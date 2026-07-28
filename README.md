@@ -31,6 +31,7 @@ npm run serve      # preview at http://localhost:4321/NEXORA-SPACES-LLP/
 | `npm run check` | Validates every internal link, image, canonical, schema and heading |
 | `npm run verify` | Enforces the residential brief: no pricing/calculator, no commercial language (in copy **and** JSON-LD), hero + modal + gallery integrity, unique schema `@id`s |
 | `npm run e2e` | Boots every built page in a real DOM and drives the modal, drawer, accordions, carousels, filters, lightbox and form — catches dead controls and JS errors |
+| `npm run audit:browser` | Renders all 34 pages in Chromium at 320/390/768/1280/1440 and hit-tests every primary control — catches overflow, overlap and unclickable buttons. Skips cleanly if no Chromium is present |
 | `npm run test:api` | Runs `api/contact.php` on PHP 8.2 (WebAssembly, no PHP install needed) and asserts 29 behaviours |
 | `npm run audit` | Reports payload budget, CSS coverage, a11y and SEO completeness |
 | `npm run images` | Regenerates responsive AVIF/WebP/JPEG derivatives + OG card + favicons |

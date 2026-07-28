@@ -358,8 +358,11 @@
   cursor: pointer;
 }
 .consent input {
-  width: 18px; height: 18px;
-  margin-top: 2px;
+  /* WCAG 2.2 asks for a 24px minimum target. A checkbox cannot host a
+     pseudo-element, so grow the control to 24px and pull the extra back with
+     a negative margin — the tick still looks 18px, the target is 24px. */
+  width: 24px; height: 24px;
+  margin: -1px -3px 0;
   accent-color: var(--brand-500);
   flex-shrink: 0;
   cursor: pointer;

@@ -196,7 +196,10 @@
   gap: var(--s-10);
   align-items: end;
 }
-@media (max-width: 900px) { .page-head-grid { grid-template-columns: 1fr; gap: var(--s-8); } }
+/* Without this the longest unbroken heading sizes the column and the whole
+   page header hangs off a 320px screen. */
+.page-head-grid > * { min-width: 0; }
+@media (max-width: 900px) { .page-head-grid { grid-template-columns: minmax(0, 1fr); gap: var(--s-8); } }
 
 .page-head-stats {
   display: grid;

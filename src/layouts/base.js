@@ -23,7 +23,20 @@ export const url = (href = '/') => {
  * <a href="/warranty/"> in content data 404s on GitHub Project Pages.
  */
 export const richText = (html = '') =>
-  String(html).replace(/(href|src)="(\/(?!\/)[^"]*)"/g, (m, attr, href) => `${attr}="${url(href)}"`);
+  String(html)
+    /* Idempotent: some authored blocks already build links with url(), so skip
+       anything that is prefixed. Re-prefixing produced /BASE/BASE/page/. */
+    .replace(/(href|src)="(\/(?!\/)[^"]*)"/g, (m, attr, href) =>
+      site.basePath && href.startsWith(site.basePath + '/') ? m : `${attr}="${url(href)}"`)
+    /* Authored blog/FAQ HTML contains bare <table>s. A data table cannot
+       reflow, so on a phone it pushes the whole article off-screen. Wrap it in
+       the same horizontally-scrollable shell the templates use, and make it
+       keyboard-scrollable + announced. */
+    .replace(/<table(?![^>]*class=)/g, '<table class="table"')
+    .replace(
+      /(<table\b[\s\S]*?<\/table>)/g,
+      '<div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table">$1</div>'
+    );
 
 /* ------------------------------------------------------------------- Logo
  * The mark renders up to three times per page (header, drawer, footer). An

@@ -15,7 +15,8 @@
     "verify": "node scripts/verify.mjs",
     "e2e": "node scripts/e2e.mjs",
     "test:api": "node scripts/test-api.mjs",
-    "test": "node scripts/build.mjs && node scripts/check.mjs && node scripts/verify.mjs && node scripts/e2e.mjs && node scripts/test-api.mjs"
+    "test": "node scripts/build.mjs && node scripts/check.mjs && node scripts/verify.mjs && node scripts/e2e.mjs && node scripts/test-api.mjs",
+    "audit:browser": "node scripts/browser-audit.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/fraunces": "^5.2.5",

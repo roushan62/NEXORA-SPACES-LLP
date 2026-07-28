@@ -505,8 +505,14 @@
 
 @media (max-width: 768px) {
   .mobile-dock { display: block; }
-  body { padding-bottom: 0; }
-  .site-footer { padding-bottom: 76px; }
+  /* The dock is fixed over the page, so the document needs the same amount of
+     room at the end. Padding only the footer left mid-page content — including
+     the in-article "Get free consultation" button — sitting under the dock and
+     impossible to tap. */
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .site-footer { padding-bottom: var(--s-8); }
+  /* Anchor jumps must clear the fixed header AND stop short of the dock. */
+  :target { scroll-margin-bottom: calc(84px + env(safe-area-inset-bottom)); }
 }
 
 /* ------------------------------------------------- Floating action buttons */

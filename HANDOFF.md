@@ -27,6 +27,7 @@ npm test        # build + check + verify + e2e + test:api  (~15s)
 | `npm run check` | links, images, canonicals, schema, headings |
 | `npm run verify` | the residential brief — pricing/commercial leaks in copy **and JSON-LD**, unique schema `@id`s |
 | `npm run e2e` | boots all 34 pages in a DOM and drives every control |
+| `npm run audit:browser` | renders all 34 pages in Chromium at 5 widths and hit-tests every control |
 | `npm run test:api` | runs `api/contact.php` on real PHP 8.2 (WebAssembly) |
 
 ---
@@ -58,7 +59,7 @@ Chromium at 1440 / 768 / 390px.
   never matched it. No message, no focus move, no explanation.
 - The portfolio "Commercial" filter matched zero projects and emptied the grid.
 
-**Layout**
+**Layout** (found by rendering all 34 pages at 320/390/768/1280/1440 — 170 combinations)
 - The desktop navbar overlapped itself at **every width from 1100–1440px**: the
   nowrap links were squeezed to 443px while needing 998px, so they rendered on top
   of the phone number and CTA.
@@ -68,6 +69,15 @@ Chromium at 1440 / 768 / 390px.
 - The toast, hidden only by `transform`, ate taps on the middle dock action.
 - The CTA band overflowed the right edge on 13 of 19 pages at 390px (grid
   `min-width:auto`); the contact page declared a hard 480px column.
+- Blog articles hung off every phone: `.article-shell` and `.page-head-grid`
+  hit the same `min-width:auto` trap, and `.post-media` combined
+  `aspect-ratio:auto` with `min-height`, which makes the browser derive a
+  *width* from the image's ratio.
+- Data tables in authored blog HTML had no scroll wrapper. `richText()` now
+  wraps them automatically, so future posts are covered.
+- The fixed mobile dock only reserved space under the footer, so mid-page
+  content sat beneath it unreachable.
+- The consent checkbox was an 18px tap target (WCAG 2.2 asks for 24px).
 
 **SEO / accessibility**
 - Every `Service` node across 13 pages shared one `@id`, so Google merged them.
