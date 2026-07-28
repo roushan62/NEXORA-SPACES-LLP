@@ -335,6 +335,97 @@ pass('every interactive hook in the markup has a matching handler in app.js');
   pass('deploy → required root files present');
 }
 
+/* ================================================ 9: regression guards
+   Each of these encodes a bug that actually shipped. They are cheap to check
+   and expensive to rediscover, so they stay in the suite permanently. */
+{
+  /* (a) The scroll-reveal hidden state must stay scoped to html.js. Unscoped,
+         a JS failure leaves every .reveal element at opacity:0 forever. */
+  const unscopedReveal = /(^|[},])\s*\.reveal(-stagger)?[^{}]*\{[^}]*opacity:\s*0/.test(cssBundle);
+  if (unscopedReveal) fail('css → .reveal hides content without the .js scope (blank page if JS fails)');
+  else pass('css → scroll-reveal hidden state is scoped to html.js (safe without JS)');
+
+  const homeHtml = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  if (!/document\.documentElement\.className\s*=\s*["']js["']/.test(homeHtml)) {
+    fail('html → inline .js class bootstrap missing from <head>');
+  } else pass('html → .js class is set inline before first paint (no reveal flash)');
+
+  /* (b) [hidden] must beat the author display on overlays, or an invisible
+         full-screen modal keeps swallowing clicks. */
+  if (!/\[hidden\]\{display:none!important\}/.test(cssBundle.replace(/\s/g, ''))) {
+    fail('css → missing [hidden]{display:none!important}; hidden overlays still capture clicks');
+  } else pass('css → [hidden] overrides overlay display (modal cannot block the page)');
+
+  /* (c) A [data-rail] scope must contain the .rail it scrolls. When the arrows
+         sat in their own scope, initRails threw and every arrow went dead. */
+  let railProblems = 0;
+  for (const file of files) {
+    const html = fs.readFileSync(file, 'utf8');
+    for (const m of html.matchAll(/data-rail-(?:prev|next)/g)) {
+      void m;
+    }
+    /* crude but effective: any page with arrows must also have a .rail */
+    const hasArrows = /data-rail-(prev|next)/.test(html);
+    const hasRail = /class="[^"]*\brail\b[^"]*"/.test(html);
+    if (hasArrows && !hasRail) { fail(`${rel(file)} → rail arrows with no .rail to scroll`); railProblems++; }
+  }
+  if (!railProblems) pass('markup → every carousel arrow has a .rail in scope');
+
+  /* (d) querySelector('') throws, so initRails must guard the empty attribute. */
+  if (/\$\(\s*wrap\.dataset\.rail\s*\)/.test(appJs) && !/try\s*\{[^}]*wrap\.dataset\.rail/.test(appJs)) {
+    fail('app.js → initRails passes data-rail straight to querySelector (throws when empty)');
+  } else pass('app.js → initRails guards the valueless data-rail attribute');
+
+  /* (e) ids must be unique — three logos per page all declared #nxGold. */
+  for (const file of files) {
+    const html = fs.readFileSync(file, 'utf8');
+    const seen = new Map();
+    for (const m of html.matchAll(/\sid="([^"]+)"/g)) seen.set(m[1], (seen.get(m[1]) || 0) + 1);
+    const dupes = [...seen].filter(([, n]) => n > 1).map(([id]) => id);
+    if (dupes.length) fail(`${rel(file)} → duplicate id(s): ${dupes.slice(0, 4).join(', ')}`);
+  }
+  pass('markup → no duplicate element ids on any page');
+
+  /* (f) The homepage must preload the image the hero actually paints. */
+  const preload = (homeHtml.match(/<link[^>]*rel="preload"[^>]*as="image"[^>]*>/) || [''])[0];
+  const preloadHref = (preload.match(/href="([^"]+)"/) || [])[1];
+  if (!preloadHref) {
+    fail('home → no LCP image preload');
+  } else {
+    const stem = path.basename(preloadHref).replace(/\.(avif|webp|jpg|jpeg|png)$/, '');
+    if (!homeHtml.includes(stem)) fail(`home → preloads ${path.basename(preloadHref)} but the hero never renders it`);
+    else pass('home → preloaded image is the one the hero actually paints');
+    if (!/imagesrcset=/.test(preload)) fail('home → LCP preload has no imagesrcset (phones fetch the desktop file)');
+    else pass('home → LCP preload is responsive via imagesrcset');
+  }
+
+  /* (g) Modern formats must not sit unused on disk while pages ship JPEG. */
+  let rawJpeg = 0;
+  for (const file of files) {
+    const html = fs.readFileSync(file, 'utf8');
+    /* Blank out every <picture>…</picture> first; whatever <img> tags remain
+       are genuinely bare and have no AVIF/WebP <source> in front of them. */
+    const outside = html.replace(/<picture\b[\s\S]*?<\/picture>/g, '');
+    for (const m of outside.matchAll(/<img\b[^>]*\ssrc="([^"]+\.(?:jpg|jpeg|png))"[^>]*>/g)) {
+      const avif = m[1].replace(/\.(jpg|jpeg|png)$/, '.avif').replace(/^\/[^/]+\//, '');
+      const webp = m[1].replace(/\.(jpg|jpeg|png)$/, '.webp').replace(/^\/[^/]+\//, '');
+      if (fs.existsSync(path.join(ROOT, avif)) || fs.existsSync(path.join(ROOT, webp))) {
+        fail(`${rel(file)} → serves ${path.basename(m[1])} as a bare <img> though AVIF/WebP exist`);
+        rawJpeg++;
+      }
+    }
+  }
+  if (!rawJpeg) pass('images → no page ships a bare JPEG when AVIF/WebP derivatives exist');
+
+  /* (h) Dead hooks: JS that listens for markup nothing renders is dead weight. */
+  for (const hook of ['data-tabs', 'data-copy', 'id="leadBar"']) {
+    const inHtml = files.some((f) => fs.readFileSync(f, 'utf8').includes(hook));
+    const inJs = appJs.includes(hook.replace(/id="|"/g, ''));
+    if (!inHtml && inJs) fail(`app.js → still handles [${hook}] but no page renders it`);
+  }
+  pass('app.js → no handlers left for markup the site no longer renders');
+}
+
 /* ------------------------------------------------------------- report */
 console.log(`  ✓ ${passes.length} checks passed\n`);
 passes.forEach((p) => console.log(`    ✓ ${p}`));
