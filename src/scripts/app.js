@@ -818,19 +818,25 @@
     var els = $$('[data-parallax]');
     if (!els.length || reduceMotion) return;
 
+    /* Read every rect first, then write every style. Interleaving them made
+       the browser recompute layout once per element on each scroll frame. */
     var update = rafThrottle(function () {
       var vh = window.innerHeight;
-      els.forEach(function (el) {
+      var writes = [];
+      for (var i = 0; i < els.length; i++) {
+        var el = els[i];
         var r = el.getBoundingClientRect();
-        if (r.bottom < -120 || r.top > vh + 120) return;
+        if (r.bottom < -120 || r.top > vh + 120) continue;
         var speed = parseFloat(el.dataset.parallax) || 0.12;
-        var offset = (r.top + r.height / 2 - vh / 2) * -speed;
-        el.style.setProperty('--py', offset.toFixed(1) + 'px');
-      });
+        writes.push([el, ((r.top + r.height / 2 - vh / 2) * -speed).toFixed(1) + 'px']);
+      }
+      for (var j = 0; j < writes.length; j++) {
+        writes[j][0].style.setProperty('--py', writes[j][1]);
+      }
     });
 
     on(window, 'scroll', update, { passive: true });
-    on(window, 'resize', update);
+    on(window, 'resize', update, { passive: true });
     update();
   }
 

@@ -507,10 +507,14 @@
 .ratio-3-4  { aspect-ratio: 3 / 4; }
 .ratio-4-5  { aspect-ratio: 4 / 5; }
 
-/* Image with slow zoom on parent hover */
-.zoom-img { transition: transform var(--t-slower); will-change: transform; }
+/* Image with slow zoom on parent hover.
+   will-change is applied on hover only. Left on permanently it promoted every
+   card image to its own GPU layer for the life of the page — 15 of them on the
+   home page alone — which costs real memory on phones for an effect that runs
+   for a few hundred milliseconds. */
+.zoom-img { transition: transform var(--t-slower); }
 .card-hover:hover .zoom-img,
-.zoom-parent:hover .zoom-img { transform: scale(1.055); }
+.zoom-parent:hover .zoom-img { transform: scale(1.055); will-change: transform; }
 
 /* --------------------------------------------------------------- Skeleton */
 .skeleton {

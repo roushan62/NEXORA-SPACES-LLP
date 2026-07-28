@@ -98,8 +98,10 @@
   border-color: var(--line-brand);
 }
 
-/* Parallax hook — JS writes --py, CSS does the moving. */
-[data-parallax] { transform: translate3d(0, var(--py, 0), 0); will-change: transform; }
+/* Parallax hook — JS writes --py, CSS does the moving.
+   translate3d already gets its own layer while it is moving, so the extra
+   will-change only pinned the layer permanently. Dropped. */
+[data-parallax] { transform: translate3d(0, var(--py, 0), 0); }
 
 /* ====================================================== Consultation modal
    The modal, its scrim and the lightbox are toggled with the `hidden`
