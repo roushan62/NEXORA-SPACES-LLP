@@ -280,7 +280,7 @@ export default cities.map((c) => {
             <table class="table">
               <thead><tr><th>Home size</th><th>Typical ${esc(c.city)} property</th><th>How we approach it</th></tr></thead>
               <tbody>
-                ${c.prices.map((r, i) => `<tr${i === 1 ? ' class="table-highlight"' : ''}><td><strong>${esc(r[0])}</strong></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}
+                ${c.prices.map((r, i) => `<tr${i === 1 ? ' class="table-highlight"' : ''}><td data-label="Home size"><strong>${esc(r[0])}</strong></td><td data-label="Typical ${esc(c.city)} property">${esc(r[1])}</td><td data-label="How we approach it">${esc(r[2])}</td></tr>`).join('')}
               </tbody>
             </table>
           </div>

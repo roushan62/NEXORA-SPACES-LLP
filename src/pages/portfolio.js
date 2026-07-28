@@ -95,11 +95,11 @@ export default {
             <tbody>
               ${projects.map((p) => `
               <tr>
-                <td><strong>${esc(p.title)}</strong><br><span style="font-size:var(--fs-xs);color:var(--text-muted)">${esc(p.category)}</span></td>
-                <td>${esc(p.location)}</td>
-                <td class="num">${esc(p.area)}</td>
-                <td class="num">${esc(p.duration)}</td>
-                <td class="num"><strong>${esc(p.budget)}</strong></td>
+                <td data-label="Project"><strong>${esc(p.title)}</strong><br><span style="font-size:var(--fs-xs);color:var(--text-muted)">${esc(p.category)}</span></td>
+                <td data-label="Location">${esc(p.location)}</td>
+                <td data-label="Carpet area" class="num">${esc(p.area)}</td>
+                <td data-label="Duration" class="num">${esc(p.duration)}</td>
+                <td data-label="Final value" class="num"><strong>${esc(p.budget)}</strong></td>
               </tr>`).join('')}
             </tbody>
           </table>
@@ -118,33 +118,36 @@ export default {
             ${sectionHead({
               eyebrow: 'Transformation',
               title: 'Before and after',
-              sub: 'Drag the handle to see what a full renovation changes. This is a real Dwarka 2 BHK — the same room, the same camera position.',
+              sub: 'Tap the photo for an automatic full sweep, or drag the handle yourself. This is the same living room in a Dwarka 2 BHK — one frame, before handover and after.',
             })}
             <ul class="check-list mb-8">
-              <li>${icon('checkCircle', { size: 18 })} Full-height wardrobe replaced a freestanding almirah</li>
-              <li>${icon('checkCircle', { size: 18 })} Ceiling lowered with cove lighting to hide old conduits</li>
-              <li>${icon('checkCircle', { size: 18 })} Fold-down study added on the window wall</li>
+              <li>${icon('checkCircle', { size: 18 })} Dated tube light and ceiling fan replaced by a cove-lit designer ceiling</li>
+              <li>${icon('checkCircle', { size: 18 })} Fluted-panel TV wall replaced the cluttered freestanding unit</li>
+              <li>${icon('checkCircle', { size: 18 })} Full-height drapery and layered lighting on the same window</li>
               <li>${icon('checkCircle', { size: 18 })} Delivered in 38 days, with the family living in</li>
             </ul>
             <a href="${url('/services/renovation/')}" class="btn btn-primary">Explore renovation ${icon('arrowRight', { size: 16 })}</a>
           </div>
           <div class="split-media reveal delay-1">
-            <div class="ba" tabindex="0" role="slider" aria-label="Before and after comparison slider"
+            <div class="ba" tabindex="0" role="slider" aria-label="Before and after comparison slider — tap or press Enter to auto-slide"
                  aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" style="--pos:50%">
               <picture>
                 <source type="image/webp" srcset="${url('/assets/img/ba-before.webp')}">
-                <img src="${url('/assets/img/ba-before.jpg')}" alt="Bedroom before renovation — dated finishes and freestanding storage" width="1000" height="625" loading="lazy" decoding="async">
+                <img src="${url('/assets/img/ba-before.jpg')}" alt="Living room before renovation — worn walls, old sofa and a dated TV unit" width="1000" height="625" loading="lazy" decoding="async">
               </picture>
               <picture class="ba-after">
                 <source type="image/webp" srcset="${url('/assets/img/ba-after.webp')}">
-                <img src="${url('/assets/img/ba-after.jpg')}" alt="The same bedroom after Nexora Spaces renovation — fitted wardrobe and layered lighting" width="1000" height="625" loading="lazy" decoding="async">
+                <img src="${url('/assets/img/ba-after.jpg')}" alt="The same living room after Nexora Spaces renovation — premium sofa, fluted TV wall and cove lighting" width="1000" height="625" loading="lazy" decoding="async">
               </picture>
               <span class="ba-tag left">Before</span>
               <span class="ba-tag right">After</span>
               <span class="ba-handle"><span class="ba-knob">${icon('chevronLeft', { size: 9 })}${icon('chevronRight', { size: 9 })}</span></span>
+              <button type="button" class="ba-auto" aria-label="Auto-slide the before and after comparison">
+                ${icon('play', { size: 12 })} Auto compare
+              </button>
             </div>
             <p class="mt-3 text-center" style="font-size:var(--fs-xs);color:var(--text-subtle)">
-              ${icon('maximize', { size: 12 })} Drag the handle, or use arrow keys
+              ${icon('maximize', { size: 12 })} Tap the photo to auto-slide · drag the handle or use arrow keys
             </p>
           </div>
         </div>

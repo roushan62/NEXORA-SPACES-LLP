@@ -2,7 +2,7 @@
 
 **Residential** interior fit-out and design-build company website targeting **Delhi, Gurugram and Noida**.
 
-34 pages · fully static · zero third-party requests · SEO and Core-Web-Vitals optimised.
+35 pages · fully static · zero third-party requests · SEO and Core-Web-Vitals optimised.
 
 > ### Two hard rules for this site
 > 1. **No pricing, anywhere.** No rates, ranges, per-sq-ft figures, EMI, package prices
@@ -110,10 +110,10 @@ Generated HTML is written to the repo root so GitHub Pages serves it directly.
 
 ---
 
-## Pages (40)
+## Pages (35)
 
 **Core** — Home · Home Interiors · **Gallery (10 full home packages)** · Portfolio ·
-About · Process · Contact · Reviews · FAQ · Careers · Warranty · Design Journal
+About · **Team** · Process · Contact · Reviews · FAQ · Careers · Warranty · Design Journal
 
 **Local SEO** — Interior Designers in Gurgaon / Noida / Delhi
 

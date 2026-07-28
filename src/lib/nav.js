@@ -92,6 +92,7 @@ export const nav = [
         title: 'About Nexora',
         links: [
           { label: 'About Us', href: '/about/', desc: 'Who we are and how we work', icon: 'users' },
+          { label: 'Our Team', href: '/team/', desc: 'The six teams behind your home', icon: 'hardHat', tag: 'New' },
           { label: 'Our Process', href: '/process/', desc: 'The 7-stage delivery system', icon: 'compass' },
           { label: 'Quality & Warranty', href: '/warranty/', desc: 'What our warranty covers', icon: 'shieldCheck' },
           { label: 'Careers', href: '/careers/', desc: 'Join the studio', icon: 'briefcase' },
@@ -149,6 +150,7 @@ export const footerNav = [
     title: 'Company',
     links: [
       { label: 'About Us', href: '/about/' },
+      { label: 'Our Team', href: '/team/' },
       { label: 'Home Gallery', href: '/gallery/' },
       { label: 'Portfolio', href: '/portfolio/' },
       { label: 'Client Stories', href: '/reviews/' },

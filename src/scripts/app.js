@@ -49,6 +49,13 @@
 
     on(window, 'scroll', update, { passive: true });
     update();
+
+    /* The floating #toTop used to become visible on scroll but had NO click
+       handler wired up — tapping it did nothing. Smooth-glides back to the
+       page top now (instant for reduced-motion users). */
+    if (toTop) on(toTop, 'click', function () {
+      window.scrollTo({ top: 0, left: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
   }
 
   /* =======================================================================
@@ -252,6 +259,9 @@
   function initBeforeAfter() {
     $$('.ba').forEach(function (ba) {
       var dragging = false;
+      var moved = false;          /* distinguishes a tap from a drag */
+      var downX = 0, downY = 0;
+      var raf = null;             /* in-flight auto-sweep animation */
 
       /* role="slider" promises aria-valuenow tracks the handle. It never did,
          so screen readers always announced "50". Every move goes through here
@@ -267,24 +277,77 @@
         if (!r.width) return;
         apply(((clientX - r.left) / r.width) * 100);
       }
-      function current() { return parseFloat(ba.style.getPropertyValue('--pos')) || 50; }
+      /* NaN-safe: parseFloat('0%') is 0 — a || fallback would silently turn a
+         fully-revealed slider back into 50 and break the sweep toggle. */
+      function current() {
+        var v = parseFloat(ba.style.getPropertyValue('--pos'));
+        return isNaN(v) ? 50 : v;
+      }
+
+      /* One click / tap ⇒ the handle glides by itself to the opposite end:
+         first tap reveals the full "after", the next returns to "before".
+         Manual drags and key presses pre-empt any running sweep. */
+      function stopSweep() {
+        if (raf) { cancelAnimationFrame(raf); raf = null; }
+        ba.classList.remove('is-sweeping');
+      }
+      function sweep() {
+        stopSweep();
+        if (reduceMotion) { apply(current() >= 50 ? 0 : 100); return; }
+        var from = current();
+        var target = from >= 50 ? 0 : 100;
+        var start = null, dur = 1100;
+        ba.classList.add('is-sweeping');
+        var frame = function (ts) {
+          if (start === null) start = ts;
+          var t = Math.min((ts - start) / dur, 1);
+          /* easeInOutCubic — settles gently on the final frame */
+          var e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+          apply(from + (target - from) * e);
+          if (t < 1) raf = requestAnimationFrame(frame);
+          else { raf = null; ba.classList.remove('is-sweeping'); }
+        };
+        raf = requestAnimationFrame(frame);
+      }
 
       on(ba, 'pointerdown', function (e) {
+        /* The auto chip handles its own click; don't treat it as a drag. */
+        if (e.target.closest && e.target.closest('.ba-auto')) return;
+        stopSweep();
         dragging = true;
+        moved = false;
+        downX = e.clientX; downY = e.clientY;
+        ba.classList.add('is-dragging');
         if (ba.setPointerCapture) { try { ba.setPointerCapture(e.pointerId); } catch (err) {} }
         setPos(e.clientX);
       });
-      on(ba, 'pointermove', function (e) { if (dragging) setPos(e.clientX); });
-      on(ba, 'pointerup', function () { dragging = false; });
-      on(ba, 'pointercancel', function () { dragging = false; });
+      on(ba, 'pointermove', function (e) {
+        if (!dragging) return;
+        if (Math.abs(e.clientX - downX) + Math.abs(e.clientY - downY) > 8) moved = true;
+        setPos(e.clientX);
+      });
+      on(ba, 'pointerup', function () {
+        if (!dragging) return;
+        dragging = false;
+        ba.classList.remove('is-dragging');
+        if (!moved) sweep();      /* released without moving ⇒ a tap */
+      });
+      on(ba, 'pointercancel', function () {
+        dragging = false;
+        ba.classList.remove('is-dragging');
+      });
 
       on(ba, 'keydown', function (e) {
         var k = e.key, step = e.shiftKey ? 10 : 4;
-        if (k === 'ArrowLeft' || k === 'ArrowDown') { apply(current() - step); e.preventDefault(); }
-        else if (k === 'ArrowRight' || k === 'ArrowUp') { apply(current() + step); e.preventDefault(); }
-        else if (k === 'Home') { apply(0); e.preventDefault(); }
-        else if (k === 'End') { apply(100); e.preventDefault(); }
+        if (k === 'ArrowLeft' || k === 'ArrowDown') { stopSweep(); apply(current() - step); e.preventDefault(); }
+        else if (k === 'ArrowRight' || k === 'ArrowUp') { stopSweep(); apply(current() + step); e.preventDefault(); }
+        else if (k === 'Home') { stopSweep(); apply(0); e.preventDefault(); }
+        else if (k === 'End') { stopSweep(); apply(100); e.preventDefault(); }
+        else if (k === 'Enter' || k === ' ') { sweep(); e.preventDefault(); }
       });
+
+      var autoBtn = ba.querySelector('.ba-auto');
+      if (autoBtn) on(autoBtn, 'click', function (e) { e.stopPropagation(); sweep(); });
     });
   }
 

@@ -106,6 +106,7 @@ export const site = {
     linkedin: 'https://www.linkedin.com/company/nexoraspaces', // ⚠️ REPLACE
     youtube: 'https://www.youtube.com/@nexoraspaces',      // ⚠️ REPLACE
     pinterest: 'https://in.pinterest.com/nexoraspaces',    // ⚠️ REPLACE
+    x: 'https://x.com/nexoraspaces',                       // ⚠️ REPLACE
   },
 
   /* --------------------------------------------------------------- Reviews

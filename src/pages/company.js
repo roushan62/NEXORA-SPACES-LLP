@@ -110,16 +110,18 @@ const about = {
       <div class="container">
         ${sectionHead({
           eyebrow: 'What we do',
-          title: 'Four teams, one accountable studio',
+          title: 'Six teams, one accountable studio',
           sub: 'We describe Nexora at company level rather than parading headshots. What matters to your home is which team owns which stage — and that every one of them works to the same documented scope.',
           center: true,
         })}
-        <div class="grid grid-4 gap-6 reveal-stagger">
+        <div class="grid grid-3 gap-6 reveal-stagger">
           ${[
             { icon: 'ruler', t: 'Design studio', d: 'Space planning, layout options, finish palettes, detailed views and execution drawings — settled before anything reaches site.' },
-            { icon: 'hardHat', t: 'Production', d: 'Modular carcasses and shutters cut, edge-banded and finished in a controlled unit, then quality-checked before dispatch.' },
-            { icon: 'userCheck', t: 'Project delivery', d: 'Civil, electrical, ceiling, painting and installation sequenced by a named project manager, with weekly photo reporting.' },
-            { icon: 'shieldCheck', t: 'Warranty & service', d: 'Snag closure, hardware realignment and post-handover support — the desk that still answers in year eight.' },
+            { icon: 'userCheck', t: 'Project management', d: 'One named project manager per home holding the schedule, the budget of coordination and the weekly photo report.' },
+            { icon: 'hardHat', t: 'Production unit', d: 'Modular carcasses and shutters cut, edge-banded and finished in a controlled unit, then quality-checked before dispatch.' },
+            { icon: 'wrench', t: 'Site execution', d: 'Civil, electrical, ceiling, painting and installation by insured engineers and verified trade partners, dust-sealed daily.' },
+            { icon: 'badgeCheck', t: 'Quality & procurement', d: 'Materials bought against the written BOQ and verified on site — brand, model and finish — before they are used.' },
+            { icon: 'shieldCheck', t: 'Warranty & care', d: 'Snag closure, hardware realignment and post-handover support — the desk that still answers in year eight.' },
           ].map((v) => `
           <div class="card card-hover">
             <span class="card-icon">${icon(v.icon, { size: 22 })}</span>
@@ -129,7 +131,8 @@ const about = {
         </div>
         <p class="text-center mt-10" style="font-size:var(--fs-sm);color:var(--text-muted)">
           Designers, project managers, production staff and site execution partners — all working to the same documented scope and handover process.
-          <a href="${url('/careers/')}" class="link-underline" style="color:var(--accent-text);font-weight:600">We are hiring</a>.
+          <a href="${url('/team/')}" class="link-underline" style="color:var(--accent-text);font-weight:600">Explore the six teams</a> that build every home, or
+          <a href="${url('/careers/')}" class="link-underline" style="color:var(--accent-text);font-weight:600">join the studio</a> — we are hiring.
         </p>
       </div>
     </section>`,

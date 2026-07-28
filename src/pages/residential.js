@@ -354,7 +354,7 @@ const bhkPages = bhkData.map((b) => ({
           <table class="table">
             <thead><tr><th>Scope item</th><th>What it covers</th></tr></thead>
             <tbody>
-              ${b.scopeTable.map((r) => `<tr><td><strong>${esc(r[0])}</strong></td><td>${esc(r[1])}</td></tr>`).join('')}
+              ${b.scopeTable.map((r) => `<tr><td data-label="Scope item"><strong>${esc(r[0])}</strong></td><td data-label="What it covers">${esc(r[1])}</td></tr>`).join('')}
             </tbody>
           </table>
         </div>
