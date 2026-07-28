@@ -5,7 +5,7 @@ import { url } from '../layouts/base.js';
 import { picture } from '../lib/picture.js';
 import {
   sectionHead, statStrip, trustMarquee, processRail, faqBlock,
-  ctaBand, testimonialSection, credentialStrip, stars, heroVideo, heroLcpImage,
+  ctaBand, testimonialSection, credentialStrip, stars, heroVideo, heroLcp,
 } from '../layouts/sections.js';
 import { stats, trustBadges, credentials } from '../data/stats.js';
 import { testimonials, faqsGeneral, processSteps, designStyles, posts } from '../data/content.js';
@@ -391,7 +391,8 @@ export default {
      painted. It previously hard-coded hero-1536.avif, which the walkthrough
      hero never renders — 135 KB downloaded at high priority and thrown away,
      while the real LCP image waited behind it. */
-  preloadImage: heroLcpImage(),
+  preloadImage: heroLcp().href,
+  preloadImageSrcset: heroLcp().srcset,
   crumbs: [{ label: 'Home', href: '/' }],
   faqs: faqsGeneral,
   extraSchema: [

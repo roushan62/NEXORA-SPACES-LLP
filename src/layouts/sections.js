@@ -82,11 +82,20 @@ export const heroVideo = () => {
 };
 
 /** The exact asset the hero paints first — kept next to the markup above so
- *  the homepage <link rel=preload> can never drift out of sync with it again. */
-export const heroLcpImage = () =>
-  (site.heroVideo && site.heroVideo.sources && site.heroVideo.sources.length)
-    ? (site.heroVideo.poster || '/assets/img/hero-1536.jpg')
-    : '/assets/img/gallery/nirvaan-hall-1400.avif';
+ *  the homepage <link rel=preload> can never drift out of sync with it again.
+ *  Returns the srcset too, so the preload matches the <picture> candidates
+ *  rather than forcing the desktop file onto every device. */
+export const heroLcp = () => {
+  const usingVideo = !!(site.heroVideo && site.heroVideo.sources && site.heroVideo.sources.length);
+  if (usingVideo) {
+    return { href: site.heroVideo.poster || '/assets/img/hero-1536.jpg', srcset: null };
+  }
+  const name = 'gallery/nirvaan-hall';
+  return {
+    href: `/assets/img/${name}-1400.avif`,
+    srcset: `${url(`/assets/img/${name}-640.avif`)} 640w, ${url(`/assets/img/${name}-1400.avif`)} 1400w`,
+  };
+};
 
 /* ------------------------------------------------------------ Breadcrumbs */
 export const breadcrumbs = (crumbs, onImage = true) => {

@@ -280,6 +280,8 @@ export function renderPage(page) {
     extraSchema = [],
     bodyClass = '',
     preloadImage = null,
+    preloadImageSrcset = null,
+    preloadImageSizes = '100vw',
   } = page;
 
   const schema = jsonLd([
@@ -333,7 +335,17 @@ ${metaTags(page)}
 <link rel="preconnect" href="${site.baseUrl}">
 <link rel="preload" as="font" type="font/woff2" href="${asset('/assets/fonts/inter-var.woff2')}" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="${asset('/assets/fonts/fraunces-var.woff2')}" crossorigin>
-${preloadImage ? `<link rel="preload" as="image" href="${asset(preloadImage)}"${/\.avif$/.test(preloadImage) ? ' type="image/avif"' : /\.webp$/.test(preloadImage) ? ' type="image/webp"' : ''} fetchpriority="high">` : ''}
+${preloadImage ? (() => {
+  const type = /\.avif$/.test(preloadImage) ? ' type="image/avif"'
+    : /\.webp$/.test(preloadImage) ? ' type="image/webp"' : '';
+  /* With imagesrcset the preload honours the same candidate list the <picture>
+     uses, so a phone warms the 640w file it will actually paint instead of
+     downloading the 1400w desktop image and then fetching the small one too. */
+  const responsive = preloadImageSrcset
+    ? ` imagesrcset="${preloadImageSrcset}" imagesizes="${preloadImageSizes}"`
+    : '';
+  return `<link rel="preload" as="image" href="${asset(preloadImage)}"${responsive}${type} fetchpriority="high">`;
+})() : ''}
 
 <link rel="stylesheet" href="${asset('/assets/css/main.css')}">
 

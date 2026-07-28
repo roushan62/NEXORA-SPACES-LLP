@@ -326,7 +326,6 @@
 .feat-card p { font-size: var(--fs-base); color: var(--text-muted); line-height: 1.65; }
 
 /* ----------------------------------------------------------- Process rail */
-.process { display: grid; gap: var(--s-8); }
 .process-rail {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));

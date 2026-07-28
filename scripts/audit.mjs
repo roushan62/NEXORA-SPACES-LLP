@@ -33,14 +33,32 @@ const jsSize = Buffer.byteLength(js);
 const fontSize = ['inter-var.woff2', 'fraunces-var.woff2']
   .reduce((a, f) => a + fs.statSync(path.join(ROOT, 'assets/fonts', f)).size, 0);
 const homeSize = fs.statSync(path.join(ROOT, 'index.html')).size;
-const heroSize = fs.statSync(path.join(ROOT, 'assets/img/hero-1536.avif')).size;
+
+/* Read the LCP image straight out of the built page instead of assuming a
+   filename — the audit used to report hero-1536.avif long after the homepage
+   had stopped preloading it. Reports the mobile candidate too, since that is
+   what most visitors actually download. */
+const homeHtml = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+const preloadTag = (homeHtml.match(/<link[^>]*rel="preload"[^>]*as="image"[^>]*>/) || [''])[0];
+const localPath = (u) => path.join(ROOT, u.replace(/^\/[^/]+\//, ''));
+const sizeOf = (u) => { try { return fs.statSync(localPath(u)).size; } catch { return 0; } };
+
+const heroHref = (preloadTag.match(/href="([^"]+)"/) || [])[1];
+const heroSize = heroHref ? sizeOf(heroHref) : 0;
+const heroCandidates = [...preloadTag.matchAll(/([^\s,"]+)\s+(\d+)w/g)]
+  .map((m) => ({ url: m[1], w: Number(m[2]), size: sizeOf(m[1]) }))
+  .sort((a, b) => a.w - b.w);
+const smallest = heroCandidates[0];
 
 console.log('1. CRITICAL PATH WEIGHT (first paint on desktop)');
 console.log(`   HTML (home)   ${kb(homeSize).padStart(10)}`);
 console.log(`   CSS           ${kb(cssSize).padStart(10)}  render-blocking`);
 console.log(`   Fonts (2×)    ${kb(fontSize).padStart(10)}  preloaded, swap`);
 console.log(`   JS            ${kb(jsSize).padStart(10)}  deferred`);
-console.log(`   Hero (AVIF)   ${kb(heroSize).padStart(10)}  preloaded, LCP`);
+console.log(`   LCP image     ${kb(heroSize).padStart(10)}  preloaded — ${path.basename(heroHref || 'none')}`);
+if (smallest && smallest.size && smallest.size !== heroSize) {
+  console.log(`     └ mobile    ${kb(smallest.size).padStart(10)}  ${smallest.w}w candidate via imagesrcset`);
+}
 const total = homeSize + cssSize + fontSize + heroSize;
 console.log(`   ─────────────────────────`);
 console.log(`   Initial load  ${kb(total).padStart(10)}  ${total < 500 * 1024 ? '✓ under 500 KB budget' : '✗ over budget'}\n`);
