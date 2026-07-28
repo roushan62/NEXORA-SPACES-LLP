@@ -2,7 +2,7 @@ name: Build & Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main, arena/019fa3a2-nexora-spaces-llp]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -33,6 +33,12 @@ jobs:
 
       - name: Validate output (links, SEO, schema)
         run: npm run check
+
+      # Enforces the residential brief AND the regression guards: no-JS
+      # fallback, [hidden] overlays, live carousel arrows, unique ids,
+      # correct LCP preload, modern image formats. Fails the deploy.
+      - name: Verify brief + regression guards
+        run: npm run verify
 
       - uses: actions/configure-pages@v5
 

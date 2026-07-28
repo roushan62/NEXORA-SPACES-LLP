@@ -60,7 +60,14 @@ const galleryData = () => {
       caption: p.rooms[r.id].caption,
       alt: p.rooms[r.id].alt,
       src: url(`/assets/img/gallery/${p.id}-${r.id}-1400.jpg`),
+      /* AVIF first, WebP next, JPEG as the <img src> fallback. The lightbox
+         swaps <source> elements at runtime so modern browsers get the small
+         file; previously only WebP was offered and the AVIF derivatives that
+         npm run images produces went unused. */
+      avif: `${url(`/assets/img/gallery/${p.id}-${r.id}-640.avif`)} 640w, ${url(`/assets/img/gallery/${p.id}-${r.id}-1400.avif`)} 1400w`,
       srcset: `${url(`/assets/img/gallery/${p.id}-${r.id}-640.webp`)} 640w, ${url(`/assets/img/gallery/${p.id}-${r.id}-1400.webp`)} 1400w`,
+      /* Thumbnails stay JPEG: they are bare <img> tags with no <picture>
+         fallback, so the format has to be one every browser can decode. */
       thumb: url(`/assets/img/gallery/${p.id}-${r.id}-640.jpg`),
     })),
   }));
@@ -85,8 +92,12 @@ const lightbox = () => `
   <button type="button" class="lb-nav lb-next" id="lbNext" aria-label="Next room">${icon('chevronRight', { size: 26 })}</button>
 
   <figure class="lb-stage">
-    <img id="lbImg" src="${url('/assets/img/gallery/aurelia-overview-1400.jpg')}" alt=""
-         width="1400" height="933" decoding="async">
+    <picture>
+      <source id="lbAvif" type="image/avif" sizes="92vw">
+      <source id="lbWebp" type="image/webp" sizes="92vw">
+      <img id="lbImg" src="${url('/assets/img/gallery/aurelia-overview-1400.jpg')}" alt=""
+           width="1400" height="933" decoding="async">
+    </picture>
     <figcaption class="lb-caption" id="lbCaption"></figcaption>
   </figure>
 

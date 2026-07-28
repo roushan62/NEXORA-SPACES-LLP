@@ -120,7 +120,11 @@ async function buildGallery() {
 
 /** Which derivatives each source needs. */
 const PLAN = [
-  { src: 'hero.jpg', out: 'hero', widths: [640, 1024, 1536, 1920], fmt: ['avif', 'webp', 'jpg'], quality: 74 },
+  /* Only the 1536 poster is referenced (site.heroVideo.poster). The 640/1024/
+     1920 derivatives were generated but never linked from any page.
+     `suffixAlways` keeps the -1536 in the filename even though there is now a
+     single width, since the config points at hero-1536.jpg by name. */
+  { src: 'hero.jpg', out: 'hero', widths: [1536], fmt: ['avif', 'webp', 'jpg'], quality: 74, suffixAlways: true },
   ...['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9'].map((n) => ({
     src: `${n}.jpg`, out: `projects/${n}`, widths: [420, 800, 1200], fmt: ['avif', 'webp', 'jpg'], quality: 72,
   })),
@@ -133,10 +137,8 @@ const PLAN = [
   { src: 'p5.jpg', out: 'blog/b6', widths: [420, 800], fmt: ['avif', 'webp', 'jpg'], quality: 70, crop: 'left' },
   /* Section / page-header imagery */
   { src: 'p7.jpg', out: 'pages/residential', widths: [960, 1600], fmt: ['avif', 'webp', 'jpg'], quality: 68 },
-  { src: 'p5.jpg', out: 'pages/commercial', widths: [960, 1600], fmt: ['avif', 'webp', 'jpg'], quality: 68 },
   { src: 'p1.jpg', out: 'pages/about', widths: [960, 1600], fmt: ['avif', 'webp', 'jpg'], quality: 68 },
   { src: 'p3.jpg', out: 'pages/portfolio', widths: [960, 1600], fmt: ['avif', 'webp', 'jpg'], quality: 68 },
-  { src: 'p4.jpg', out: 'pages/pricing', widths: [960, 1600], fmt: ['avif', 'webp', 'jpg'], quality: 68 },
   { src: 'p9.jpg', out: 'pages/process', widths: [960, 1600], fmt: ['avif', 'webp', 'jpg'], quality: 68 },
   { src: 'p2.jpg', out: 'pages/contact', widths: [960, 1600], fmt: ['avif', 'webp', 'jpg'], quality: 68 },
   { src: 'p6.jpg', out: 'pages/gurgaon', widths: [960, 1600], fmt: ['avif', 'webp', 'jpg'], quality: 68 },
@@ -173,7 +175,7 @@ async function build() {
       const buf = await base.toBuffer();
 
       for (const fmt of job.fmt) {
-        const suffix = job.widths.length > 1 ? `-${w}` : '';
+        const suffix = (job.widths.length > 1 || job.suffixAlways) ? `-${w}` : '';
         const file = path.join(OUT, `${job.out}${suffix}.${fmt}`);
         const pipe = sharp(buf);
         if (fmt === 'avif') await pipe.avif({ quality: job.quality - 8, effort: 6 }).toFile(file);

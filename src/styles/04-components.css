@@ -365,80 +365,9 @@
   cursor: pointer;
 }
 .consent a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; }
-
-/* Range slider */
-.range {
-  width: 100%;
-  height: 6px;
-  border-radius: var(--r-full);
-  background: var(--bg-muted);
-  appearance: none;
-  cursor: pointer;
-  outline: none;
-}
-.range::-webkit-slider-thumb {
-  appearance: none;
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  background: var(--brand-500);
-  border: 3px solid #fff;
-  box-shadow: var(--sh-md);
-  cursor: grab;
-  transition: transform var(--t-fast);
-}
-.range::-webkit-slider-thumb:hover { transform: scale(1.15); }
-.range::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.05); }
-.range::-moz-range-thumb {
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  background: var(--brand-500);
-  border: 3px solid #fff;
-  box-shadow: var(--sh-md);
-  cursor: grab;
-}
-.range-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: var(--s-3);
-}
-.range-val {
-  font-weight: 700;
-  font-size: var(--fs-lg);
-  color: var(--accent-text);
-  font-variant-numeric: tabular-nums;
-}
-.range-scale {
-  display: flex;
-  justify-content: space-between;
-  font-size: var(--fs-xs);
-  color: var(--text-subtle);
-  margin-top: var(--s-2);
-}
-
-/* Toggle switch */
-.switch { display: inline-flex; align-items: center; gap: var(--s-3); cursor: pointer; }
-.switch input { position: absolute; opacity: 0; }
-.switch-track {
-  width: 46px; height: 26px;
-  border-radius: var(--r-full);
-  background: var(--ink-300);
-  position: relative;
-  transition: background var(--t-base);
-  flex-shrink: 0;
-}
-.switch-track::after {
-  content: '';
-  position: absolute;
-  top: 3px; left: 3px;
-  width: 20px; height: 20px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: var(--sh-sm);
-  transition: transform var(--t-base);
-}
-.switch input:checked + .switch-track { background: var(--brand-500); }
-.switch input:checked + .switch-track::after { transform: translateX(20px); }
+/* The consent box is a .field so its .field-error shows like any other. */
+.field-consent.has-error .consent input { outline: 2px solid var(--red-500); outline-offset: 2px; }
+.field-consent.has-error .consent { color: var(--red-500); }
 
 /* ------------------------------------------------------------------ Tables */
 .table-wrap {
@@ -537,63 +466,6 @@
 .acc-body p + p { margin-top: var(--s-3); }
 .acc-body a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; }
 
-/* ------------------------------------------------------------------- Tabs */
-.tabs {
-  display: flex;
-  gap: var(--s-1);
-  padding: var(--s-1);
-  background: var(--bg-muted);
-  border-radius: var(--r-full);
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-.tabs::-webkit-scrollbar { display: none; }
-.tab {
-  flex: 1;
-  min-width: max-content;
-  padding: var(--s-3) var(--s-5);
-  border-radius: var(--r-full);
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  color: var(--text-muted);
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--s-2);
-  transition: all var(--t-base);
-}
-.tab .ico { width: 16px; height: 16px; }
-.tab:hover { color: var(--text-strong); }
-.tab.is-active {
-  background: var(--surface);
-  color: var(--text-strong);
-  box-shadow: var(--sh-sm);
-}
-.tab-panel { display: none; }
-.tab-panel.is-active { display: block; animation: fade-in var(--t-slow) both; }
-
-/* Pill filter row */
-.filters { display: flex; flex-wrap: wrap; gap: var(--s-2); }
-.filter-pill {
-  padding: var(--s-2) var(--s-5);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r-full);
-  font-size: var(--fs-sm);
-  font-weight: 500;
-  color: var(--text-muted);
-  background: var(--surface);
-  transition: all var(--t-fast);
-}
-.filter-pill:hover { border-color: var(--brand-400); color: var(--text-strong); }
-.filter-pill.is-active {
-  background: var(--ink-950);
-  border-color: var(--ink-950);
-  color: #fff;
-  font-weight: 600;
-}
-
 /* ------------------------------------------------------------------- Alert */
 .alert {
   display: flex;
@@ -635,10 +507,14 @@
 .ratio-3-4  { aspect-ratio: 3 / 4; }
 .ratio-4-5  { aspect-ratio: 4 / 5; }
 
-/* Image with slow zoom on parent hover */
-.zoom-img { transition: transform var(--t-slower); will-change: transform; }
+/* Image with slow zoom on parent hover.
+   will-change is applied on hover only. Left on permanently it promoted every
+   card image to its own GPU layer for the life of the page — 15 of them on the
+   home page alone — which costs real memory on phones for an effect that runs
+   for a few hundred milliseconds. */
+.zoom-img { transition: transform var(--t-slower); }
 .card-hover:hover .zoom-img,
-.zoom-parent:hover .zoom-img { transform: scale(1.055); }
+.zoom-parent:hover .zoom-img { transform: scale(1.055); will-change: transform; }
 
 /* --------------------------------------------------------------- Skeleton */
 .skeleton {

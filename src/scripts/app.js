@@ -36,8 +36,6 @@
     var bar = $('#scrollBar');
     var toTop = $('#toTop');
     var dock = $('#mobileDock');
-    var leadBar = $('#leadBar');
-    var lastY = window.scrollY;
 
     var update = rafThrottle(function () {
       var y = window.scrollY;
@@ -47,13 +45,6 @@
       if (bar) bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(y / h, 1) : 0) + ')';
       if (toTop) toTop.classList.toggle('is-visible', y > 700);
       if (dock) dock.classList.add('is-visible');
-
-      /* Sticky lead bar appears after the hero, hides near the footer */
-      if (leadBar) {
-        var nearEnd = y + window.innerHeight > docEl.scrollHeight - 560;
-        leadBar.classList.toggle('is-visible', y > 900 && !nearEnd);
-      }
-      lastY = y;
     });
 
     on(window, 'scroll', update, { passive: true });
@@ -72,12 +63,21 @@
 
     var lastFocus = null;
 
+    /* The closed drawer is only pushed off-screen with translateX, so its
+       links stayed in the tab order — keyboard users tabbed into an invisible
+       menu. `inert` removes it from focus and the a11y tree in one step, and
+       is also what makes aria-hidden legal here. */
+    function setInert(isInert) {
+      if ('inert' in drawer) drawer.inert = isInert;
+      drawer.setAttribute('aria-hidden', String(isInert));
+    }
+
     function open() {
       lastFocus = document.activeElement;
+      setInert(false);
       drawer.classList.add('is-open');
       if (scrim) scrim.classList.add('is-open');
       toggle.setAttribute('aria-expanded', 'true');
-      drawer.setAttribute('aria-hidden', 'false');
       document.body.classList.add('is-locked');
       var first = drawer.querySelector('a, button');
       if (first) setTimeout(function () { first.focus(); }, 120);
@@ -87,10 +87,14 @@
       drawer.classList.remove('is-open');
       if (scrim) scrim.classList.remove('is-open');
       toggle.setAttribute('aria-expanded', 'false');
-      drawer.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('is-locked');
-      if (lastFocus) lastFocus.focus();
+      /* Move focus out before making it inert, or the browser drops focus to
+         <body> and the user loses their place. */
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+      setInert(true);
     }
+
+    setInert(!drawer.classList.contains('is-open'));
 
     on(toggle, 'click', function () {
       drawer.classList.contains('is-open') ? close() : open();
@@ -214,31 +218,7 @@
   }
 
   /* =======================================================================
-     6. TABS
-     ======================================================================= */
-  function initTabs() {
-    $$('[data-tabs]').forEach(function (wrap) {
-      var tabs = $$('.tab', wrap);
-      var panels = $$('.tab-panel', wrap.parentElement) ;
-
-      tabs.forEach(function (tab) {
-        on(tab, 'click', function () {
-          var id = tab.dataset.tab;
-          tabs.forEach(function (t) {
-            var active = t === tab;
-            t.classList.toggle('is-active', active);
-            t.setAttribute('aria-selected', String(active));
-          });
-          panels.forEach(function (p) {
-            p.classList.toggle('is-active', p.dataset.panel === id);
-          });
-        });
-      });
-    });
-  }
-
-  /* =======================================================================
-     7. PORTFOLIO FILTER
+     6. PORTFOLIO FILTER
      ======================================================================= */
   function initFilters() {
     $$('[data-filter-group]').forEach(function (group) {
@@ -267,57 +247,90 @@
   }
 
   /* =======================================================================
-     8. BEFORE / AFTER SLIDER
+     7. BEFORE / AFTER SLIDER
      ======================================================================= */
   function initBeforeAfter() {
     $$('.ba').forEach(function (ba) {
       var dragging = false;
 
+      /* role="slider" promises aria-valuenow tracks the handle. It never did,
+         so screen readers always announced "50". Every move goes through here
+         now, keeping the visual position and the announced value in step. */
+      function apply(pct) {
+        var v = Math.max(0, Math.min(100, pct));
+        ba.style.setProperty('--pos', v + '%');
+        ba.setAttribute('aria-valuenow', String(Math.round(v)));
+        ba.setAttribute('aria-valuetext', Math.round(v) + '% of the "after" image shown');
+      }
       function setPos(clientX) {
         var r = ba.getBoundingClientRect();
-        var pct = ((clientX - r.left) / r.width) * 100;
-        ba.style.setProperty('--pos', Math.max(0, Math.min(100, pct)) + '%');
+        if (!r.width) return;
+        apply(((clientX - r.left) / r.width) * 100);
       }
+      function current() { return parseFloat(ba.style.getPropertyValue('--pos')) || 50; }
 
-      on(ba, 'pointerdown', function (e) { dragging = true; ba.setPointerCapture(e.pointerId); setPos(e.clientX); });
+      on(ba, 'pointerdown', function (e) {
+        dragging = true;
+        if (ba.setPointerCapture) { try { ba.setPointerCapture(e.pointerId); } catch (err) {} }
+        setPos(e.clientX);
+      });
       on(ba, 'pointermove', function (e) { if (dragging) setPos(e.clientX); });
       on(ba, 'pointerup', function () { dragging = false; });
       on(ba, 'pointercancel', function () { dragging = false; });
+
       on(ba, 'keydown', function (e) {
-        var cur = parseFloat(ba.style.getPropertyValue('--pos')) || 50;
-        if (e.key === 'ArrowLeft') { ba.style.setProperty('--pos', Math.max(0, cur - 4) + '%'); e.preventDefault(); }
-        if (e.key === 'ArrowRight') { ba.style.setProperty('--pos', Math.min(100, cur + 4) + '%'); e.preventDefault(); }
+        var k = e.key, step = e.shiftKey ? 10 : 4;
+        if (k === 'ArrowLeft' || k === 'ArrowDown') { apply(current() - step); e.preventDefault(); }
+        else if (k === 'ArrowRight' || k === 'ArrowUp') { apply(current() + step); e.preventDefault(); }
+        else if (k === 'Home') { apply(0); e.preventDefault(); }
+        else if (k === 'End') { apply(100); e.preventDefault(); }
       });
     });
   }
 
   /* =======================================================================
-     9. CAROUSEL RAILS — arrow buttons
+     8. CAROUSEL RAILS — arrow buttons
      ======================================================================= */
   function initRails() {
     $$('[data-rail]').forEach(function (wrap) {
-      var rail = $('.rail', wrap) || $(wrap.dataset.rail);
-      var prev = $('[data-rail-prev]', wrap);
-      var next = $('[data-rail-next]', wrap);
+      /* data-rail is usually valueless, and querySelector('') throws a
+         SyntaxError — which used to abort this whole loop and leave every
+         carousel arrow on the site dead. Only treat it as a selector when
+         it actually holds one. */
+      var rail = $('.rail', wrap);
+      if (!rail && wrap.dataset.rail) {
+        try { rail = $(wrap.dataset.rail); } catch (e) { rail = null; }
+      }
       if (!rail) return;
 
+      var prev = $('[data-rail-prev]', wrap);
+      var next = $('[data-rail-next]', wrap);
+      if (!prev && !next) return;
+
+      /* Advance by one card, reading the real CSS gap instead of guessing. */
       function step() {
         var first = rail.firstElementChild;
-        return first ? first.getBoundingClientRect().width + 20 : 320;
+        if (!first) return rail.clientWidth * 0.9;
+        var gap = parseFloat(getComputedStyle(rail).columnGap || getComputedStyle(rail).gap) || 20;
+        return first.getBoundingClientRect().width + gap;
       }
       function sync() {
-        if (prev) prev.disabled = rail.scrollLeft < 8;
-        if (next) next.disabled = rail.scrollLeft > rail.scrollWidth - rail.clientWidth - 8;
+        var max = rail.scrollWidth - rail.clientWidth;
+        /* Nothing to scroll: hide the arrows rather than show two dead buttons. */
+        var scrollable = max > 8;
+        if (prev) { prev.disabled = !scrollable || rail.scrollLeft < 8; }
+        if (next) { next.disabled = !scrollable || rail.scrollLeft > max - 8; }
       }
       on(prev, 'click', function () { rail.scrollBy({ left: -step(), behavior: 'smooth' }); });
       on(next, 'click', function () { rail.scrollBy({ left: step(), behavior: 'smooth' }); });
       on(rail, 'scroll', rafThrottle(sync), { passive: true });
+      on(window, 'resize', rafThrottle(sync), { passive: true });
       sync();
     });
   }
 
   /* =======================================================================
-     11. FORMS — validation, submit states, WhatsApp fallback
+     9. FORMS — validation, submit states, WhatsApp fallback
      ======================================================================= */
   function initForms() {
     $$('form[data-lead-form]').forEach(function (form) {
@@ -336,11 +349,24 @@
 
       $$('input, select, textarea', form).forEach(function (input) {
         on(input, 'input', function () { clearError(input); });
+        /* Checkboxes and selects fire `change`, not `input`, so without this
+           the consent error stayed on screen after the user ticked the box. */
+        on(input, 'change', function () { clearError(input); });
         on(input, 'blur', function () { if (input.value.trim()) validate(input); });
       });
 
       function validate(input) {
         var v = (input.value || '').trim();
+        /* Checked first: an unticked checkbox still reports value "on", so the
+           generic required test below would wrongly pass it. */
+        if (input.type === 'checkbox') {
+          if (input.hasAttribute('required') && !input.checked) {
+            fieldError(input, 'Please accept this to continue');
+            return false;
+          }
+          clearError(input);
+          return true;
+        }
         if (input.hasAttribute('required') && !v) { fieldError(input, 'This field is required'); return false; }
         if (input.type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v)) {
           fieldError(input, 'Enter a valid email address'); return false;
@@ -348,9 +374,6 @@
         if (input.type === 'tel' && v) {
           var digits = v.replace(/\D/g, '');
           if (digits.length < 10 || digits.length > 13) { fieldError(input, 'Enter a valid 10-digit mobile number'); return false; }
-        }
-        if (input.type === 'checkbox' && input.hasAttribute('required') && !input.checked) {
-          fieldError(input, 'Please accept to continue'); return false;
         }
         clearError(input);
         return true;
@@ -362,7 +385,14 @@
         $$('[required]', form).forEach(function (input) { if (!validate(input)) ok = false; });
         if (!ok) {
           var firstErr = form.querySelector('.has-error input, .has-error select, .has-error textarea');
-          if (firstErr) firstErr.focus();
+          if (firstErr) {
+            /* Scroll it into view too: the consent box sits at the bottom of a
+               tall form, so focus alone could leave the message off-screen. */
+            if (firstErr.scrollIntoView) {
+              firstErr.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+            }
+            firstErr.focus({ preventScroll: true });
+          }
           return;
         }
 
@@ -420,7 +450,7 @@
   }
 
   /* =======================================================================
-     12. TOAST
+     10. TOAST
      ======================================================================= */
   var toastTimer;
   function toast(msg) {
@@ -435,7 +465,7 @@
   window.nexoraToast = toast;
 
   /* =======================================================================
-     13. TABLE OF CONTENTS — scroll spy
+     11. TABLE OF CONTENTS — scroll spy
      ======================================================================= */
   function initToc() {
     var toc = $('#toc');
@@ -457,12 +487,13 @@
   }
 
   /* =======================================================================
-     14. LAZY-LOAD YOUTUBE / MAP FACADES
+     12. LAZY-LOAD YOUTUBE / MAP FACADES
      Loads the heavy iframe only when the user clicks — big LCP/TBT win.
      ======================================================================= */
   function initFacades() {
     $$('[data-embed]').forEach(function (box) {
-      on(box, 'click', function () {
+      function load() {
+        if (box.classList.contains('is-loaded')) return;
         var src = box.dataset.embed;
         var title = box.dataset.embedTitle || 'Embedded content';
         var iframe = document.createElement('iframe');
@@ -476,43 +507,62 @@
         box.innerHTML = '';
         box.appendChild(iframe);
         box.classList.add('is-loaded');
-      });
-    });
-  }
-
-  /* =======================================================================
-     15. ACTIVE NAV STATE (based on current path)
-     ======================================================================= */
-  function initActiveNav() {
-    var path = window.location.pathname.replace(/index\.html$/, '').replace(/\/$/, '');
-    $$('.nav-link[href], .drawer-link[href]').forEach(function (a) {
-      var href = a.getAttribute('href');
-      if (!href || href.charAt(0) === '#') return;
-      var url = new URL(href, window.location.origin + window.location.pathname);
-      var target = url.pathname.replace(/index\.html$/, '').replace(/\/$/, '');
-      if (target && target === path) {
-        a.classList.add('is-active');
-        a.setAttribute('aria-current', 'page');
+        /* It is no longer a button once the map is in place. */
+        box.removeAttribute('role');
+        box.removeAttribute('tabindex');
+        box.removeAttribute('aria-label');
       }
-    });
-  }
 
-  /* =======================================================================
-     16. COPY-TO-CLIPBOARD
-     ======================================================================= */
-  function initCopy() {
-    $$('[data-copy]').forEach(function (btn) {
-      on(btn, 'click', function () {
-        var text = btn.dataset.copy;
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(text).then(function () { toast('Copied: ' + text); });
+      on(box, 'click', load);
+      /* The facade is role="button" tabindex="0", so it has to answer Enter and
+         Space as well — with click only it was unreachable by keyboard. */
+      on(box, 'keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          load();
         }
       });
     });
   }
 
   /* =======================================================================
-     17. HERO — video loader + walkthrough
+     13. ACTIVE NAV STATE (based on current path)
+     ======================================================================= */
+  function initActiveNav() {
+    var norm = function (p) { return p.replace(/index\.html$/, '').replace(/\/+$/, ''); };
+    var path = norm(window.location.pathname);
+    var origin = window.location.origin + window.location.pathname;
+
+    /* Exact match = this page (aria-current). Ancestor match = the section
+       this page lives in, highlighted visually but NOT announced as current,
+       so a 2 BHK page still shows "Home Interiors" as the active section. */
+    $$('.nav-link[href], .drawer-link[href]').forEach(function (a) {
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#') return;
+      var target;
+      try { target = norm(new URL(href, origin).pathname); } catch (e) { return; }
+      if (!target) return;
+
+      if (target === path) {
+        a.classList.add('is-active');
+        a.setAttribute('aria-current', 'page');
+      } else if (path.indexOf(target + '/') === 0) {
+        a.classList.add('is-active');
+      }
+    });
+
+    /* On the home page nothing in the menu matches, so mark the logo instead —
+       otherwise the page has no aria-current anywhere for screen readers. */
+    var brand = $('.brand[href]');
+    if (brand) {
+      var bTarget;
+      try { bTarget = norm(new URL(brand.getAttribute('href'), origin).pathname); } catch (e) { bTarget = null; }
+      if (bTarget !== null && bTarget === path) brand.setAttribute('aria-current', 'page');
+    }
+  }
+
+  /* =======================================================================
+     14. HERO — video loader + walkthrough
      The <video> (when real footage is configured) is only fetched after the
      poster has painted and only on viewports wide enough to justify it, so
      the hero never blocks first paint and never burns mobile data.
@@ -560,7 +610,7 @@
   }
 
   /* =======================================================================
-     18. CONSULTATION MODAL
+     15. CONSULTATION MODAL
      Every "Get free consultation" control on the site opens this.
      ======================================================================= */
   function initConsult() {
@@ -615,7 +665,7 @@
   }
 
   /* =======================================================================
-     19. GALLERY LIGHTBOX
+     16. GALLERY LIGHTBOX
      Walks through every room of one home package. Keyboard, swipe and
      thumbnail navigation, with the package id reflected in the URL hash.
      ======================================================================= */
@@ -632,14 +682,20 @@
     packages.forEach(function (p) { byId[p.id] = p; });
 
     var imgEl = $('#lbImg'), nameEl = $('#lbName'), roomEl = $('#lbRoom');
+    var avifEl = $('#lbAvif'), webpEl = $('#lbWebp');
     var capEl = $('#lbCaption'), countEl = $('#lbCount'), thumbsEl = $('#lbThumbs');
     var current = null, index = 0, lastFocus = null;
 
     function render() {
       if (!current) return;
       var room = current.rooms[index];
+      /* Update the <source> elements before the <img>, otherwise the browser
+         may commit to the JPEG before the AVIF/WebP candidates are in place. */
+      if (avifEl) avifEl.srcset = room.avif || '';
+      if (webpEl) webpEl.srcset = room.srcset || '';
+      imgEl.sizes = '92vw';
+      imgEl.srcset = '';
       imgEl.src = room.src;
-      imgEl.srcset = room.srcset || '';
       imgEl.alt = room.alt;
       nameEl.textContent = current.name;
       roomEl.textContent = room.label;
@@ -652,10 +708,17 @@
         t.setAttribute('aria-selected', String(active));
       });
 
-      /* Preload the neighbours so arrowing through feels instant. */
+      /* Preload the neighbours so arrowing through feels instant. Uses the
+         same srcset the <picture> will pick from, so the warmed entry is the
+         file actually rendered rather than a JPEG that gets discarded. */
       [index + 1, index - 1].forEach(function (i) {
         var r = current.rooms[(i + current.rooms.length) % current.rooms.length];
-        if (r) { var pre = new Image(); pre.src = r.src; }
+        if (!r) return;
+        var pre = new Image();
+        pre.sizes = '92vw';
+        if (r.avif) pre.srcset = r.avif;
+        else if (r.srcset) pre.srcset = r.srcset;
+        pre.src = r.src;
       });
     }
 
@@ -749,25 +812,31 @@
   }
 
   /* =======================================================================
-     20. PARALLAX — subtle depth on decorated sections
+     17. PARALLAX — subtle depth on decorated sections
      ======================================================================= */
   function initParallax() {
     var els = $$('[data-parallax]');
     if (!els.length || reduceMotion) return;
 
+    /* Read every rect first, then write every style. Interleaving them made
+       the browser recompute layout once per element on each scroll frame. */
     var update = rafThrottle(function () {
       var vh = window.innerHeight;
-      els.forEach(function (el) {
+      var writes = [];
+      for (var i = 0; i < els.length; i++) {
+        var el = els[i];
         var r = el.getBoundingClientRect();
-        if (r.bottom < -120 || r.top > vh + 120) return;
+        if (r.bottom < -120 || r.top > vh + 120) continue;
         var speed = parseFloat(el.dataset.parallax) || 0.12;
-        var offset = (r.top + r.height / 2 - vh / 2) * -speed;
-        el.style.setProperty('--py', offset.toFixed(1) + 'px');
-      });
+        writes.push([el, ((r.top + r.height / 2 - vh / 2) * -speed).toFixed(1) + 'px']);
+      }
+      for (var j = 0; j < writes.length; j++) {
+        writes[j][0].style.setProperty('--py', writes[j][1]);
+      }
     });
 
     on(window, 'scroll', update, { passive: true });
-    on(window, 'resize', update);
+    on(window, 'resize', update, { passive: true });
     update();
   }
 
@@ -776,12 +845,12 @@
      ======================================================================= */
   function boot() {
     docEl.classList.remove('no-js');
+    docEl.classList.add('js');
     try { initScroll(); } catch (e) {}
     try { initDrawer(); } catch (e) {}
     try { initReveal(); } catch (e) {}
     try { initCounters(); } catch (e) {}
     try { initAccordion(); } catch (e) {}
-    try { initTabs(); } catch (e) {}
     try { initFilters(); } catch (e) {}
     try { initBeforeAfter(); } catch (e) {}
     try { initRails(); } catch (e) {}
@@ -789,7 +858,6 @@
     try { initToc(); } catch (e) {}
     try { initFacades(); } catch (e) {}
     try { initActiveNav(); } catch (e) {}
-    try { initCopy(); } catch (e) {}
     try { initHero(); } catch (e) {}
     try { initConsult(); } catch (e) {}
     try { initGallery(); } catch (e) {}

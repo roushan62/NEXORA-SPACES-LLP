@@ -99,7 +99,7 @@ src/
 │   ├── base.js             ← the HTML shell every page renders through
 │   └── sections.js         ← reusable sections (hero, FAQ, CTA, forms…)
 ├── styles/                 ← 9 layered CSS files, bundled to one
-├── scripts/app.js          ← vanilla JS runtime (12 KB minified)
+├── scripts/app.js          ← vanilla JS runtime (15 KB minified)
 └── pages/                  ← one file per page group
 
 scripts/
@@ -153,9 +153,10 @@ placeholder when it does not — so you can swap photos in one room at a time.
 
 | Metric | Value |
 |---|---|
-| Initial payload (home) | **429 KB** — HTML + CSS + fonts + LCP image |
-| CSS | 81 KB minified, single file |
-| JS | 12 KB minified, deferred, no dependencies |
+| Initial payload (home, desktop) | **422 KB** — HTML + CSS + fonts + LCP image |
+| Initial payload (home, mobile) | **~322 KB** — the LCP preload is responsive, so phones fetch the 640w AVIF (30 KB) rather than the 1400w (129 KB) |
+| CSS | 80 KB minified, single file |
+| JS | 15 KB minified, deferred, no dependencies |
 | Third-party render-blocking requests | **0** — fonts, icons and images all self-hosted |
 | Images | AVIF → WebP → JPEG, responsive `srcset`, every one has `width`/`height` |
 | Layout shift | None — all media has intrinsic dimensions reserved |

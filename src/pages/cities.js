@@ -347,9 +347,7 @@ export default cities.map((c) => {
             <a href="${url('/portfolio/')}" class="btn btn-outline hide-sm">Full portfolio ${icon('arrowRight', { size: 16 })}</a>
           </div>
           <div class="folio-grid reveal-stagger">
-            ${shown.slice(0, 6).map((p) => folioCard({
-              ...p, image: `/assets/img/projects/${p.image.split('/').pop().replace('.jpg', '')}-800.jpg`,
-            })).join('')}
+            ${shown.slice(0, 6).map((p) => folioCard(p)).join('')}
           </div>
         </div>
       </section>`,
