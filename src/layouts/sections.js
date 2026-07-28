@@ -307,10 +307,13 @@ export const leadForm = ({
       placeholder="Possession date, rooms to be done, the look you have in mind…"></textarea>
   </div>`}
 
-  <label class="consent mb-6">
-    <input type="checkbox" name="consent" required>
-    <span>I agree to be contacted by ${esc(site.name)} on call, SMS and WhatsApp, and accept the <a href="${url('/privacy/')}">privacy policy</a>.</span>
-  </label>
+  <div class="field field-consent mb-6">
+    <label class="consent">
+      <input type="checkbox" name="consent" required>
+      <span>I agree to be contacted by ${esc(site.name)} on call, SMS and WhatsApp, and accept the <a href="${url('/privacy/')}">privacy policy</a>.</span>
+    </label>
+    <span class="field-error"></span>
+  </div>
 
   <button type="submit" class="btn btn-accent btn-block btn-lg">
     <span class="btn-text">Request my free consultation</span>

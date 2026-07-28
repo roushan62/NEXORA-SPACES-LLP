@@ -349,11 +349,24 @@
 
       $$('input, select, textarea', form).forEach(function (input) {
         on(input, 'input', function () { clearError(input); });
+        /* Checkboxes and selects fire `change`, not `input`, so without this
+           the consent error stayed on screen after the user ticked the box. */
+        on(input, 'change', function () { clearError(input); });
         on(input, 'blur', function () { if (input.value.trim()) validate(input); });
       });
 
       function validate(input) {
         var v = (input.value || '').trim();
+        /* Checked first: an unticked checkbox still reports value "on", so the
+           generic required test below would wrongly pass it. */
+        if (input.type === 'checkbox') {
+          if (input.hasAttribute('required') && !input.checked) {
+            fieldError(input, 'Please accept this to continue');
+            return false;
+          }
+          clearError(input);
+          return true;
+        }
         if (input.hasAttribute('required') && !v) { fieldError(input, 'This field is required'); return false; }
         if (input.type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v)) {
           fieldError(input, 'Enter a valid email address'); return false;
@@ -361,9 +374,6 @@
         if (input.type === 'tel' && v) {
           var digits = v.replace(/\D/g, '');
           if (digits.length < 10 || digits.length > 13) { fieldError(input, 'Enter a valid 10-digit mobile number'); return false; }
-        }
-        if (input.type === 'checkbox' && input.hasAttribute('required') && !input.checked) {
-          fieldError(input, 'Please accept to continue'); return false;
         }
         clearError(input);
         return true;
@@ -375,7 +385,14 @@
         $$('[required]', form).forEach(function (input) { if (!validate(input)) ok = false; });
         if (!ok) {
           var firstErr = form.querySelector('.has-error input, .has-error select, .has-error textarea');
-          if (firstErr) firstErr.focus();
+          if (firstErr) {
+            /* Scroll it into view too: the consent box sits at the bottom of a
+               tall form, so focus alone could leave the message off-screen. */
+            if (firstErr.scrollIntoView) {
+              firstErr.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+            }
+            firstErr.focus({ preventScroll: true });
+          }
           return;
         }
 
@@ -475,7 +492,8 @@
      ======================================================================= */
   function initFacades() {
     $$('[data-embed]').forEach(function (box) {
-      on(box, 'click', function () {
+      function load() {
+        if (box.classList.contains('is-loaded')) return;
         var src = box.dataset.embed;
         var title = box.dataset.embedTitle || 'Embedded content';
         var iframe = document.createElement('iframe');
@@ -489,6 +507,20 @@
         box.innerHTML = '';
         box.appendChild(iframe);
         box.classList.add('is-loaded');
+        /* It is no longer a button once the map is in place. */
+        box.removeAttribute('role');
+        box.removeAttribute('tabindex');
+        box.removeAttribute('aria-label');
+      }
+
+      on(box, 'click', load);
+      /* The facade is role="button" tabindex="0", so it has to answer Enter and
+         Space as well — with click only it was unreachable by keyboard. */
+      on(box, 'keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          load();
+        }
       });
     });
   }

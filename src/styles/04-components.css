@@ -365,6 +365,9 @@
   cursor: pointer;
 }
 .consent a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; }
+/* The consent box is a .field so its .field-error shows like any other. */
+.field-consent.has-error .consent input { outline: 2px solid var(--red-500); outline-offset: 2px; }
+.field-consent.has-error .consent { color: var(--red-500); }
 
 /* ------------------------------------------------------------------ Tables */
 .table-wrap {
