@@ -421,6 +421,54 @@
 .table .ico-yes { color: var(--green-500); }
 .table .ico-no { color: var(--ink-300); }
 .table-highlight { background: var(--brand-50) !important; }
+.table-highlight td:first-child { box-shadow: inset 3px 0 0 var(--brand-500); }
+
+/* Comparison tables on phones: instead of a sideways-scroll table that clips
+   mid-sentence, every row reflows into a self-labelled card — the header of
+   each column prints in front of its own value (data-label), so the full
+   comparison stays readable with zero horizontal scrolling. */
+@media (max-width: 760px) {
+  .table-wrap { border: 0; background: transparent; overflow: visible; border-radius: 0; }
+  .table { min-width: 0; font-size: var(--fs-sm); }
+  .table thead {
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+  }
+  .table, .table tbody, .table tr, .table td { display: block; width: 100%; }
+  .table tbody tr {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sh-sm);
+    padding: var(--s-2) var(--s-4);
+    margin-bottom: var(--s-4);
+  }
+  .table thead + tbody tr:first-child td { border-bottom: 1px dashed var(--line); }
+  .table tbody tr td {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s-4);
+    padding: var(--s-3) 0;
+    border-bottom: 1px dashed var(--line);
+    text-align: right;
+  }
+  .table tbody tr td:last-child { border-bottom: 0; }
+  .table td::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    max-width: 46%;
+    text-align: left;
+    font-size: var(--fs-2xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-caps);
+    color: var(--text-muted);
+  }
+  .table tbody tr:hover { background: var(--surface); }
+  .table-highlight td:first-child { box-shadow: none; }
+  .table tbody tr.table-highlight { background: var(--brand-50) !important; border-color: var(--brand-300); }
+}
 
 /* --------------------------------------------------------------- Accordion */
 .accordion { display: grid; gap: var(--s-3); }

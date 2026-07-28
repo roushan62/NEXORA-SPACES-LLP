@@ -216,9 +216,9 @@ export default services.map((s) => ({
         })}
         <div class="table-wrap reveal">
           <table class="table">
-            <thead><tr>${s.table.head.map((h, i) => `<th${i === s.table.head.length - 1 ? ' class="num"' : ''}>${esc(h)}</th>`).join('')}</tr></thead>
+            <thead><tr>${s.table.head.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead>
             <tbody>
-              ${s.table.rows.map((r) => `<tr>${r.map((c, i) => `<td${i === r.length - 1 ? ' class="num"' : ''}>${i === 0 ? `<strong>${esc(c)}</strong>` : esc(c)}</td>`).join('')}</tr>`).join('')}
+              ${s.table.rows.map((r, ri) => `<tr${ri === 1 && s.slug === 'turnkey-interiors' ? ' class="table-highlight"' : ''}>${r.map((c, i) => `<td data-label="${esc(s.table.head[i])}">${i === 0 ? `<strong>${esc(c)}</strong>` : esc(c)}</td>`).join('')}</tr>`).join('')}
             </tbody>
           </table>
         </div>

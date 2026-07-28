@@ -209,12 +209,15 @@ const footer = () => `
           <li>${icon('clock', { size: 16 })}<span>${esc(site.hours.display)}</span></li>
         </ul>
         <div class="footer-social">
-          <a href="${site.social.instagram}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">${icon('instagram', { size: 17 })}</a>
-          <a href="${site.social.facebook}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">${icon('facebook', { size: 17 })}</a>
-          <a href="${site.social.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">${icon('linkedin', { size: 17 })}</a>
-          <a href="${site.social.youtube}" target="_blank" rel="noopener noreferrer" aria-label="YouTube">${icon('youtube', { size: 17 })}</a>
-          <a href="${site.social.pinterest}" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">${icon('pinterest', { size: 17 })}</a>
+          <a href="${site.social.instagram}" class="soc-instagram" target="_blank" rel="noopener noreferrer" aria-label="Follow Nexora Spaces on Instagram">${icon('instagram', { size: 17 })}</a>
+          <a href="${site.social.facebook}" class="soc-facebook" target="_blank" rel="noopener noreferrer" aria-label="Follow Nexora Spaces on Facebook">${icon('facebook', { size: 17 })}</a>
+          <a href="${site.social.youtube}" class="soc-youtube" target="_blank" rel="noopener noreferrer" aria-label="Watch Nexora Spaces on YouTube">${icon('youtube', { size: 17 })}</a>
+          <a href="${site.social.linkedin}" class="soc-linkedin" target="_blank" rel="noopener noreferrer" aria-label="Nexora Spaces on LinkedIn">${icon('linkedin', { size: 17 })}</a>
+          <a href="${site.social.pinterest}" class="soc-pinterest" target="_blank" rel="noopener noreferrer" aria-label="Nexora Spaces boards on Pinterest">${icon('pinterest', { size: 17 })}</a>
+          <a href="${site.social.x}" class="soc-x" target="_blank" rel="noopener noreferrer" aria-label="Nexora Spaces on X (Twitter)">${iconSolid('xSocial', { size: 15 })}</a>
+          <a href="${waLink('Hi Nexora! I found you through the website footer and would like to know more about your interiors.')}" class="soc-whatsapp" target="_blank" rel="noopener" aria-label="Chat with Nexora Spaces on WhatsApp">${iconSolid('whatsapp', { size: 17 })}</a>
         </div>
+        <p class="footer-social-note">Follow the studio — real projects, walkthroughs and tips, posted from live sites.</p>
       </div>
 
       ${footerNav.map((col) => `

@@ -149,9 +149,12 @@ const PLAN = [
   { src: 'p6.jpg', out: 'pages/gurgaon', widths: [960, 1600], fmt: ['avif', 'webp', 'jpg'], quality: 68 },
   { src: 'p2.jpg', out: 'pages/noida', widths: [960, 1600], fmt: ['avif', 'webp', 'jpg'], quality: 68 },
   { src: 'p3.jpg', out: 'pages/delhi', widths: [960, 1600], fmt: ['avif', 'webp', 'jpg'], quality: 68 },
-  /* Before / after pair for the portfolio slider */
-  { src: 'p6.jpg', out: 'ba-before', widths: [1000], fmt: ['webp', 'jpg'], quality: 70, grade: 'before' },
-  { src: 'p9.jpg', out: 'ba-after', widths: [1000], fmt: ['webp', 'jpg'], quality: 72 },
+  /* Before / after pair for the portfolio slider.
+     Dedicated REAL source photos: the same room shot from the same position,
+     raw on one side and fully finished on the other. Fixed 1000×625 frame so
+     both halves always align pixel-for-pixel inside the comparison slider. */
+  { src: 'ba-before.jpg', out: 'ba-before', widths: [1000], fmt: ['webp', 'jpg'], quality: 70, height: 625 },
+  { src: 'ba-after.jpg', out: 'ba-after', widths: [1000], fmt: ['webp', 'jpg'], quality: 72, height: 625 },
 ];
 
 const cropPos = { left: 'left', right: 'right', center: 'centre' };
@@ -166,7 +169,13 @@ async function build() {
     await ensure(path.join(OUT, path.dirname(job.out)));
 
     for (const w of job.widths) {
-      let base = sharp(inPath).resize({
+      const base = sharp(inPath).resize(job.height ? {
+        width: w,
+        height: job.height,
+        fit: 'cover',
+        withoutEnlargement: true,
+        position: cropPos[job.crop] || 'centre',
+      } : {
         width: w,
         withoutEnlargement: true,
         position: cropPos[job.crop] || 'centre',
