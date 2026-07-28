@@ -39,6 +39,17 @@ for (const f of files) {
 /* Static assets that exist on disk */
 const assetExists = (p) => fs.existsSync(path.join(ROOT, p.replace(/^\//, '')));
 
+/** Resolve a URL found on `page` to a root-relative filesystem path (basePath
+ *  stripped). Handles basePath-absolute ("/REPO/…"), root-absolute ("/…") and
+ *  page-relative ("./…", "../…") links, so validation works for the portable
+ *  relative output as well as the legacy basePath-absolute output. */
+const toRoot = (target, page) => {
+  let t = target;
+  if (BASE && t.startsWith(BASE)) t = t.slice(BASE.length) || '/';
+  if (t.startsWith('/')) return path.posix.normalize(t);
+  return path.posix.normalize(path.posix.dirname(page) + '/' + t);
+};
+
 console.log(`\n  Checking ${files.length} pages…\n`);
 
 let totalLinks = 0, totalImgs = 0;
@@ -54,8 +65,8 @@ for (const file of files) {
     totalLinks++;
     let target = href.split('#')[0].split('?')[0];
     if (!target) continue;
-    /* strip basePath to compare against on-disk routes */
-    const stripped = BASE && target.startsWith(BASE) ? target.slice(BASE.length) || '/' : target;
+    /* strip basePath OR resolve a page-relative path, then compare on-disk routes */
+    const stripped = toRoot(target, page);
 
     if (stripped.startsWith('/assets/') || /\.(css|js|xml|txt|webmanifest|svg|png|jpg|webp|avif|woff2|ico)$/.test(stripped)) {
       if (!assetExists(stripped)) errors.push(`${page} → missing asset: ${href}`);
@@ -73,7 +84,7 @@ for (const file of files) {
     totalImgs++;
     const src = (tag.match(/src="([^"]+)"/) || [])[1];
     if (src && !/^(https?:|data:)/.test(src)) {
-      const s = BASE && src.startsWith(BASE) ? src.slice(BASE.length) : src;
+      const s = toRoot(src, page);
       if (!assetExists(s)) errors.push(`${page} → missing image: ${src}`);
     }
     if (!/\balt=/.test(tag)) errors.push(`${page} → <img> without alt: ${tag.slice(0, 90)}`);
@@ -81,12 +92,12 @@ for (const file of files) {
       warnings.push(`${page} → <img> without width/height (CLS risk): ${(src || '').slice(-40)}`);
     }
   }
-  /* srcset assets */
-  for (const m of html.matchAll(/srcset="([^"]+)"/g)) {
+  /* srcset / imagesrcset assets */
+  for (const m of html.matchAll(/(?:srcset|imagesrcset)="([^"]+)"/g)) {
     for (const cand of m[1].split(',')) {
       const u = cand.trim().split(/\s+/)[0];
       if (!u || /^(https?:|data:)/.test(u)) continue;
-      const s = BASE && u.startsWith(BASE) ? u.slice(BASE.length) : u;
+      const s = toRoot(u, page);
       if (!assetExists(s)) errors.push(`${page} → missing srcset asset: ${u}`);
     }
   }

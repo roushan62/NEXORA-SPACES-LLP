@@ -41,6 +41,16 @@ const files = htmlFiles();
 const rel = (f) => '/' + path.relative(ROOT, f).replace(/\\/g, '/');
 const exists = (p) => fs.existsSync(path.join(ROOT, p.replace(/^\//, '')));
 
+/** Resolve a URL found on `page` to a root-relative path (basePath stripped).
+ *  Handles basePath-absolute, root-absolute and page-relative links, so this
+ *  works against the portable relative output as well as the legacy output. */
+const toRoot = (target, page) => {
+  let t = target;
+  if (BASE && t.startsWith(BASE)) t = t.slice(BASE.length) || '/';
+  if (t.startsWith('/')) return path.posix.normalize(t);
+  return path.posix.normalize(path.posix.dirname(page) + '/' + t);
+};
+
 /** Strip tags → visible text, so we test what a user actually reads. */
 const visibleText = (html) => html
   .replace(/<script[\s\S]*?<\/script>/gi, ' ')
@@ -163,7 +173,7 @@ pass('app.js contains no calculator or pricing logic');
     if (frames < 3) fail(`home → walkthrough has only ${frames} frames`);
     /* Frame assets must exist */
     for (const m of home.matchAll(/hero-frame[\s\S]{0,400}?src="([^"]+)"/g)) {
-      const src = m[1].startsWith(BASE) ? m[1].slice(BASE.length) : m[1];
+      const src = toRoot(m[1], '/index.html');
       if (!exists(src)) fail(`home → hero frame asset missing: ${m[1]}`);
     }
   }
@@ -175,7 +185,7 @@ pass('app.js contains no calculator or pricing logic');
   else pass('home → scroll indicator present');
 
   /* Both hero CTAs must work */
-  if (!new RegExp(`href="${BASE}/gallery/"`).test(home)) fail('home → "View our work" does not link to the gallery');
+  if (!/href="(?:\.\/|\.\.\/)*gallery\/"/.test(home)) fail('home → "View our work" does not link to the gallery');
   else pass('home → "View our work" links to the gallery');
   if (!/data-consult-open/.test(home)) fail('home → "Get free consultation" has no handler');
   else pass('home → "Get free consultation" opens the modal');
@@ -238,7 +248,7 @@ pass('every interactive hook in the markup has a matching handler in app.js');
       /* payload image paths must resolve */
       let bad = 0;
       for (const d of data) for (const r of d.rooms) {
-        const s = r.src.startsWith(BASE) ? r.src.slice(BASE.length) : r.src;
+        const s = toRoot(r.src, '/gallery/index.html');
         if (!exists(s)) bad++;
       }
       if (bad) fail(`gallery → ${bad} lightbox image paths do not resolve`);
@@ -315,14 +325,17 @@ pass('every interactive hook in the markup has a matching handler in app.js');
   for (const f of ['.nojekyll', 'sitemap.xml', 'robots.txt', 'site.webmanifest', 'index.html', '404.html']) {
     if (!exists('/' + f)) fail(`deploy → ${f} missing`);
   }
-  /* Nothing may reference the removed pages. */
+  /* Nothing may reference the removed pages (basePath-absolute OR relative). */
   for (const file of files) {
     const html = fs.readFileSync(file, 'utf8');
     for (const gone of ['/cost-calculator/', '/pricing/', '/commercial/']) {
-      if (html.includes(BASE + gone)) fail(`${rel(file)} → links to removed page ${gone}`);
+      const relRe = new RegExp('(?:href|src)="(?:\\./|\\.\\./)*' + gone.replace(/\//g, '\\/') + '"');
+      if (html.includes(BASE + gone) || relRe.test(html)) fail(`${rel(file)} → links to removed page ${gone}`);
     }
   }
-  /* Every asset path must be basePath-prefixed so Pages sub-folder hosting works. */
+  /* Every internal src/href must be page-relative (portable: works via file://,
+     GitHub Pages and any host) or basePath-prefixed. A bare root-relative path
+     like "/about/" would break sub-folder hosting. */
   let unprefixed = 0;
   for (const file of files) {
     const html = fs.readFileSync(file, 'utf8');
@@ -331,7 +344,7 @@ pass('every interactive hook in the markup has a matching handler in app.js');
     }
   }
   if (unprefixed) fail(`deploy → ${unprefixed} root-relative paths missing the ${BASE} basePath`);
-  else pass(`deploy → every internal path is ${BASE}-prefixed for GitHub Pages`);
+  else pass('deploy → every internal path is page-relative (portable) or basePath-prefixed');
   pass('deploy → required root files present');
 }
 
@@ -407,9 +420,10 @@ pass('every interactive hook in the markup has a matching handler in app.js');
        are genuinely bare and have no AVIF/WebP <source> in front of them. */
     const outside = html.replace(/<picture\b[\s\S]*?<\/picture>/g, '');
     for (const m of outside.matchAll(/<img\b[^>]*\ssrc="([^"]+\.(?:jpg|jpeg|png))"[^>]*>/g)) {
-      const avif = m[1].replace(/\.(jpg|jpeg|png)$/, '.avif').replace(/^\/[^/]+\//, '');
-      const webp = m[1].replace(/\.(jpg|jpeg|png)$/, '.webp').replace(/^\/[^/]+\//, '');
-      if (fs.existsSync(path.join(ROOT, avif)) || fs.existsSync(path.join(ROOT, webp))) {
+      const root = toRoot(m[1], rel(file));
+      const avif = root.replace(/\.(jpg|jpeg|png)$/, '.avif');
+      const webp = root.replace(/\.(jpg|jpeg|png)$/, '.webp');
+      if (exists(avif) || exists(webp)) {
         fail(`${rel(file)} → serves ${path.basename(m[1])} as a bare <img> though AVIF/WebP exist`);
         rawJpeg++;
       }
